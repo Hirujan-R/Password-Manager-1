@@ -1,17 +1,16 @@
 import React from 'react';
+import { Modal, Button } from 'react-bootstrap';
 
-function Modal({ show, onClose, children }) {
-    if (!show) {
-        return null;
-    }
+function ViewPasswordModal({ show, onHide, bodyContent }) {
+    
 
     return (
-        <div className="modal" onClick={onClose}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
-                {children}
-            </div>
-        </div>
+        <Modal show={show} onHide={onHide}>
+            <Modal.Body>
+                {bodyContent}
+            </Modal.Body>
+        </Modal>  
     );
 }
 
-export default Modal;
+export default ViewPasswordModal;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Modal from './Modal.jsx';
+import ViewPasswordModal from './Modal.jsx';
 
 function CopyPassword(password) {
     navigator.clipboard.writeText(password);
@@ -10,21 +10,30 @@ function PasswordRow({password}) {
     const [showModal, setShowModal] = useState(false);
 
     const openModal = () => {
-        setShowModal(!showModal);
+        setShowModal(true);
+    }
+
+    const hideModal = () => {
+        setShowModal(false);
     };
+
+    const bodyContent = (
+        <div>
+            <p>{password.password}</p>
+            <button onClick={() => CopyPassword(password.password)}>Copy</button>
+            <button>Edit Password</button>
+        </div>
+        
+    )
 
     return (
         <tr>
             <td>{password.name}</td>
             <td>
                 <button onClick={openModal}>
-                    {showModal ? "Hide Password" : "Show Password"}
+                    Show Password
                 </button>
-                <Modal show={showModal}>
-                    <p>{password.password}</p>
-                    <button onClick={() => CopyPassword(password.password)}>Copy</button>
-                    <button>Edit Password</button>
-                </Modal>
+                <ViewPasswordModal show={showModal} onHide={showModal} bodyContent={bodyContent} />
             </td>
         </tr>
     );
