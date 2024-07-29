@@ -2,19 +2,25 @@ import React, { useState } from 'react';
 import PasswordRow from './PasswordRow';
 
 
-function PasswordTable({passwords}) {
+function PasswordTable({passwords, saveChanges}) {
+
     const rows = [];
 
-    passwords.forEach((password) => {
+    function CreateRows() {
+        while (rows.length > 0) {
+            rows.pop();
+        }
+        passwords.forEach((password) => {
         rows.push(
-            <PasswordRow password={password} saveChanges={SaveChanges} />
+            <PasswordRow password={password} saveChanges={saveChanges} />
         )
     })
+    }
 
-    function SaveChanges({serviceName, password}) {
-        console.log(serviceName);
-        console.log(password);
-      }
+    CreateRows();
+    
+
+    
 
     return (
         <table>
