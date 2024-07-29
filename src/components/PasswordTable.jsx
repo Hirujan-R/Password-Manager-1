@@ -7,10 +7,14 @@ function PasswordTable({passwords}) {
 
     passwords.forEach((password) => {
         rows.push(
-            <PasswordRow
-                password={password} />
+            <PasswordRow password={password} saveChanges={SaveChanges} />
         )
     })
+
+    function SaveChanges({serviceName, password}) {
+        console.log(serviceName);
+        console.log(password);
+      }
 
     return (
         <table>

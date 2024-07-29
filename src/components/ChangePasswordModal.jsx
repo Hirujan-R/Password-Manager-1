@@ -3,7 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 
 
 
-function ChangePasswordModal({ show, handleClose }) {
+function ChangePasswordModal({ show, handleClose, handleSaveChanges }) {
 
   function HandleSaveChanges({serviceName, password}) {
     console.log(serviceName);
@@ -24,7 +24,7 @@ function ChangePasswordModal({ show, handleClose }) {
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={()=>HandleSaveChanges({
+        <Button variant="primary" onClick={()=>handleSaveChanges({
           serviceName: document.getElementById('serviceInput').value, 
           password: document.getElementById('passwordInput').value,
         })}>

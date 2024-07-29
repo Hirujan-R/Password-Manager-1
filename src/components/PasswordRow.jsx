@@ -7,8 +7,9 @@ function CopyPassword(password) {
     alert('Password copied to clipboard!');
 }
 
-function PasswordRow({password}) {
+function PasswordRow({password, saveChanges}) {
     
+    // Modal for viewing password
     const [showModal, setShowModal] = useState(false);
     const openModal = () => {
         setShowModal(true);
@@ -18,11 +19,20 @@ function PasswordRow({password}) {
     };
 
 
-
+    // Modal for editting password
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+
+    // Function for handling the changes made to the password.
+    function HandleSaveChanges({serviceName, password}) {
+        saveChanges({serviceName, password});
+        handleClose();
+        hideModal();
+      }
+
+    // Contains content in the Modal for showing the password.
     const bodyContent = (
         <div>
             <p>{password.password}</p>
@@ -32,11 +42,6 @@ function PasswordRow({password}) {
         
     )
 
-    function HandleSaveChanges({serviceName, password}) {
-        console.log(serviceName);
-        console.log(password);
-        handleClose();
-    }
 
     return (
         <tr>
@@ -46,7 +51,7 @@ function PasswordRow({password}) {
                     Show Password
                 </button>
                 <ViewPasswordModal show={showModal} onHide={showModal} bodyContent={bodyContent} />
-                <ChangePasswordModal show={show} handleClose={handleClose} />
+                <ChangePasswordModal show={show} handleClose={handleClose} handleSaveChanges={HandleSaveChanges}/>
             </td>
         </tr>
     );
