@@ -5,11 +5,6 @@ import { Modal, Button } from 'react-bootstrap';
 
 function ChangePasswordModal({ show, handleClose, handleSaveChanges }) {
 
-  function HandleSaveChanges({serviceName, password}) {
-    console.log(serviceName);
-    console.log(password);
-    handleClose();
-  }
 
   return (
     <Modal show={show} onHide={handleClose}>
