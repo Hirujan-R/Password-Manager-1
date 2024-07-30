@@ -1,16 +1,22 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal as BootstrapModal, Button } from 'react-bootstrap';
 
-function ViewPasswordModal({ show, onHide, bodyContent }) {
+function Modal({ show, onHide, modalTitle, bodyContent, footerContent }) {
     
 
     return (
-        <Modal show={show} onHide={onHide}>
-            <Modal.Body>
+        <BootstrapModal show={show} onHide={onHide}>
+            <BootstrapModal.Header closeButton>
+                <BootstrapModal.Title>{modalTitle}</BootstrapModal.Title>
+            </BootstrapModal.Header>
+            <BootstrapModal.Body>
                 {bodyContent}
-            </Modal.Body>
-        </Modal>  
+            </BootstrapModal.Body>
+            <BootstrapModal.Footer>
+                {footerContent}
+            </BootstrapModal.Footer>
+        </BootstrapModal>  
     );
 }
 
-export default ViewPasswordModal;
+export default Modal;

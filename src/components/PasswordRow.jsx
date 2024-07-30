@@ -21,7 +21,7 @@ function PasswordRow({password, saveChanges}) {
 
     // Modal for editting password
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const onHide = () => setShow(false);
     const handleShow = () => setShow(true);
 
 
@@ -51,7 +51,7 @@ function PasswordRow({password, saveChanges}) {
                     Show Password
                 </button>
                 <ViewPasswordModal show={showModal} onHide={showModal} bodyContent={bodyContent} />
-                <ChangePasswordModal show={show} handleClose={handleClose} handleSaveChanges={HandleSaveChanges}/>
+                <ChangePasswordModal show={show} onHide={handleClose} handleSaveChanges={HandleSaveChanges}/>
             </td>
         </tr>
     );
