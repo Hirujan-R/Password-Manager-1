@@ -4,14 +4,9 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 import React, { useState } from 'react';
-import ChangePasswordModal from './components/EditPasswordModal.jsx';
-import FilterablePasswordTable from './components/FilterablePasswordTable.jsx';
+import FilterablePasswordTable from './components/MainContent/FilterablePasswordTable.jsx';
 
 const App = () => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const PASSWORDS = [
     {name: "Amazon", password: "Happy1"},
@@ -27,7 +22,6 @@ const App = () => {
         <FilterablePasswordTable passwords={PASSWORDS}></FilterablePasswordTable>
       </div>
 
-      <ChangePasswordModal show={show} handleClose={handleClose} />
     </div>
   );
 };
