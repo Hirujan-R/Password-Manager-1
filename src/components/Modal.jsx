@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal as BootstrapModal, Button } from 'react-bootstrap';
+import { Modal as BootstrapModal } from 'react-bootstrap';
 
 function Modal({ show, onHide, modalTitle, bodyContent, footerContent }) {
     

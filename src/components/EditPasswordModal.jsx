@@ -1,14 +1,14 @@
 import React from 'react';
-import { Modal as BootstrapModal, Button } from 'react-bootstrap';
-import { Modal } from './Modal.jsx';
+import { Button } from 'react-bootstrap';
+import Modal from './Modal.jsx';
 
 
 
-function ChangePasswordModal({ show, onHide, handleSaveChanges}) {
+function EditPasswordModal({ show, onHide, handleSaveChanges}) {
 
   const modalTitle = (
-    <BootstrapModal.Title>Change Password</BootstrapModal.Title>
-  )
+    "Change Password"
+  ) 
 
   const bodyContent = (
     <div>
@@ -19,7 +19,7 @@ function ChangePasswordModal({ show, onHide, handleSaveChanges}) {
 
   const footerContent = (
     <div>
-      <Button variant="secondary" onClick={handleClose}>
+      <Button variant="secondary" onClick={onHide}>
         Close
       </Button>
       <Button variant="primary" onClick={()=>handleSaveChanges({
@@ -38,4 +38,4 @@ function ChangePasswordModal({ show, onHide, handleSaveChanges}) {
   );
 };
 
-export default ChangePasswordModal;
+export default EditPasswordModal;

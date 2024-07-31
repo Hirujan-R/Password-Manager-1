@@ -4,8 +4,8 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 import React, { useState } from 'react';
-import ChangePasswordModal from './components/ChangePasswordModal';
-import FilterablePasswordTable from './components/FilterablePasswordTable';
+import ChangePasswordModal from './components/EditPasswordModal.jsx';
+import FilterablePasswordTable from './components/FilterablePasswordTable.jsx';
 
 const App = () => {
   const [show, setShow] = useState(false);

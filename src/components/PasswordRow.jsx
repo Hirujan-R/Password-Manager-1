@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import ViewPasswordModal from './Modal.jsx';
-import ChangePasswordModal from './ChangePasswordModal';
+import ViewPasswordModal from './ViewPasswordModal.jsx';
+import EditPasswordModal from './EditPasswordModal.jsx';
 
-function CopyPassword(password) {
-    navigator.clipboard.writeText(password);
-    alert('Password copied to clipboard!');
-}
 
 function PasswordRow({password, saveChanges}) {
     
@@ -28,19 +24,11 @@ function PasswordRow({password, saveChanges}) {
     // Function for handling the changes made to the password.
     function HandleSaveChanges({serviceName, password}) {
         saveChanges({serviceName, password});
-        handleClose();
+        onHide();
         hideModal();
       }
 
-    // Contains content in the Modal for showing the password.
-    const bodyContent = (
-        <div>
-            <p>{password.password}</p>
-            <button onClick={() => CopyPassword(password.password)}>Copy</button>
-            <button onClick={handleShow}>Edit Password</button>
-        </div>
-        
-    )
+    
 
 
     return (
@@ -50,8 +38,8 @@ function PasswordRow({password, saveChanges}) {
                 <button onClick={openModal}>
                     Show Password
                 </button>
-                <ViewPasswordModal show={showModal} onHide={showModal} bodyContent={bodyContent} />
-                <ChangePasswordModal show={show} onHide={handleClose} handleSaveChanges={HandleSaveChanges}/>
+                <ViewPasswordModal show={showModal} onHide={hideModal} password={password} editPasswordFunction={handleShow} />
+                <EditPasswordModal show={show} onHide={onHide} handleSaveChanges={HandleSaveChanges}/>
             </td>
         </tr>
     );
