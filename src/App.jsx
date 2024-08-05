@@ -20,7 +20,7 @@ const App = () => {
     <div className="App">
       <Header/>
       <div>
-        <MainContent passwords={PASSWORDS}></MainContent>
+        <MainContent initialPasswords={PASSWORDS}></MainContent>
       </div>
 
     </div>
