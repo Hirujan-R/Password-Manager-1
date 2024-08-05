@@ -1,4 +1,3 @@
-import SearchBar from './SearchBar.jsx';
 import PasswordTable from './PasswordTable.jsx';
 import { useState } from 'react';
 
@@ -15,7 +14,6 @@ function FilterablePasswordTable({passwords}) {
 
     return (
         <div>
-            <SearchBar />
             {currentPasswordTable}
         </div>
     );
