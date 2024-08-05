@@ -4,7 +4,8 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 import React, { useState } from 'react';
-import FilterablePasswordTable from './components/MainContent/FilterablePasswordTable.jsx';
+import MainContent from './components/MainContent/MainContent.jsx';
+import Header from './components/Header/Header.jsx'
 
 const App = () => {
 
@@ -17,9 +18,9 @@ const App = () => {
 
   return (
     <div className="App">
-      
+      <Header/>
       <div>
-        <FilterablePasswordTable passwords={PASSWORDS}></FilterablePasswordTable>
+        <MainContent passwords={PASSWORDS}></MainContent>
       </div>
 
     </div>

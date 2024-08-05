@@ -1,7 +1,7 @@
 import PasswordTable from './PasswordTable.jsx';
 import { useState } from 'react';
 
-function FilterablePasswordTable({passwords}) {
+function MainContent({passwords}) {
 
     const [currentPasswordTable, setPasswordTable] = useState(<PasswordTable passwords={passwords} saveChanges={SaveChanges}/>);
 
@@ -19,4 +19,4 @@ function FilterablePasswordTable({passwords}) {
     );
 }
 
-export default FilterablePasswordTable;
+export default MainContent;
