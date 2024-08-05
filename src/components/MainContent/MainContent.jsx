@@ -1,20 +1,11 @@
 import PasswordTable from './PasswordTable.jsx';
 import { useState } from 'react';
 
-function MainContent({initialPasswords}) {
-
-    const [passwords, setPasswords] = useState(initialPasswords);
-    
-    function SaveChanges({serviceName, password}) {
-        console.log(serviceName);
-        console.log(password);
-        const updatedPasswords = [...passwords, {name: serviceName, password: password }];
-        setPasswords(updatedPasswords);
-    }
+function MainContent({passwords, saveChanges}) {
 
     return (
         <div>   
-            <PasswordTable passwords={passwords} saveChanges={SaveChanges}/>
+            <PasswordTable passwords={passwords} saveChanges={saveChanges}/>
         </div>
     );
 }
