@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 import React, { useState } from 'react';
 import MainContent from './components/MainContent/MainContent.jsx';
-import Header from './components/Header/Header.jsx'
+import Header from './components/Header/Header.jsx';
 
 const App = () => {
 

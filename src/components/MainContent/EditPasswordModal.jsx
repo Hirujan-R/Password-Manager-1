@@ -13,7 +13,7 @@ function EditPasswordModal({ show, onHide, handleSaveChanges}) {
   const bodyContent = (
     <div>
       <p>Service Name: <input id='serviceInput'></input></p>
-      <p>Password: <input id='passwordInput'></input> <button>Randomise</button></p>
+      <p>Password: <input id='passwordInput'></input> <Button>Randomise</Button></p>
     </div>
   )
 

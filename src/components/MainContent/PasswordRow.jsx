@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
+import { Button } from 'react-bootstrap';
 import ViewPasswordModal from './ViewPasswordModal.jsx';
 import EditPasswordModal from './EditPasswordModal.jsx';
 
@@ -35,9 +36,9 @@ function PasswordRow({password, saveChanges}) {
         <tr>
             <td>{password.name}</td>
             <td>
-                <button onClick={openModal}>
+                <Button variant='primary' onClick={openModal}>
                     Show Password
-                </button>
+                </Button>
                 <ViewPasswordModal show={showModal} onHide={hideModal} password={password} editPasswordFunction={handleShow} />
                 <EditPasswordModal show={show} onHide={onHide} handleSaveChanges={HandleSaveChanges}/>
             </td>

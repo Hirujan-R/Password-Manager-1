@@ -16,8 +16,8 @@ function ViewPasswordModal({show, onHide, password, editPasswordFunction}) {
     const bodyContent = (
         <div>
             <p>{password.password}</p>
-            <button onClick={() => CopyPassword(password.password)}>Copy</button>
-            <button onClick={editPasswordFunction}>Edit Password</button>
+            <Button variant='secondary' onClick={() => CopyPassword(password.password)}>Copy</Button>
+            <Button variant='primary' onClick={editPasswordFunction}>Edit Password</Button>
         </div>
         
     )
