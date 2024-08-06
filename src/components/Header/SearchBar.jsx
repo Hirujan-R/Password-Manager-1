@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 
-function SearchBar () {
-    const [query, setQuery] = useState("");
+function SearchBar ( {setQuery} ) {
 
     return (
         <Form>

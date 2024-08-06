@@ -12,8 +12,7 @@ const App = () => {
 
 
   const [passwords, setPasswords] = useState(PASSWORDS);
-
-  
+  const [query, setQuery] = useState("");
     
     function SaveChanges({serviceName, password}) {
         console.log(serviceName);
@@ -24,9 +23,9 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header passwords={passwords} saveChanges={SaveChanges}/>
+      <Header saveChanges={SaveChanges} setQuery={setQuery}/>
       <div>
-        <MainContent passwords={passwords} saveChanges={SaveChanges}></MainContent>
+        <MainContent passwords={passwords} saveChanges={SaveChanges} query={query}></MainContent>
       </div>
 
     </div>

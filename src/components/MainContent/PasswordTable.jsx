@@ -2,15 +2,26 @@ import React, { useState } from 'react';
 import PasswordRow from './PasswordRow';
 
 
-function PasswordTable({passwords, saveChanges}) {
+function PasswordTable({passwords, saveChanges, query}) {
+
+
+    function getFilteredItems() {
+        if (!query) {
+            return passwords;
+        }
+        return passwords.filter(password => password.name.toLowerCase().includes(query.toLowerCase()));
+    }
 
     const rows = [];
+    const tableItems = getFilteredItems(query, passwords);
+
+    
 
     function CreateRows() {
         while (rows.length > 0) {
             rows.pop();
         }
-        passwords.forEach((password) => {
+        tableItems.forEach((password) => {
         rows.push(
             <PasswordRow password={password} saveChanges={saveChanges} />
         )
