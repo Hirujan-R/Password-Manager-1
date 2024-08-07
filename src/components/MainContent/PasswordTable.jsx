@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PasswordRow from './PasswordRow';
 
 
-function PasswordTable({passwords, editPassword, deletePassword, query}) {
+function PasswordTable({passwords, editPassword, deletePassword, openShowCopyTextAlert, query}) {
 
 
     function getFilteredItems() {
@@ -23,7 +23,8 @@ function PasswordTable({passwords, editPassword, deletePassword, query}) {
         }
         tableItems.forEach((password) => {
         rows.push(
-            <PasswordRow password={password} editPassword={editPassword} deletePassword={deletePassword} />
+            <PasswordRow password={password} editPassword={editPassword} 
+            deletePassword={deletePassword} openShowCopyTextAlert={openShowCopyTextAlert} />
         )
     })
     }

@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal as BootstrapModal, Button } from 'react-bootstrap';
 import Modal from '../Modal.jsx';
 
-function ViewPasswordModal({show, onHide, password, editPasswordFunction, deletePasswordFunction}) {
+function ViewPasswordModal({show, onHide, password, editPasswordFunction, deletePasswordFunction, openShowCopyTextAlert}) {
+
 
     function CopyPassword(password) {
         navigator.clipboard.writeText(password.password);
-        alert('Password copied to clipboard!');
+        openShowCopyTextAlert();
+ 
     }
 
     const modalTitle = (
@@ -28,7 +30,10 @@ function ViewPasswordModal({show, onHide, password, editPasswordFunction, delete
     )
 
     return (
-        <Modal show={show} onHide={onHide} modalTitle={modalTitle} bodyContent={bodyContent} footerContent={footerContent}></Modal>
+        <Modal show={show} onHide={onHide} modalTitle={modalTitle} bodyContent={bodyContent} footerContent={footerContent}>
+            
+        </Modal>
+        
       );
     
 }
