@@ -4,11 +4,13 @@ import Modal from '../Modal.jsx';
 
 
 
-function CreatePasswordModal({ show, onHide, handleSaveChanges}) {
+function CreatePasswordModal({ show, onHide, handleAddPassword}) {
+
 
   const modalTitle = (
     "Create Password"
   ) 
+
 
   const bodyContent = (
     <div>
@@ -22,7 +24,7 @@ function CreatePasswordModal({ show, onHide, handleSaveChanges}) {
       <Button variant="secondary" onClick={onHide}>
         Close
       </Button>
-      <Button variant="primary" onClick={()=>handleSaveChanges({
+      <Button variant="primary" onClick={()=>handleAddPassword({
         serviceName: document.getElementById('serviceInput').value, 
         password: document.getElementById('passwordInput').value,
       })}>

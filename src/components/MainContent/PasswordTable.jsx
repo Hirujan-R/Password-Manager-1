@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PasswordRow from './PasswordRow';
 
 
-function PasswordTable({passwords, saveChanges, query}) {
+function PasswordTable({passwords, EditPassword, query}) {
 
 
     function getFilteredItems() {
@@ -23,7 +23,7 @@ function PasswordTable({passwords, saveChanges, query}) {
         }
         tableItems.forEach((password) => {
         rows.push(
-            <PasswordRow password={password} saveChanges={saveChanges} />
+            <PasswordRow password={password} EditPassword={EditPassword} />
         )
     })
     }

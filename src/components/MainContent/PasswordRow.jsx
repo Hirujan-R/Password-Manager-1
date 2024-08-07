@@ -4,7 +4,7 @@ import ViewPasswordModal from './ViewPasswordModal.jsx';
 import EditPasswordModal from './EditPasswordModal.jsx';
 
 
-function PasswordRow({password, saveChanges}) {
+function PasswordRow({password, EditPassword}) {
     
     // Modal for viewing password
     const [showModal, setShowModal] = useState(false);
@@ -23,8 +23,9 @@ function PasswordRow({password, saveChanges}) {
 
 
     // Function for handling the changes made to the password.
-    function HandleSaveChanges({serviceName, password}) {
-        saveChanges({serviceName, password});
+    function HandleEditPassword({newServiceName, newPassword}) {
+        const passwordIndex = password.index;
+        EditPassword({newServiceName, newPassword, passwordIndex});
         onHide();
         hideModal();
       }
@@ -40,7 +41,7 @@ function PasswordRow({password, saveChanges}) {
                     Show Password
                 </Button>
                 <ViewPasswordModal show={showModal} onHide={hideModal} password={password} editPasswordFunction={handleShow} />
-                <EditPasswordModal show={show} onHide={onHide} handleSaveChanges={HandleSaveChanges}/>
+                <EditPasswordModal show={show} onHide={onHide} handleEditPassword={HandleEditPassword}/>
             </td>
         </tr>
     );

@@ -14,18 +14,23 @@ const App = () => {
   const [passwords, setPasswords] = useState(PASSWORDS);
   const [query, setQuery] = useState("");
     
-    function SaveChanges({serviceName, password}) {
-        console.log(serviceName);
-        console.log(password);
-        const updatedPasswords = [...passwords, {name: serviceName, password: password }];
+    function AddPassword({serviceName, password}) {
+        const updatedPasswords = [...passwords, {index: passwords.length, name: serviceName, password: password }];
         setPasswords(updatedPasswords);
+    }
+
+    function EditPassword({newServiceName, newPassword, passwordIndex}) {
+      const updatedPasswords = passwords.map(password => 
+        password.index == passwordIndex ? {...password, name: newServiceName, password: newPassword} : password
+      );
+      setPasswords(updatedPasswords);
     }
 
   return (
     <div className="App">
-      <Header saveChanges={SaveChanges} setQuery={setQuery}/>
+      <Header addPassword={AddPassword} setQuery={setQuery}/>
       <div>
-        <MainContent passwords={passwords} saveChanges={SaveChanges} query={query}></MainContent>
+        <MainContent passwords={passwords} EditPassword={EditPassword} query={query}></MainContent>
       </div>
 
     </div>

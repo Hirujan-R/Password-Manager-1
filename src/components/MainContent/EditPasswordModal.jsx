@@ -4,7 +4,7 @@ import Modal from '../Modal.jsx';
 
 
 
-function EditPasswordModal({ show, onHide, handleSaveChanges}) {
+function EditPasswordModal({ show, onHide, handleEditPassword}) {
 
   const modalTitle = (
     "Change Password"
@@ -22,9 +22,9 @@ function EditPasswordModal({ show, onHide, handleSaveChanges}) {
       <Button variant="secondary" onClick={onHide}>
         Close
       </Button>
-      <Button variant="primary" onClick={()=>handleSaveChanges({
-        serviceName: document.getElementById('serviceInput').value, 
-        password: document.getElementById('passwordInput').value,
+      <Button variant="primary" onClick={()=>handleEditPassword({
+        newServiceName: document.getElementById('serviceInput').value, 
+        newPassword: document.getElementById('passwordInput').value,
       })}>
         Save Changes
       </Button>
