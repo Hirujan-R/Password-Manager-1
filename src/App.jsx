@@ -26,11 +26,16 @@ const App = () => {
       setPasswords(updatedPasswords);
     }
 
+    function DeletePassword({passwordIndex}) {
+      const updatedPasswords = passwords.filter(pasword => passwordIndex !== pasword.index);
+      setPasswords(updatedPasswords);
+    }
+
   return (
     <div className="App">
       <Header addPassword={AddPassword} setQuery={setQuery}/>
       <div>
-        <MainContent passwords={passwords} EditPassword={EditPassword} query={query}></MainContent>
+        <MainContent passwords={passwords} editPassword={EditPassword} deletePassword={DeletePassword} query={query}></MainContent>
       </div>
 
     </div>

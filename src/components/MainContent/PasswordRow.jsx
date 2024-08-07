@@ -2,33 +2,44 @@ import React, { useState} from 'react';
 import { Button } from 'react-bootstrap';
 import ViewPasswordModal from './ViewPasswordModal.jsx';
 import EditPasswordModal from './EditPasswordModal.jsx';
+import DeletePasswordModal from './DeletePasswordModal.jsx';
 
 
-function PasswordRow({password, EditPassword}) {
+function PasswordRow({password, editPassword, deletePassword}) {
     
     // Modal for viewing password
-    const [showModal, setShowModal] = useState(false);
-    const openModal = () => {
-        setShowModal(true);
-    }
-    const hideModal = () => {
-        setShowModal(false);
-    };
+    const [showViewModal, setShowViewModal] = useState(false);
+    const openViewModal = () => setShowViewModal(true);
+    const hideViewModal = () => setShowViewModal(false);
 
 
     // Modal for editting password
-    const [show, setShow] = useState(false);
-    const onHide = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const openEditModal = () => setShowEditModal(true);
+    const hideEditModal = () => setShowEditModal(false);
+
+    // Modal for deleting password
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const openDeleteModal = () => setShowDeleteModal(true);
+    const hideDeleteModal = () => setShowDeleteModal(false);
+    
 
 
     // Function for handling the changes made to the password.
     function HandleEditPassword({newServiceName, newPassword}) {
         const passwordIndex = password.index;
-        EditPassword({newServiceName, newPassword, passwordIndex});
-        onHide();
-        hideModal();
-      }
+        editPassword({newServiceName, newPassword, passwordIndex});
+        hideEditModal();
+        hideViewModal();
+    }
+
+    // Function for handling the changes made to the password.
+    function HandleDeletePassword() {
+        const passwordIndex = password.index;
+        deletePassword({passwordIndex});
+        hideDeleteModal();
+        hideViewModal();
+    }
 
     
 
@@ -37,11 +48,12 @@ function PasswordRow({password, EditPassword}) {
         <tr>
             <td>{password.name}</td>
             <td>
-                <Button variant='primary' onClick={openModal}>
+                <Button variant='primary' onClick={openViewModal}>
                     Show Password
                 </Button>
-                <ViewPasswordModal show={showModal} onHide={hideModal} password={password} editPasswordFunction={handleShow} />
-                <EditPasswordModal show={show} onHide={onHide} handleEditPassword={HandleEditPassword}/>
+                <ViewPasswordModal show={showViewModal} onHide={hideViewModal} password={password} editPasswordFunction={openEditModal} deletePasswordFunction={openDeleteModal}/>
+                <EditPasswordModal show={showEditModal} onHide={hideEditModal} handleEditPassword={HandleEditPassword}/>
+                <DeletePasswordModal show={showDeleteModal} onHide={hideDeleteModal} password={password} handleDeletePassword={HandleDeletePassword}/>
             </td>
         </tr>
     );

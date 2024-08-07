@@ -1,11 +1,11 @@
 import PasswordTable from './PasswordTable.jsx';
 import { useState } from 'react';
 
-function MainContent({passwords, EditPassword, query}) {
+function MainContent({passwords, editPassword, deletePassword, query}) {
 
     return (
         <div>   
-            <PasswordTable passwords={passwords} EditPassword={EditPassword} query={query}/>
+            <PasswordTable passwords={passwords} editPassword={editPassword} deletePassword={deletePassword} query={query}/>
         </div>
     );
 }
