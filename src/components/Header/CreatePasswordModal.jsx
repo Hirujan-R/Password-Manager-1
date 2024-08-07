@@ -25,8 +25,8 @@ function CreatePasswordModal({ show, onHide, handleAddPassword}) {
         Close
       </Button>
       <Button variant="primary" onClick={()=>handleAddPassword({
-        serviceName: document.getElementById('serviceInput').value, 
-        password: document.getElementById('passwordInput').value,
+        newServiceName: document.getElementById('serviceInput').value, 
+        newPassword: document.getElementById('passwordInput').value,
       })}>
         Create
       </Button>

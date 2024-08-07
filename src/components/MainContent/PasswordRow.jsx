@@ -3,9 +3,10 @@ import { Button } from 'react-bootstrap';
 import ViewPasswordModal from './ViewPasswordModal.jsx';
 import EditPasswordModal from './EditPasswordModal.jsx';
 import DeletePasswordModal from './DeletePasswordModal.jsx';
+import { editPassword, deletePassword } from '../../utils/PasswordUtils.jsx';
 
 
-function PasswordRow({password, editPassword, deletePassword, openShowCopyTextAlert}) {
+function PasswordRow({passwords, setPasswords, password, openShowCopyTextAlert}) {
     
     // Modal for viewing password
     const [showViewModal, setShowViewModal] = useState(false);
@@ -28,7 +29,7 @@ function PasswordRow({password, editPassword, deletePassword, openShowCopyTextAl
     // Function for handling the changes made to the password.
     function HandleEditPassword({newServiceName, newPassword}) {
         const passwordIndex = password.index;
-        editPassword({newServiceName, newPassword, passwordIndex});
+        editPassword({newServiceName, newPassword, passwordIndex, passwords, setPasswords});
         hideEditModal();
         hideViewModal();
     }
@@ -36,7 +37,7 @@ function PasswordRow({password, editPassword, deletePassword, openShowCopyTextAl
     // Function for handling the changes made to the password.
     function HandleDeletePassword() {
         const passwordIndex = password.index;
-        deletePassword({passwordIndex});
+        deletePassword({passwordIndex, passwords, setPasswords});
         hideDeleteModal();
         hideViewModal();
     }
