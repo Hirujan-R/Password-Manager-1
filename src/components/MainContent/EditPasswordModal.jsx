@@ -5,7 +5,7 @@ import { randomisePassword } from '../../utils/PasswordUtils.jsx';
 
 
 
-function EditPasswordModal({ show, onHide, handleEditPassword}) {
+function EditPasswordModal({ show, onHide, handleEditPassword, password}) {
 
   const modalTitle = (
     "Change Password"
@@ -13,8 +13,11 @@ function EditPasswordModal({ show, onHide, handleEditPassword}) {
 
   const bodyContent = (
     <div>
-      <p>Service Name: <input id='serviceInput'></input></p>
-      <p>Password: <input id='passwordInput'></input> <Button onClick={() => randomisePassword('passwordInput')}>Randomise</Button></p>
+      <p>Service Name: <input id='serviceInput' value={password.name}></input></p>
+      <p>Password: 
+        <input id='passwordInput' value={password.password}></input> 
+        <Button onClick={() => randomisePassword('passwordInput')}>Randomise</Button>
+      </p>
     </div>
   )
 

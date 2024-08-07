@@ -55,7 +55,8 @@ function PasswordRow({passwords, setPasswords, password, openShowCopyTextAlert})
                 <ViewPasswordModal show={showViewModal} onHide={hideViewModal} password={password} 
                 editPasswordFunction={openEditModal} deletePasswordFunction={openDeleteModal} 
                 openShowCopyTextAlert={openShowCopyTextAlert}/>
-                <EditPasswordModal show={showEditModal} onHide={hideEditModal} handleEditPassword={HandleEditPassword}/>
+                <EditPasswordModal show={showEditModal} onHide={hideEditModal} handleEditPassword={HandleEditPassword}
+                    password={password}/>
                 <DeletePasswordModal show={showDeleteModal} onHide={hideDeleteModal} password={password} handleDeletePassword={HandleDeletePassword}/>
             </td>
         </tr>
