@@ -8,6 +8,7 @@ import Header from './components/Header/Header.jsx';
 import MainContent from './components/MainContent/MainContent.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import PASSWORDS from './Passwords.jsx';
+import useShowCopyTextAlert from './hooks/useShowCopyTextAlert.jsx';
 
 const App = () => {
 
@@ -15,15 +16,9 @@ const App = () => {
   const [passwords, setPasswords] = useState(PASSWORDS);
   const [query, setQuery] = useState("");
     
-  const [showCopyTextAlert, setShowCopyTextAlert] = useState(false);
-  const hideShowCopyTextAlert = () => setShowCopyTextAlert(false);
-  const openShowCopyTextAlert = () => {
-    setShowCopyTextAlert(true);
-    setTimeout(() => {hideShowCopyTextAlert()}, 2000);  
-  }
+
+  const { showCopyTextAlert, hideShowCopyTextAlert, openShowCopyTextAlert } = useShowCopyTextAlert();
   
-
-
   return (
     <div className="App">
       <Header setQuery={setQuery} setPasswords={setPasswords} passwords={passwords}/>
