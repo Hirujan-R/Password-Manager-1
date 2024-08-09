@@ -4,8 +4,9 @@ import Form from 'react-bootstrap/Form';
 function SearchBar ( {setQuery} ) {
 
     return (
+        
         <Form>
-            <Form.Control type='text' onChange={e => setQuery(e.target.value)}></Form.Control>
+            <Form.Control className='border border-primary' type='text' onChange={e => setQuery(e.target.value)}></Form.Control>
         </Form>
     )
 }

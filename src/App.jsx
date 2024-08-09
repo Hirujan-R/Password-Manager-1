@@ -26,7 +26,6 @@ const App = () => {
         query={query} openShowCopyTextAlert={openShowCopyTextAlert}>
       </MainContent>
       <Footer showCopyTextAlert={showCopyTextAlert} hideShowCopyTextAlert={hideShowCopyTextAlert}/>
-
     </div>
   );
 };
