@@ -15,23 +15,19 @@ function Header ({setQuery, setPasswords, passwords}) {
     }
 
     return (
-        <div className='container fixed-top align-items-center p-5'>
-            <Container fluid>
-                <Row className='justify-content-center'>
-                    <Col xs={4}></Col>
-                    <Col xs={4} className='align-items-center'>
+            <Container fluid className='p-5'>
+                <Row>
+                    <Col xs={{span: 4, offset: 4}}>
                         <SearchBar setQuery={setQuery}/>
                     </Col>
-                    <Col xs={4} className='d-flex align-items-center'>
+                    <Col xs={4} className='d-flex'>
                         <Button onClick={onShow}>Add</Button>
                     </Col>
                 </Row>
-                
+                <CreatePasswordModal show={showCreatePasswordModal} onHide={onHide} handleAddPassword={handleAddPassword}/>
             </Container>
             
             
-            <CreatePasswordModal show={showCreatePasswordModal} onHide={onHide} handleAddPassword={handleAddPassword}/>
-        </div>
         
     );
 }

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import PasswordRow from './PasswordRow';
+import { Container, Table, Row, Col } from 'react-bootstrap';
+import './PasswordTable.css'
 
 
 function PasswordTable({passwords, setPasswords, openShowCopyTextAlert, query}) {
@@ -35,15 +37,18 @@ function PasswordTable({passwords, setPasswords, openShowCopyTextAlert, query}) 
     
 
     return (
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Password</th>
-                </tr>
-            </thead>
-            <tbody>{rows}</tbody>
-        </table>
+        <Container fluid className='table-container'>
+            <Table className='border border-primary' striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Password</th>
+                    </tr>
+                </thead>
+                <tbody>{rows}</tbody>
+            </Table>
+        </Container>
+
     );
 }
 
