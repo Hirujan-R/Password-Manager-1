@@ -17,10 +17,10 @@ function Header ({setQuery, setPasswords, passwords}) {
     return (
             <Container fluid className='p-5'>
                 <Row>
-                    <Col xs={{span: 4, offset: 4}}>
+                    <Col xs={{span:7, offset:1}} sm={{span:8, offset:1}} md={{span: 8, offset: 2}} lg={{span: 5, offset: 3}}>
                         <SearchBar setQuery={setQuery}/>
                     </Col>
-                    <Col xs={4} className='d-flex'>
+                    <Col xs={4} sm={2} lg={4} className='d-flex'>
                         <Button onClick={onShow}>Add</Button>
                     </Col>
                 </Row>

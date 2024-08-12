@@ -6,7 +6,7 @@ function MainContent({passwords, setPasswords, openShowCopyTextAlert, query}) {
 
     return (
         <Container fluid className='px-5'>
-            <Col xs={{span: 4, offset: 4}}>
+            <Col xs={12} md={{span:8, offset:2}}>
                 <PasswordTable passwords={passwords} setPasswords={setPasswords} 
                 openShowCopyTextAlert={openShowCopyTextAlert} query={query}/>
             </Col>
