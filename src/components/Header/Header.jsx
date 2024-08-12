@@ -15,7 +15,7 @@ function Header ({setQuery, setPasswords, passwords}) {
     }
 
     return (
-            <Container fluid className='p-5'>
+            <Container fluid className='px-sm-5 py-5'>
                 <Row>
                     <Col xs={{span:7, offset:1}} sm={{span:8, offset:1}} md={{span: 8, offset: 2}} lg={{span: 5, offset: 3}}>
                         <SearchBar setQuery={setQuery}/>
