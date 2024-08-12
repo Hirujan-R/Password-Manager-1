@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import CreatePasswordModal from './CreatePasswordModal';
 import { addPassword } from '../../utils/PasswordUtils';
+import './Header.css';
 
 function Header ({setQuery, setPasswords, passwords}) {
     const [showCreatePasswordModal, setShowCreatePasswordModal] = useState(false);
@@ -21,7 +24,12 @@ function Header ({setQuery, setPasswords, passwords}) {
                         <SearchBar setQuery={setQuery}/>
                     </Col>
                     <Col xs={4} sm={2} lg={4} className='d-flex'>
-                        <Button onClick={onShow}>Add</Button>
+                        <Button onClick={onShow} className='add-button me-2'>
+                            <FontAwesomeIcon icon={faPlus} />
+                        </Button>
+                        <Button className='logout-button d-md-none'>
+                            <FontAwesomeIcon icon={faRightFromBracket} />
+                        </Button>
                     </Col>
                 </Row>
                 <CreatePasswordModal show={showCreatePasswordModal} onHide={onHide} handleAddPassword={handleAddPassword}/>
