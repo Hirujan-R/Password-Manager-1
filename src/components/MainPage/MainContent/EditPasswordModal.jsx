@@ -50,12 +50,12 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showEmp
         Save Changes
       </Button>
     </div>
-      <div className='mt-3'>
-        <Alert showAlert={showEmptyUsernameAlert} alertVariant={'danger'} hideAlert={hideEmptyUsernameAlert} className='text-center'
-        isDismissible={false} alertBody={<p>⚠️ Error: A username is required. Please enter your username to proceed.</p>}/> 
-        <Alert showAlert={showEmptyPasswordAlert} alertVariant={'danger'} hideAlert={hideEmptyPasswordAlert} className='text-center'
-        isDismissible={false} alertBody={<p>⚠️ Error: A password is required. Please enter your password to proceed.</p>}/>
-      </div>
+    <div className='mt-3'>
+      <Alert showAlert={showEmptyUsernameAlert} alertVariant={'danger'} hideAlert={hideEmptyUsernameAlert} className='text-center'
+      isDismissible={false} alertBody={<p>⚠️ Error: A username is required. Please enter your username to proceed.</p>}/> 
+      <Alert showAlert={showEmptyPasswordAlert} alertVariant={'danger'} hideAlert={hideEmptyPasswordAlert} className='text-center'
+      isDismissible={false} alertBody={<p>⚠️ Error: A password is required. Please enter your password to proceed.</p>}/>
+    </div>
         
     </Container>
   

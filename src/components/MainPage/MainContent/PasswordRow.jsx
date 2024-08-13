@@ -19,14 +19,18 @@ function PasswordRow({passwords, setPasswords, password}) {
     // Modal for deleting passwor
     const {showDeleteModal, hideDeleteModal, openDeleteModal} = useDeleteModal();
 
+    // Alert that triggers if there no value in the username field.
     const {showEmptyUsernameAlert, hideEmptyUsernameAlert, openEmptyUsernameAlert} = useEmptyUsernameAlert();
 
+    // Alert that triggers if there no value in the password field.
     const {showEmptyPasswordAlert, hideEmptyPasswordAlert, openEmptyPasswordAlert} = useEmptyPasswordAlert();
     
 
 
     // Function for handling the changes made to the password.
     function HandleEditPassword({newServiceName, newPassword}) {
+        hideEmptyUsernameAlert();
+        hideEmptyPasswordAlert();
         if (newServiceName=="") {openEmptyUsernameAlert();}
         else if (newPassword=="") {openEmptyPasswordAlert();}
         else {
@@ -35,7 +39,6 @@ function PasswordRow({passwords, setPasswords, password}) {
             hideEditModal();
             hideViewModal();
         }
-        
     }
 
     // Function for handling the changes made to the password.
@@ -47,8 +50,6 @@ function PasswordRow({passwords, setPasswords, password}) {
     }
 
     
-
-
     return (
         <tr>
             <td>{password.name}</td>

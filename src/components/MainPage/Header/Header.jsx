@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import CreatePasswordModal from './CreatePasswordModal';
+import { useEmptyUsernameAlert, useEmptyPasswordAlert } from '../../../hooks/usePasswordRowStates';
 import { addPassword } from '../../../utils/PasswordUtils';
 import './Header.css';
 
@@ -12,9 +13,22 @@ function Header ({setQuery, setPasswords, passwords}) {
     const onHide = () => (setShowCreatePasswordModal(false));
     const onShow = () => (setShowCreatePasswordModal(true));
 
+    // Alert that triggers if there no value in the username field.
+    const {showEmptyUsernameAlert, hideEmptyUsernameAlert, openEmptyUsernameAlert} = useEmptyUsernameAlert();
+
+    // Alert that triggers if there no value in the password field.
+    const {showEmptyPasswordAlert, hideEmptyPasswordAlert, openEmptyPasswordAlert} = useEmptyPasswordAlert();
+
     function handleAddPassword({newServiceName, newPassword}) {
-        addPassword({newServiceName, newPassword, passwords, setPasswords});
-        onHide();
+        hideEmptyUsernameAlert();
+        hideEmptyPasswordAlert();
+        if (newServiceName=="") {openEmptyUsernameAlert();}
+        else if (newPassword=="") {openEmptyPasswordAlert();}
+        else {
+            addPassword({newServiceName, newPassword, passwords, setPasswords});
+            onHide();
+        }
+
     }
 
     return (
@@ -32,7 +46,9 @@ function Header ({setQuery, setPasswords, passwords}) {
                         </Button>
                     </Col>
                 </Row>
-                <CreatePasswordModal show={showCreatePasswordModal} onHide={onHide} handleAddPassword={handleAddPassword}/>
+                <CreatePasswordModal show={showCreatePasswordModal} onHide={onHide} handleAddPassword={handleAddPassword} 
+                    showEmptyUsernameAlert={showEmptyUsernameAlert} hideEmptyUsernameAlert={hideEmptyUsernameAlert} 
+                    showEmptyPasswordAlert={showEmptyPasswordAlert} hideEmptyPasswordAlert={hideEmptyPasswordAlert}/>
             </Container>
             
             

@@ -33,10 +33,7 @@ export const useDeleteModal = () => {
 export const useEmptyUsernameAlert = () => {
     const [showEmptyUsernameAlert, setshowEmptyUsernameAlert] = useState(false);
     const hideEmptyUsernameAlert = () => setshowEmptyUsernameAlert(false);
-    const openEmptyUsernameAlert = () => {
-        setshowEmptyUsernameAlert(true);
-        setTimeout(() => {hideEmptyUsernameAlert()}, 2000);  }
-    ;
+    const openEmptyUsernameAlert = () => {setshowEmptyUsernameAlert(true);};
     
     return {showEmptyUsernameAlert, hideEmptyUsernameAlert, openEmptyUsernameAlert};
 }
@@ -44,11 +41,7 @@ export const useEmptyUsernameAlert = () => {
 export const useEmptyPasswordAlert = () => {
     const [showEmptyPasswordAlert, setshowEmptyPasswordAlert] = useState(false);
     const hideEmptyPasswordAlert = () => setshowEmptyPasswordAlert(false);
-    const openEmptyPasswordAlert = () => {
-        setshowEmptyPasswordAlert(true);
-        setTimeout(() => {hideEmptyPasswordAlert()}, 2000);  }
-    ;
-    
+    const openEmptyPasswordAlert = () => {setshowEmptyPasswordAlert(true);};
 
     return {showEmptyPasswordAlert, hideEmptyPasswordAlert, openEmptyPasswordAlert};
 }
