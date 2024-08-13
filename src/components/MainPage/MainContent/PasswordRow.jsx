@@ -7,7 +7,7 @@ import { useViewModal, useEditModal, useDeleteModal, useEmptyUsernameAlert, useE
 import { editPassword, deletePassword } from '../../../utils/PasswordUtils.jsx';
 
 
-function PasswordRow({passwords, setPasswords, password}) {
+function PasswordRow({passwords, setPasswords, password, openPasswordEdittedAlert, openPasswordDeletedAlert}) {
     
     // Modal for viewing password
      const {showViewModal, hideViewModal, openViewModal} = useViewModal();
@@ -36,6 +36,7 @@ function PasswordRow({passwords, setPasswords, password}) {
             editPassword({newServiceName, newPassword, passwordIndex, passwords, setPasswords});
             hideEditModal();
             hideViewModal();
+            openPasswordEdittedAlert();
         }
     }
 
@@ -45,6 +46,7 @@ function PasswordRow({passwords, setPasswords, password}) {
         deletePassword({passwordIndex, passwords, setPasswords});
         hideDeleteModal();
         hideViewModal();
+        openPasswordDeletedAlert();
     }
 
     

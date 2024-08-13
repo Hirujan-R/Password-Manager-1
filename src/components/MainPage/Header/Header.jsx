@@ -8,7 +8,7 @@ import { useEmptyUsernameAlert, useEmptyPasswordAlert } from '../../../hooks/use
 import { addPassword } from '../../../utils/PasswordUtils';
 import './Header.css';
 
-function Header ({setQuery, setPasswords, passwords}) {
+function Header ({ setQuery, setPasswords, passwords, openPasswordCreatedAlert }) {
     const [showCreatePasswordModal, setShowCreatePasswordModal] = useState(false);
     const onHide = () => (setShowCreatePasswordModal(false));
     const onShow = () => (setShowCreatePasswordModal(true));
@@ -22,6 +22,7 @@ function Header ({setQuery, setPasswords, passwords}) {
     function handleAddPassword({newServiceName, newPassword}) {
         hideEmptyUsernameAlert();
         hideEmptyPasswordAlert();
+        openPasswordCreatedAlert();
         if (newServiceName=="") {openEmptyUsernameAlert();}
         else if (newPassword=="") {openEmptyPasswordAlert();}
         else {

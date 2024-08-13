@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal as BootstrapModal, Button, Container } from 'react-bootstrap';
 import Modal from '../../Modal.jsx';
 import Alert from '../../Alert.jsx';
-import useShowCopyTextAlert from '../../../hooks/useShowCopyTextAlert.jsx';
+import { useShowCopyTextAlert } from '../../../hooks/useMainPageAlerts.jsx';
 
 function ViewPasswordModal({show, onHide, password, editPasswordFunction, deletePasswordFunction}) {
 

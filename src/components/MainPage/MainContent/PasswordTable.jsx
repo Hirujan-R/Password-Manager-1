@@ -4,7 +4,7 @@ import { Container, Table, Row, Col } from 'react-bootstrap';
 import './PasswordTable.css'
 
 
-function PasswordTable({passwords, setPasswords, query}) {
+function PasswordTable({passwords, setPasswords, query, openPasswordEdittedAlert, openPasswordDeletedAlert}) {
 
 
     function getFilteredItems() {
@@ -25,7 +25,8 @@ function PasswordTable({passwords, setPasswords, query}) {
         }
         tableItems.forEach((password) => {
         rows.push(
-            <PasswordRow passwords={passwords} setPasswords={setPasswords} password={password}/>
+            <PasswordRow passwords={passwords} setPasswords={setPasswords} password={password} 
+            openPasswordEdittedAlert={openPasswordEdittedAlert} openPasswordDeletedAlert={openPasswordDeletedAlert}/>
         )
     })
     }
