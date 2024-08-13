@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import CreatePasswordModal from './CreatePasswordModal';
-import { addPassword } from '../../utils/PasswordUtils';
+import { addPassword } from '../../../utils/PasswordUtils';
 import './Header.css';
 
 function Header ({setQuery, setPasswords, passwords}) {

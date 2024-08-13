@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import Modal from '../Modal.jsx';
-import { randomisePassword } from '../../utils/PasswordUtils.jsx';
+import Modal from '../../Modal.jsx';
+import { randomisePassword } from '../../../utils/PasswordUtils.jsx';
 
 
 

@@ -1,11 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import { Alert } from "react-bootstrap";
+import { Alert, Container } from "react-bootstrap";
+import './Footer.css';
 
 function Footer({showCopyTextAlert, hideShowCopyTextAlert}) {
 
   return (
-    <div>
+    <Container fluid className="d-flex justify-content-end mt-auto">
       {showCopyTextAlert && (
         <Alert variant='secondary' onClose={hideShowCopyTextAlert} dismissible>
           <Alert.Heading>Success!</Alert.Heading>
@@ -14,7 +15,7 @@ function Footer({showCopyTextAlert, hideShowCopyTextAlert}) {
           </p>
         </Alert>
       )}
-    </div>
+    </Container>
   )
   
 }

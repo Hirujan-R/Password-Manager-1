@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import ViewPasswordModal from './ViewPasswordModal.jsx';
 import EditPasswordModal from './EditPasswordModal.jsx';
 import DeletePasswordModal from './DeletePasswordModal.jsx';
-import { editPassword, deletePassword } from '../../utils/PasswordUtils.jsx';
+import { editPassword, deletePassword } from '../../../utils/PasswordUtils.jsx';
 
 
 function PasswordRow({passwords, setPasswords, password, openShowCopyTextAlert}) {

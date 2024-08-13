@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal as BootstrapModal, Button } from 'react-bootstrap';
-import Modal from '../Modal.jsx';
+import Modal from '../../Modal.jsx';
 
 function ViewPasswordModal({show, onHide, password, editPasswordFunction, deletePasswordFunction, openShowCopyTextAlert}) {
 
