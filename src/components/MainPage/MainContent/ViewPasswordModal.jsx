@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Modal as BootstrapModal, Button } from 'react-bootstrap';
+import { Modal as BootstrapModal, Button, Container } from 'react-bootstrap';
 import Modal from '../../Modal.jsx';
+import Alert from '../../Alert.jsx';
+import useShowCopyTextAlert from '../../../hooks/useShowCopyTextAlert.jsx';
 
-function ViewPasswordModal({show, onHide, password, editPasswordFunction, deletePasswordFunction, openShowCopyTextAlert}) {
+function ViewPasswordModal({show, onHide, password, editPasswordFunction, deletePasswordFunction}) {
+
+    const { showCopyTextAlert, hideShowCopyTextAlert, openShowCopyTextAlert } = useShowCopyTextAlert();
 
 
     function CopyPassword(password) {
@@ -21,19 +25,18 @@ function ViewPasswordModal({show, onHide, password, editPasswordFunction, delete
             <Button variant='secondary' onClick={() => CopyPassword(password)}>Copy</Button>
             <Button variant='primary' onClick={editPasswordFunction}>Edit Password</Button>
             <Button variant='danger' onClick={deletePasswordFunction}>Remove</Button>
-        </div>
-        
+        </div>   
     )
     
     const footerContent = (
-        <div></div>  
+        <Container fluid>
+            <Alert showAlert={showCopyTextAlert} alertVariant={'secondary'} hideAlert={hideShowCopyTextAlert} 
+            isDismissible={false} alertHeading={"Success!"} alertBody={<p>Password is copied to clipboard!</p>}/>
+        </Container>  
     )
 
     return (
-        <Modal show={show} onHide={onHide} modalTitle={modalTitle} bodyContent={bodyContent} footerContent={footerContent}>
-            
-        </Modal>
-        
+        <Modal show={show} onHide={onHide} modalTitle={modalTitle} bodyContent={bodyContent} footerContent={footerContent}/>
       );
     
 }

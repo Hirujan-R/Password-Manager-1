@@ -6,7 +6,7 @@ import DeletePasswordModal from './DeletePasswordModal.jsx';
 import { editPassword, deletePassword } from '../../../utils/PasswordUtils.jsx';
 
 
-function PasswordRow({passwords, setPasswords, password, openShowCopyTextAlert}) {
+function PasswordRow({passwords, setPasswords, password}) {
     
     // Modal for viewing password
     const [showViewModal, setShowViewModal] = useState(false);
@@ -53,8 +53,7 @@ function PasswordRow({passwords, setPasswords, password, openShowCopyTextAlert})
                     Show Password
                 </Button>
                 <ViewPasswordModal show={showViewModal} onHide={hideViewModal} password={password} 
-                editPasswordFunction={openEditModal} deletePasswordFunction={openDeleteModal} 
-                openShowCopyTextAlert={openShowCopyTextAlert}/>
+                editPasswordFunction={openEditModal} deletePasswordFunction={openDeleteModal}/>
                 <EditPasswordModal show={showEditModal} onHide={hideEditModal} handleEditPassword={HandleEditPassword}
                     password={password}/>
                 <DeletePasswordModal show={showDeleteModal} onHide={hideDeleteModal} password={password} handleDeletePassword={HandleDeletePassword}/>
