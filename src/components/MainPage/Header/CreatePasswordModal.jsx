@@ -22,10 +22,16 @@ function CreatePasswordModal({ show, onHide, handleAddPassword, showEmptyUsernam
     </div>
   )
 
+  const handleClose = () => {
+    hideEmptyUsernameAlert();
+    hideEmptyPasswordAlert();
+    onHide();
+  }
+
   const footerContent = (
     <Container fluid>
       <div className='d-flex justify-content-end'>
-        <Button variant="secondary" onClick={onHide}>
+        <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
         <Button variant="primary" onClick={()=>handleAddPassword({
@@ -48,7 +54,7 @@ function CreatePasswordModal({ show, onHide, handleAddPassword, showEmptyUsernam
 
 
   return (
-    <Modal show={show} onHide={onHide} modalTitle={modalTitle} bodyContent={bodyContent} footerContent={footerContent}></Modal>
+    <Modal show={show} onHide={handleClose} modalTitle={modalTitle} bodyContent={bodyContent} footerContent={footerContent}></Modal>
   );
 };
 

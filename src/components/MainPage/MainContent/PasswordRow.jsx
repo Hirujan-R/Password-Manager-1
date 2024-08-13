@@ -24,8 +24,6 @@ function PasswordRow({passwords, setPasswords, password}) {
 
     // Alert that triggers if there no value in the password field.
     const {showEmptyPasswordAlert, hideEmptyPasswordAlert, openEmptyPasswordAlert} = useEmptyPasswordAlert();
-    
-
 
     // Function for handling the changes made to the password.
     function HandleEditPassword({newServiceName, newPassword}) {
@@ -41,7 +39,7 @@ function PasswordRow({passwords, setPasswords, password}) {
         }
     }
 
-    // Function for handling the changes made to the password.
+    // Function for handling deletion password.
     function HandleDeletePassword() {
         const passwordIndex = password.index;
         deletePassword({passwordIndex, passwords, setPasswords});
@@ -59,10 +57,12 @@ function PasswordRow({passwords, setPasswords, password}) {
                 </Button>
                 <ViewPasswordModal show={showViewModal} onHide={hideViewModal} password={password} 
                     editPasswordFunction={openEditModal} deletePasswordFunction={openDeleteModal}/>
+
                 <EditPasswordModal show={showEditModal} onHide={hideEditModal} handleEditPassword={HandleEditPassword}
                     password={password} showEmptyUsernameAlert={showEmptyUsernameAlert} 
                     hideEmptyUsernameAlert={hideEmptyUsernameAlert} showEmptyPasswordAlert={showEmptyPasswordAlert}
                     hideEmptyPasswordAlert={hideEmptyPasswordAlert}/>
+
                 <DeletePasswordModal show={showDeleteModal} onHide={hideDeleteModal} password={password} handleDeletePassword={HandleDeletePassword}/>
             </td>
         </tr>

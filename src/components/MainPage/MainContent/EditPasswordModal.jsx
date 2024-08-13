@@ -14,13 +14,20 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showEmp
   const [currentServiceName, setCurrentServiceName] = useState(password.name);
   const [currentPasswordValue, setCurrentPasswordValue] = useState(password.password);
 
-
   const handleServiceNameChange = (e) => {
     setCurrentServiceName(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     setCurrentPasswordValue(e.target.value);
+  };
+
+  const handleCloseEditPasswordModal = () => {
+    hideEmptyUsernameAlert();
+    hideEmptyPasswordAlert();
+    onHide();
+    setCurrentServiceName(password.name);
+    setCurrentPasswordValue(password.password);
   };
 
   const modalTitle = (
@@ -40,7 +47,7 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showEmp
   const footerContent = (
     <Container fluid>
     <div className='d-flex justify-content-end'>
-      <Button variant="secondary" onClick={onHide}>
+      <Button variant="secondary" onClick={handleCloseEditPasswordModal}>
         Close
       </Button>
       <Button variant="primary" onClick={()=>handleEditPassword({
@@ -63,7 +70,7 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showEmp
 
 
   return (
-    <Modal show={show} onHide={onHide} modalTitle={modalTitle} bodyContent={bodyContent} footerContent={footerContent}></Modal>
+    <Modal show={show} onHide={handleCloseEditPasswordModal} modalTitle={modalTitle} bodyContent={bodyContent} footerContent={footerContent}></Modal>
   );
 };
 
