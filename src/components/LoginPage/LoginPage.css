@@ -1,0 +1,7 @@
+.register-link {
+    opacity: 1;
+}
+
+.register-link:hover {
+    opacity: 0.5;
+}
