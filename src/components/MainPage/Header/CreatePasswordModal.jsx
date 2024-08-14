@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Container } from 'react-bootstrap';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import Modal from '../../Modal.jsx';
 import { randomisePassword } from '../../../utils/PasswordUtils.jsx';
 import Alert from '../../Alert.jsx';
+import { Input } from '../../Input.jsx';
 
 
 
@@ -16,10 +17,27 @@ function CreatePasswordModal({ show, onHide, handleAddPassword, showEmptyUsernam
 
 
   const bodyContent = (
-    <div>
-      <p>Service Name: <input id='serviceInput'></input></p>
-      <p>Password: <input id='passwordInput'></input> <Button onClick={() => randomisePassword('passwordInput')}>Randomise</Button></p>
-    </div>
+    <Container className='d-flex flex-column'>
+      <Row>
+        <Col xs={3} className='pe-0 pt-1 me-1'>
+          <p>Service Name:</p>
+        </Col>
+        <Col xs={6} className='ps-0'>
+          <Input formControlId={'serviceInput'} formControlClassName={'border border-primary'}></Input>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={3} className='pe-0 pt-1 me-1'>
+          <p>Password:</p>
+        </Col>
+        <Col xs={6} className='ps-0'>
+          <Input formControlId={'passwordInput'} formControlClassName={'border border-primary'}></Input>
+        </Col>
+        <Col xs={2} className='ps-0'>
+          <Button onClick={() => randomisePassword('passwordInput')}>Randomise</Button>
+        </Col>
+      </Row>
+    </Container>
   )
 
   const handleClose = () => {
