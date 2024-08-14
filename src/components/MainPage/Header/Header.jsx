@@ -22,12 +22,12 @@ function Header ({ setQuery, setPasswords, passwords, openPasswordCreatedAlert }
     function handleAddPassword({newServiceName, newPassword}) {
         hideEmptyUsernameAlert();
         hideEmptyPasswordAlert();
-        openPasswordCreatedAlert();
         if (newServiceName=="") {openEmptyUsernameAlert();}
         else if (newPassword=="") {openEmptyPasswordAlert();}
         else {
             addPassword({newServiceName, newPassword, passwords, setPasswords});
             onHide();
+            openPasswordCreatedAlert();
         }
 
     }
