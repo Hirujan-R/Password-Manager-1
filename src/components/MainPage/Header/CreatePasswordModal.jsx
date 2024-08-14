@@ -4,6 +4,7 @@ import Modal from '../../Modal.jsx';
 import { randomisePassword } from '../../../utils/PasswordUtils.jsx';
 import Alert from '../../Alert.jsx';
 import { Input } from '../../Input.jsx';
+import './CreatePasswordModal.css';
 
 
 
@@ -34,7 +35,7 @@ function CreatePasswordModal({ show, onHide, handleAddPassword, showEmptyUsernam
           <Input formControlId={'passwordInput'} formControlClassName={'border border-primary'}></Input>
         </Col>
         <Col xs={2} className='ps-0'>
-          <Button onClick={() => randomisePassword('passwordInput')}>Randomise</Button>
+          <Button className='randomise-button' onClick={() => randomisePassword('passwordInput')}>Randomise</Button>
         </Col>
       </Row>
     </Container>

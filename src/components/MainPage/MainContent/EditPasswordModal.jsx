@@ -5,6 +5,7 @@ import { randomisePassword } from '../../../utils/PasswordUtils.jsx';
 import { useEmptyUsernameAlert, useEmptyPasswordAlert } from '../../../hooks/usePasswordRowStates.jsx';
 import Alert from '../../Alert.jsx';
 import { Input } from '../../Input.jsx';
+import './EditPasswordModal.css';
 
 
 
@@ -55,7 +56,7 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showEmp
             onChange={handlePasswordChange}></Input>
         </Col>
         <Col xs={2} className='ps-0'>
-          <Button onClick={() => randomisePassword('passwordInput')}>Randomise</Button>
+          <Button className='randomise-button' onClick={() => randomisePassword('passwordInput')}>Randomise</Button>
         </Col>
       </Row>
     </Container>
