@@ -10,7 +10,7 @@ import { LoginPage } from './components/LoginPage/LoginPage';
 const App = () => {
   
   return (
-    <MainPage/>
+    <LoginPage/>
     
   );
 };
