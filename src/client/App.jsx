@@ -5,13 +5,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Alert } from 'react-bootstrap';
 import React, { useState } from 'react';
 import MainPage from './components/MainPage/MainPage'
-import { LoginPage } from './components/LoginPage/LoginPage';
+import { LoginPage } from '../client/components/LoginPage/LoginPage';
 import { RegistrationPage } from './components/RegistrationPage/RegistrationPage'
 
 const App = () => {
   
   return (
-    <RegistrationPage />
+    <MainPage />
     
   );
 };
