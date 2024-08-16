@@ -1,5 +1,5 @@
 import PasswordTable from './PasswordTable.jsx';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 function MainContent({passwords, setPasswords, query, openPasswordEdittedAlert, openPasswordDeletedAlert}) {
