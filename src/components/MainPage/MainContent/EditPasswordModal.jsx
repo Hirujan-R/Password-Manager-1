@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Container, Row, Col } from 'react-bootstrap';
-import Modal from '../../../components/Modal.jsx';
+import Modal from '../../Modal.jsx';
 import { randomisePassword } from '../../../utils/PasswordUtils.jsx';
 import { useEmptyUsernameAlert, useEmptyPasswordAlert } from '../../../hooks/usePasswordRowStates.jsx';
-import Alert from '../../../components/Alert.jsx';
+import Alert from '../../Alert.jsx';
 import { Input } from '../../Input.jsx';
 import './EditPasswordModal.css';
 
