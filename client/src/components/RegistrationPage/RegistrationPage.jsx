@@ -2,15 +2,19 @@ import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import './RegistrationPage.css'
 import { Input } from "../Input.jsx";
+import { addUser } from "../../utils/PasswordUtils.jsx";
 
 export const RegistrationPage = () => {
 
-    const handleLogin = ({username, password, checkPassword}) => {
-        console.log(username);
-        console.log(password);
-        console.log(checkPassword);
-        if (password != checkPassword) {
-            console.log("passwords don't match!");
+    const handleRegistration = ({username, password, checkPassword}) => {
+        if (!username || !password) {
+            console.log('Email and password are required');
+        }
+        else if (password != checkPassword) {
+            console.log("passwords don't match");
+        }
+        else {
+            addUser(username, password);
         }
     }
 
@@ -55,7 +59,7 @@ export const RegistrationPage = () => {
             <Row className="w-100">
                 <Col xs={12} sm={{span:9, offset:2}} lg={{span:4, offset:4}} className="d-flex justify-content-end">
                     <a href="#" className="login-link link-primary">Have an account? Click here to login!</a>
-                    <Button className="ms-4" onClick={() => handleLogin({
+                    <Button className="ms-4" onClick={() => handleRegistration({
                         username: document.getElementById('usernameInput').value,
                         password: document.getElementById('passwordInput').value,
                         checkPassword: document.getElementById('checkPasswordInput').value
