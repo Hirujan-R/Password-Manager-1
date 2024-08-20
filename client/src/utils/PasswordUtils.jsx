@@ -1,6 +1,4 @@
 import bcrypt from 'bcryptjs'; 
-import axios from 'axios';
-import React, {useState} from 'react';
 
 // Adding new password to table
 export function addPassword({newServiceName, newPassword, passwords, setPasswords}) {
@@ -42,7 +40,7 @@ export function randomisePassword(elementID) {
 
 
 // Hashing password
-async function hashPassword(password) {
+export async function hashPassword(password) {
   const saltRounds = 10;
   const hashedPassord = await bcrypt.hash(password, saltRounds);
   return hashedPassord;
@@ -53,26 +51,3 @@ export async function comparePasswords(password, hashedPassord) {
   return await bcrypt.compare(password, hashedPassord);
 }
 
-export async function addUser(email, password) {
-  try {
-    const hashedPassword = await hashPassword(password);
-    const response = await axios.post('http://localhost:5000/api/registration', {
-      email: email,
-      password_hash: hashedPassword
-    });
-    console.log(`User registered successfully! User ID is ${response.data.user_id}`);
-  } catch (error) {
-    if (error.response) {
-      // Server responded with error code
-      console.error('Server error:', error.response.data.error);
-    }
-    if (error.request) {
-      // No response from server
-      console.error('Network error:', error.message);
-    }
-    else {
-      // All other errors
-      console.error('Error:', error.message);
-    }
-  }
-}

@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import './RegistrationPage.css'
 import { Input } from "../Input.jsx";
-import { addUser } from "../../utils/PasswordUtils.jsx";
+import { addUser } from "../../utils/apiUtils.jsx";
 
 export const RegistrationPage = () => {
 
