@@ -29,7 +29,6 @@ export const RegistrationPage = () => {
 
     return (
         <div>
-
             <MainContent handleRegistration={handleRegistration}/>
 
         </div>
