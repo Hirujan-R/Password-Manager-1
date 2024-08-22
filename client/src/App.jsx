@@ -11,7 +11,7 @@ import { RegistrationPage } from './components/RegistrationPage/RegistrationPage
 const App = () => {
   
   return (
-    <RegistrationPage />
+    <MainPage />
     
   );
 };

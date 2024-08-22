@@ -8,7 +8,7 @@ import { editPassword, deletePassword } from '../../../utils/PasswordUtils.jsx';
 import { useErrorAlert } from '../../../hooks/useAlertStates.jsx';
 
 
-function PasswordRow({passwords, setPasswords, password, openPasswordEdittedAlert, openPasswordDeletedAlert}) {
+function PasswordRow({passwords, setPasswords, password, openEventAlert}) {
     
     // Modal for viewing password
      const {showViewModal, hideViewModal, openViewModal} = useViewModal();
@@ -35,7 +35,7 @@ function PasswordRow({passwords, setPasswords, password, openPasswordEdittedAler
             editPassword({newServiceName, newPassword, passwordIndex, passwords, setPasswords});
             hideEditModal();
             hideViewModal();
-            openPasswordEdittedAlert();
+            openEventAlert("Password successfully editted!");
         }
     }
 
@@ -45,7 +45,7 @@ function PasswordRow({passwords, setPasswords, password, openPasswordEdittedAler
         deletePassword({passwordIndex, passwords, setPasswords});
         hideDeleteModal();
         hideViewModal();
-        openPasswordDeletedAlert();
+        openEventAlert("Password successfully deleted!");
     }
 
     

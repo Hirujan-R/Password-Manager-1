@@ -15,3 +15,18 @@ export const useErrorAlert = ({isTimeout=false, timeout=3000}) => {
 
     return { showErrorAlert, hideErrorAlert, openErrorAlert, errorText };
 }
+
+export const useEventAlert = ({isTimeout=true, timeout=2000}) => {
+    const [eventText, setEventText] = useState("")
+    const [showEventAlert, setEventAlert] = useState(false);
+    const hideEventAlert = () => setEventAlert(false);
+    const openEventAlert = (eventDetails) => {
+        setEventAlert(true);
+        setEventText(eventDetails);
+        if (isTimeout) {
+            setTimeout(() => {hideEventAlert()}, timeout);  
+        } 
+    };
+
+    return { showEventAlert, hideEventAlert, openEventAlert, eventText };
+}

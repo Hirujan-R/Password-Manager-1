@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { Modal as BootstrapModal, Button, Container } from 'react-bootstrap';
 import Modal from '../../Modal.jsx';
 import Alert from '../../Alert.jsx';
-import { useShowCopyTextAlert } from '../../../hooks/useMainPageAlerts.jsx';
+import { useEventAlert } from '../../../hooks/useAlertStates.jsx';
 
 function ViewPasswordModal({show, onHide, password, editPasswordFunction, deletePasswordFunction}) {
 
-    const { showCopyTextAlert, hideShowCopyTextAlert, openShowCopyTextAlert } = useShowCopyTextAlert();
-
+    const { showEventAlert, hideEventAlert, openEventAlert, eventText } = useEventAlert({});
 
     function CopyPassword(password) {
         navigator.clipboard.writeText(password.password);
-        openShowCopyTextAlert();
+        openEventAlert("Password is copied to clipboard!");
  
     }
 
@@ -30,8 +29,8 @@ function ViewPasswordModal({show, onHide, password, editPasswordFunction, delete
     
     const footerContent = (
         <Container fluid>
-            <Alert showAlert={showCopyTextAlert} alertVariant={'secondary'} hideAlert={hideShowCopyTextAlert} 
-            isDismissible={false} alertHeading={"Success!"} alertBody={<p>Password is copied to clipboard!</p>}/>
+            <Alert showAlert={showEventAlert} alertVariant={'secondary'} hideAlert={hideEventAlert} 
+            isDismissible={false} alertHeading={"Success!"} alertBody={<p>{eventText}</p>}/>
         </Container>  
     )
 

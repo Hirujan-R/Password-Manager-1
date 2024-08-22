@@ -4,17 +4,12 @@ import { Container } from "react-bootstrap";
 import Alert from "../../Alert";
 
 
-function Footer({ showPasswordCreatedAlert, hidePasswordCreatedAlert, showPasswordEdittedAlert, hidePasswordEdittedAlert, 
-  showPasswordDeletedAlert, hidePasswordDeletedAlert }) {
+function Footer({ showEventAlert, hideEventAlert, eventText }) {
 
   return (
     <Container fluid className="d-flex justify-content-end mt-auto">
-      <Alert showAlert={showPasswordCreatedAlert} alertVariant={"success"} hideAlert={hidePasswordCreatedAlert} 
-        isDismissible={true} alertBody={<p>Password successfully created!</p>}/>
-      <Alert showAlert={showPasswordEdittedAlert} alertVariant={"success"} hideAlert={hidePasswordEdittedAlert} 
-        isDismissible={true} alertBody={<p>Password successfully editted!</p>}/>
-      <Alert showAlert={showPasswordDeletedAlert} alertVariant={"success"} hideAlert={hidePasswordDeletedAlert} 
-        isDismissible={true} alertBody={<p>Password successfully deleted!</p>}/>
+      <Alert showAlert={showEventAlert} alertVariant={"success"} hideAlert={hideEventAlert} 
+        isDismissible={true} alertBody={<p>{eventText}</p>}/>
     </Container>
   )
   

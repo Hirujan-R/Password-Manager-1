@@ -8,7 +8,7 @@ import { addPassword } from '../../../utils/PasswordUtils';
 import './Header.css';
 import { useErrorAlert } from '../../../hooks/useAlertStates';
 
-function Header ({ setQuery, setPasswords, passwords, openPasswordCreatedAlert }) {
+function Header ({ setQuery, setPasswords, passwords, openEventAlert }) {
     const [showCreatePasswordModal, setShowCreatePasswordModal] = useState(false);
     const onHide = () => (setShowCreatePasswordModal(false));
     const onShow = () => (setShowCreatePasswordModal(true));
@@ -25,7 +25,7 @@ function Header ({ setQuery, setPasswords, passwords, openPasswordCreatedAlert }
         } else {
             addPassword({newServiceName, newPassword, passwords, setPasswords});
             onHide();
-            openPasswordCreatedAlert();
+            openEventAlert("Password successfully created!");
         }
     }
 
