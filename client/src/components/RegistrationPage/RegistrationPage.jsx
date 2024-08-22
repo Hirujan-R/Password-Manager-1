@@ -2,15 +2,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from "react";
 import './RegistrationPage.css'
 import { addUser } from "../../utils/apiUtils.jsx";
-import { usePasswordsDontMatchAlert, useGeneralErrorAlert } from "../../hooks/useRegistrationStates.jsx"
+import { useGeneralErrorAlert } from "../../hooks/useRegistrationStates.jsx"
 import MainContent from "./MainContent.jsx";
 import Footer from "./Footer.jsx";
 
 export const RegistrationPage = () => {
-
-
-    // Alert that triggers if passwords don't match.
-    const {showPasswordsDontMatchAlert, hidePasswordsDontMatchAlert, openPasswordsDontMatchAlert} = usePasswordsDontMatchAlert();
 
 
     const { showGeneralErrorAlert, hideGeneralErrorAlert, openGeneralErrorAlert, errorText } = useGeneralErrorAlert();
