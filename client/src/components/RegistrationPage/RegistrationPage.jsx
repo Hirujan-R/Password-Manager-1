@@ -6,7 +6,7 @@ import { useErrorAlert } from "../../hooks/useAlertStates.jsx"
 import MainContent from "./MainContent.jsx";
 import Footer from "./Footer.jsx";
 
-export const RegistrationPage = () => {
+const RegistrationPage = () => {
 
 
     const { showErrorAlert, hideErrorAlert, openErrorAlert, errorText } = useErrorAlert({isTimeout:true});
@@ -32,10 +32,11 @@ export const RegistrationPage = () => {
     return (
         <div className='d-flex flex-column min-vh-100'>
             <MainContent handleRegistration={handleRegistration}/>
-            <Footer showErrorAlert={showErrorAlert} hideErrorAlert={hideErrorAlert} errorText={errorText}
-            />
+            <Footer showErrorAlert={showErrorAlert} hideErrorAlert={hideErrorAlert} errorText={errorText}/>
 
         </div>
             
     )
 }
+
+export default RegistrationPage;
