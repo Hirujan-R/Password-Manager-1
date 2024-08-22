@@ -6,7 +6,7 @@ import "./MainContent.css";
 
 const MainContent = ({handleRegistration}) => {
     return (
-        <Container fluid className="d-flex flex-column justify-content-center align-items-center min-vh-100 ">
+        <Container fluid className="d-flex flex-column justify-content-center align-items-center min-vh-100">
             <Row className="w-100">
                 <Col xs={5} sm={4} lg={{span:3, offset:2}} className="text-sm-end">
                     <p>Enter Username (Email): </p>

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import CreatePasswordModal from './CreatePasswordModal';
-import { useEmptyUsernameAlert, useEmptyPasswordAlert } from '../../../hooks/usePasswordRowStates';
+import { useEmptyServiceNameAlert, useEmptyServicePasswordAlert } from '../../../hooks/usePasswordRowStates';
 import { addPassword } from '../../../utils/PasswordUtils';
 import './Header.css';
 
@@ -13,17 +13,17 @@ function Header ({ setQuery, setPasswords, passwords, openPasswordCreatedAlert }
     const onHide = () => (setShowCreatePasswordModal(false));
     const onShow = () => (setShowCreatePasswordModal(true));
 
-    // Alert that triggers if there no value in the username field.
-    const {showEmptyUsernameAlert, hideEmptyUsernameAlert, openEmptyUsernameAlert} = useEmptyUsernameAlert();
+    // Alert that triggers if there no value in the service field.
+    const {showEmptyServiceNameAlert, hideEmptyServiceNameAlert, openEmptyServiceNameAlert} = useEmptyServiceNameAlert();
 
     // Alert that triggers if there no value in the password field.
-    const {showEmptyPasswordAlert, hideEmptyPasswordAlert, openEmptyPasswordAlert} = useEmptyPasswordAlert();
+    const { showEmptyServicePasswordAlert, hideEmptyServicePasswordAlert, openEmptyServicePasswordAlert} = useEmptyServicePasswordAlert();
 
     function handleAddPassword({newServiceName, newPassword}) {
-        hideEmptyUsernameAlert();
-        hideEmptyPasswordAlert();
-        if (newServiceName=="") {openEmptyUsernameAlert();}
-        else if (newPassword=="") {openEmptyPasswordAlert();}
+        hideEmptyServiceNameAlert();
+        hideEmptyServicePasswordAlert();
+        if (newServiceName=="") {openEmptyServiceNameAlert();}
+        else if (newPassword=="") {openEmptyServicePasswordAlert();}
         else {
             addPassword({newServiceName, newPassword, passwords, setPasswords});
             onHide();
@@ -48,8 +48,8 @@ function Header ({ setQuery, setPasswords, passwords, openPasswordCreatedAlert }
                     </Col>
                 </Row>
                 <CreatePasswordModal show={showCreatePasswordModal} onHide={onHide} handleAddPassword={handleAddPassword} 
-                    showEmptyUsernameAlert={showEmptyUsernameAlert} hideEmptyUsernameAlert={hideEmptyUsernameAlert} 
-                    showEmptyPasswordAlert={showEmptyPasswordAlert} hideEmptyPasswordAlert={hideEmptyPasswordAlert}/>
+                    showEmptyServiceNameAlert={showEmptyServiceNameAlert} hideEmptyServiceNameAlert={hideEmptyServiceNameAlert} 
+                    showEmptyServicePasswordAlert={showEmptyServicePasswordAlert} hideEmptyServicePasswordAlert={hideEmptyServicePasswordAlert}/>
             </Container>
             
             

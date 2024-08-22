@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-
-
 export const useShowCopyTextAlert = () => {
     const [showCopyTextAlert, setShowCopyTextAlert] = useState(false);
     const hideShowCopyTextAlert = () => setShowCopyTextAlert(false);

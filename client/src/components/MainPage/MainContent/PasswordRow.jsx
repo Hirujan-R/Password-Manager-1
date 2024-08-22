@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import ViewPasswordModal from './ViewPasswordModal.jsx';
 import EditPasswordModal from './EditPasswordModal.jsx';
 import DeletePasswordModal from './DeletePasswordModal.jsx';
-import { useViewModal, useEditModal, useDeleteModal, useEmptyUsernameAlert, useEmptyPasswordAlert } from '../../../hooks/usePasswordRowStates.jsx';
+import { useViewModal, useEditModal, useDeleteModal, useEmptyServiceNameAlert, useEmptyServicePasswordAlert } from '../../../hooks/usePasswordRowStates.jsx';
 import { editPassword, deletePassword } from '../../../utils/PasswordUtils.jsx';
 
 
@@ -19,18 +19,18 @@ function PasswordRow({passwords, setPasswords, password, openPasswordEdittedAler
     // Modal for deleting passwor
     const {showDeleteModal, hideDeleteModal, openDeleteModal} = useDeleteModal();
 
-    // Alert that triggers if there no value in the username field.
-    const {showEmptyUsernameAlert, hideEmptyUsernameAlert, openEmptyUsernameAlert} = useEmptyUsernameAlert();
+    // Alert that triggers if there no value in the service field.
+    const {showEmptyServiceNameAlert, hideEmptyServiceNameAlert, openEmptyServiceNameAlert} = useEmptyServiceNameAlert();
 
     // Alert that triggers if there no value in the password field.
-    const {showEmptyPasswordAlert, hideEmptyPasswordAlert, openEmptyPasswordAlert} = useEmptyPasswordAlert();
+    const { showEmptyServicePasswordAlert, hideEmptyServicePasswordAlert, openEmptyServicePasswordAlert} = useEmptyServicePasswordAlert();
 
     // Function for handling the changes made to the password.
     function HandleEditPassword({newServiceName, newPassword}) {
-        hideEmptyUsernameAlert();
-        hideEmptyPasswordAlert();
-        if (newServiceName=="") {openEmptyUsernameAlert();}
-        else if (newPassword=="") {openEmptyPasswordAlert();}
+        hideEmptyServiceNameAlert();
+        hideEmptyServicePasswordAlert();
+        if (newServiceName=="") {openEmptyServiceNameAlert();}
+        else if (newPassword=="") {openEmptyServicePasswordAlert();}
         else {
             const passwordIndex = password.index;
             editPassword({newServiceName, newPassword, passwordIndex, passwords, setPasswords});
@@ -61,9 +61,9 @@ function PasswordRow({passwords, setPasswords, password, openPasswordEdittedAler
                     editPasswordFunction={openEditModal} deletePasswordFunction={openDeleteModal}/>
 
                 <EditPasswordModal show={showEditModal} onHide={hideEditModal} handleEditPassword={HandleEditPassword}
-                    password={password} showEmptyUsernameAlert={showEmptyUsernameAlert} 
-                    hideEmptyUsernameAlert={hideEmptyUsernameAlert} showEmptyPasswordAlert={showEmptyPasswordAlert}
-                    hideEmptyPasswordAlert={hideEmptyPasswordAlert}/>
+                    password={password} showEmptyServiceNameAlert={showEmptyServiceNameAlert} 
+                    hideEmptyServiceNameAlert={hideEmptyServiceNameAlert} showEmptyServicePasswordAlert={showEmptyServicePasswordAlert}
+                    hideEmptyServicePasswordAlert={hideEmptyServicePasswordAlert}/>
 
                 <DeletePasswordModal show={showDeleteModal} onHide={hideDeleteModal} password={password} handleDeletePassword={HandleDeletePassword}/>
             </td>
