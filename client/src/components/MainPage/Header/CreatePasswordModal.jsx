@@ -8,8 +8,7 @@ import './CreatePasswordModal.css';
 
 
 
-function CreatePasswordModal({ show, onHide, handleAddPassword, showEmptyServiceNameAlert, hideEmptyServiceNameAlert,
-  showEmptyServicePasswordAlert, hideEmptyServicePasswordAlert }) {
+function CreatePasswordModal({ show, onHide, handleAddPassword, showGeneralErrorAlert, hideGeneralErrorAlert, errorText }) {
 
 
   const modalTitle = (
@@ -42,8 +41,6 @@ function CreatePasswordModal({ show, onHide, handleAddPassword, showEmptyService
   )
 
   const handleClose = () => {
-    hideEmptyServiceNameAlert();
-    hideEmptyServicePasswordAlert();
     onHide();
   }
 
@@ -61,10 +58,8 @@ function CreatePasswordModal({ show, onHide, handleAddPassword, showEmptyService
         </Button>
       </div>
       <div className='mt-3'>
-        <Alert showAlert={showEmptyServiceNameAlert} alertVariant={'danger'} hideAlert={hideEmptyServiceNameAlert} className='text-center'
-        isDismissible={false} alertBody={<p>⚠️ Error: A service name is required. Please enter a service name to proceed.</p>}/> 
-        <Alert showAlert={showEmptyServicePasswordAlert} alertVariant={'danger'} hideAlert={hideEmptyServicePasswordAlert} className='text-center'
-        isDismissible={false} alertBody={<p>⚠️ Error: A password is required. Please enter a password to proceed.</p>}/>
+        <Alert showAlert={showGeneralErrorAlert} alertVariant={'danger'} hideAlert={hideGeneralErrorAlert} className='text-center'
+        isDismissible={false} alertBody={<p>{errorText}</p>}/> 
     </div>
     </Container>
     

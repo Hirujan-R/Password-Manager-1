@@ -3,8 +3,9 @@ import { Button } from 'react-bootstrap';
 import ViewPasswordModal from './ViewPasswordModal.jsx';
 import EditPasswordModal from './EditPasswordModal.jsx';
 import DeletePasswordModal from './DeletePasswordModal.jsx';
-import { useViewModal, useEditModal, useDeleteModal, useEmptyServiceNameAlert, useEmptyServicePasswordAlert } from '../../../hooks/usePasswordRowStates.jsx';
+import { useViewModal, useEditModal, useDeleteModal } from '../../../hooks/usePasswordRowStates.jsx';
 import { editPassword, deletePassword } from '../../../utils/PasswordUtils.jsx';
+import { useGeneralErrorAlert } from '../../../hooks/useRegistrationStates.jsx';
 
 
 function PasswordRow({passwords, setPasswords, password, openPasswordEdittedAlert, openPasswordDeletedAlert}) {
@@ -19,19 +20,17 @@ function PasswordRow({passwords, setPasswords, password, openPasswordEdittedAler
     // Modal for deleting passwor
     const {showDeleteModal, hideDeleteModal, openDeleteModal} = useDeleteModal();
 
-    // Alert that triggers if there no value in the service field.
-    const {showEmptyServiceNameAlert, hideEmptyServiceNameAlert, openEmptyServiceNameAlert} = useEmptyServiceNameAlert();
 
-    // Alert that triggers if there no value in the password field.
-    const { showEmptyServicePasswordAlert, hideEmptyServicePasswordAlert, openEmptyServicePasswordAlert} = useEmptyServicePasswordAlert();
-
+    const {showGeneralErrorAlert, hideGeneralErrorAlert, openGeneralErrorAlert, errorText} = useGeneralErrorAlert({});
+    
     // Function for handling the changes made to the password.
     function HandleEditPassword({newServiceName, newPassword}) {
-        hideEmptyServiceNameAlert();
-        hideEmptyServicePasswordAlert();
-        if (newServiceName=="") {openEmptyServiceNameAlert();}
-        else if (newPassword=="") {openEmptyServicePasswordAlert();}
-        else {
+        hideGeneralErrorAlert();
+        if (newServiceName=="") {
+            openGeneralErrorAlert("⚠️ Error: A service name is required. Please enter a service name to proceed.")
+        } else if (newPassword=="") {
+            openGeneralErrorAlert("⚠️ Error: A password is required. Please enter a password to proceed.")
+        } else {
             const passwordIndex = password.index;
             editPassword({newServiceName, newPassword, passwordIndex, passwords, setPasswords});
             hideEditModal();
@@ -61,9 +60,8 @@ function PasswordRow({passwords, setPasswords, password, openPasswordEdittedAler
                     editPasswordFunction={openEditModal} deletePasswordFunction={openDeleteModal}/>
 
                 <EditPasswordModal show={showEditModal} onHide={hideEditModal} handleEditPassword={HandleEditPassword}
-                    password={password} showEmptyServiceNameAlert={showEmptyServiceNameAlert} 
-                    hideEmptyServiceNameAlert={hideEmptyServiceNameAlert} showEmptyServicePasswordAlert={showEmptyServicePasswordAlert}
-                    hideEmptyServicePasswordAlert={hideEmptyServicePasswordAlert}/>
+                    password={password} showGeneralErrorAlert={showGeneralErrorAlert} hideGeneralErrorAlert={hideGeneralErrorAlert}
+                    errorText={errorText} />
 
                 <DeletePasswordModal show={showDeleteModal} onHide={hideDeleteModal} password={password} handleDeletePassword={HandleDeletePassword}/>
             </td>

@@ -29,20 +29,3 @@ export const useDeleteModal = () => {
     return {showDeleteModal, hideDeleteModal, openDeleteModal};
 }
 
-// If service name input field is empty on submit
-export function useEmptyServiceNameAlert() {
-    const [showEmptyServiceNameAlert, setshowEmptyServiceNameAlert] = useState(false);
-    const hideEmptyServiceNameAlert = () => setshowEmptyServiceNameAlert(false);
-    const openEmptyServiceNameAlert = () => { setshowEmptyServiceNameAlert(true); };
-
-    return { showEmptyServiceNameAlert, hideEmptyServiceNameAlert, openEmptyServiceNameAlert };
-}
-
-// If service password input field is empty on submit
-export const useEmptyServicePasswordAlert = () => {
-    const [showEmptyServicePasswordAlert, setshowEmptyServicePasswordAlert] = useState(false);
-    const hideEmptyServicePasswordAlert = () => setshowEmptyServicePasswordAlert(false);
-    const openEmptyServicePasswordAlert = () => {setshowEmptyServicePasswordAlert(true);};
-
-    return { showEmptyServicePasswordAlert, hideEmptyServicePasswordAlert, openEmptyServicePasswordAlert };
-}

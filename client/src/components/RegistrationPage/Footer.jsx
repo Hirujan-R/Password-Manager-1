@@ -4,7 +4,6 @@ import { Container } from "react-bootstrap";
 import Alert from "../Alert.jsx";
 
 export default function Footer({showGeneralErrorAlert, hideGeneralErrorAlert, errorText }) {
-  console.log("Footer is rendering");
   return (
     <Container fluid className="d-flex justify-content-end position-fixed bottom-0 pe-3 pb-1">
       <Alert showAlert={showGeneralErrorAlert} alertVariant={"danger"} hideAlert={hideGeneralErrorAlert} 

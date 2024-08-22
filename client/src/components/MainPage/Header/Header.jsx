@@ -4,32 +4,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import CreatePasswordModal from './CreatePasswordModal';
-import { useEmptyServiceNameAlert, useEmptyServicePasswordAlert } from '../../../hooks/usePasswordRowStates';
 import { addPassword } from '../../../utils/PasswordUtils';
 import './Header.css';
+import { useGeneralErrorAlert } from '../../../hooks/useRegistrationStates';
 
 function Header ({ setQuery, setPasswords, passwords, openPasswordCreatedAlert }) {
     const [showCreatePasswordModal, setShowCreatePasswordModal] = useState(false);
     const onHide = () => (setShowCreatePasswordModal(false));
     const onShow = () => (setShowCreatePasswordModal(true));
 
-    // Alert that triggers if there no value in the service field.
-    const {showEmptyServiceNameAlert, hideEmptyServiceNameAlert, openEmptyServiceNameAlert} = useEmptyServiceNameAlert();
-
-    // Alert that triggers if there no value in the password field.
-    const { showEmptyServicePasswordAlert, hideEmptyServicePasswordAlert, openEmptyServicePasswordAlert} = useEmptyServicePasswordAlert();
+    
+    const {showGeneralErrorAlert, hideGeneralErrorAlert, openGeneralErrorAlert, errorText} = useGeneralErrorAlert({});
 
     function handleAddPassword({newServiceName, newPassword}) {
-        hideEmptyServiceNameAlert();
-        hideEmptyServicePasswordAlert();
-        if (newServiceName=="") {openEmptyServiceNameAlert();}
-        else if (newPassword=="") {openEmptyServicePasswordAlert();}
-        else {
+        hideGeneralErrorAlert();
+        if (newServiceName=="") {
+            openGeneralErrorAlert("⚠️ Error: A service name is required. Please enter a service name to proceed.")
+        } else if (newPassword=="") {
+            openGeneralErrorAlert("⚠️ Error: A password is required. Please enter a password to proceed.")
+        } else {
             addPassword({newServiceName, newPassword, passwords, setPasswords});
             onHide();
             openPasswordCreatedAlert();
         }
-
     }
 
     return (
@@ -48,12 +45,10 @@ function Header ({ setQuery, setPasswords, passwords, openPasswordCreatedAlert }
                     </Col>
                 </Row>
                 <CreatePasswordModal show={showCreatePasswordModal} onHide={onHide} handleAddPassword={handleAddPassword} 
-                    showEmptyServiceNameAlert={showEmptyServiceNameAlert} hideEmptyServiceNameAlert={hideEmptyServiceNameAlert} 
-                    showEmptyServicePasswordAlert={showEmptyServicePasswordAlert} hideEmptyServicePasswordAlert={hideEmptyServicePasswordAlert}/>
+                    showGeneralErrorAlert={showGeneralErrorAlert} hideGeneralErrorAlert={hideGeneralErrorAlert} 
+                    errorText={errorText}/>
             </Container>
             
-            
-        
     );
 }
 

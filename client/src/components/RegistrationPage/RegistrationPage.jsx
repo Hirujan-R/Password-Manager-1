@@ -9,7 +9,8 @@ import Footer from "./Footer.jsx";
 export const RegistrationPage = () => {
 
 
-    const { showGeneralErrorAlert, hideGeneralErrorAlert, openGeneralErrorAlert, errorText } = useGeneralErrorAlert();
+    const { showGeneralErrorAlert, hideGeneralErrorAlert, openGeneralErrorAlert, errorText } 
+    = useGeneralErrorAlert({isTimeout:true});
 
     const handleRegistration = ({username, password, checkPassword}) => {
         if (!username) {

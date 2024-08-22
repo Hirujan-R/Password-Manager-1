@@ -8,8 +8,8 @@ import './EditPasswordModal.css';
 
 
 
-function EditPasswordModal({ show, onHide, handleEditPassword, password, showEmptyServiceNameAlert, hideEmptyServiceNameAlert,
-  showEmptyServicePasswordAlert, hideEmptyServicePasswordAlert }) {
+function EditPasswordModal({ show, onHide, handleEditPassword, password, showGeneralErrorAlert, hideGeneralErrorAlert,
+  errorText}) {
 
   const [currentServiceName, setCurrentServiceName] = useState(password.name);
   const [currentPasswordValue, setCurrentPasswordValue] = useState(password.password);
@@ -23,8 +23,7 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showEmp
   };
 
   const handleCloseEditPasswordModal = () => {
-    hideEmptyServiceNameAlert();
-    hideEmptyServicePasswordAlert();
+    hideGeneralErrorAlert();
     onHide();
     setCurrentServiceName(password.name);
     setCurrentPasswordValue(password.password);
@@ -75,10 +74,9 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showEmp
       </Button>
     </div>
     <div className='mt-3'>
-      <Alert showAlert={showEmptyServiceNameAlert} alertVariant={'danger'} hideAlert={hideEmptyServiceNameAlert} className='text-center'
-      isDismissible={false} alertBody={<p>⚠️ Error: A username is required. Please enter a service name to proceed.</p>}/> 
-      <Alert showAlert={showEmptyServicePasswordAlert} alertVariant={'danger'} hideAlert={hideEmptyServicePasswordAlert} className='text-center'
-      isDismissible={false} alertBody={<p>⚠️ Error: A password is required. Please enter a password to proceed.</p>}/>
+      <Alert showAlert={showGeneralErrorAlert} alertVariant={'danger'} hideAlert={hideGeneralErrorAlert} className='text-center'
+      isDismissible={false} alertBody={<p>{errorText}</p>}/> 
+
     </div>
         
     </Container>
