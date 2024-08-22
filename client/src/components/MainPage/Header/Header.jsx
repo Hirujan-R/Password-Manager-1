@@ -6,7 +6,7 @@ import SearchBar from './SearchBar';
 import CreatePasswordModal from './CreatePasswordModal';
 import { addPassword } from '../../../utils/PasswordUtils';
 import './Header.css';
-import { useGeneralErrorAlert } from '../../../hooks/useRegistrationStates';
+import { useErrorAlert } from '../../../hooks/useAlertStates';
 
 function Header ({ setQuery, setPasswords, passwords, openPasswordCreatedAlert }) {
     const [showCreatePasswordModal, setShowCreatePasswordModal] = useState(false);
@@ -14,14 +14,14 @@ function Header ({ setQuery, setPasswords, passwords, openPasswordCreatedAlert }
     const onShow = () => (setShowCreatePasswordModal(true));
 
     
-    const {showGeneralErrorAlert, hideGeneralErrorAlert, openGeneralErrorAlert, errorText} = useGeneralErrorAlert({});
+    const {showErrorAlert, hideErrorAlert, openErrorAlert, errorText} = useErrorAlert({});
 
     function handleAddPassword({newServiceName, newPassword}) {
-        hideGeneralErrorAlert();
+        hideErrorAlert();
         if (newServiceName=="") {
-            openGeneralErrorAlert("⚠️ Error: A service name is required. Please enter a service name to proceed.")
+            openErrorAlert("⚠️ Error: A service name is required. Please enter a service name to proceed.")
         } else if (newPassword=="") {
-            openGeneralErrorAlert("⚠️ Error: A password is required. Please enter a password to proceed.")
+            openErrorAlert("⚠️ Error: A password is required. Please enter a password to proceed.")
         } else {
             addPassword({newServiceName, newPassword, passwords, setPasswords});
             onHide();
@@ -45,7 +45,7 @@ function Header ({ setQuery, setPasswords, passwords, openPasswordCreatedAlert }
                     </Col>
                 </Row>
                 <CreatePasswordModal show={showCreatePasswordModal} onHide={onHide} handleAddPassword={handleAddPassword} 
-                    showGeneralErrorAlert={showGeneralErrorAlert} hideGeneralErrorAlert={hideGeneralErrorAlert} 
+                    showErrorAlert={showErrorAlert} hideErrorAlert={hideErrorAlert} 
                     errorText={errorText}/>
             </Container>
             

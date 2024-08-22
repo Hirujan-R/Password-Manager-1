@@ -6,7 +6,7 @@ const apiClient = axios.create({
     timeout: 10000,
 })
 
-export async function addUser(email, password, openGeneralErrorAlert) {
+export async function addUser(email, password, openErrorAlert) {
     try { 
       const hashedPassword = await hashPassword(password);
       const response = await apiClient.post('/registration', {
@@ -19,21 +19,21 @@ export async function addUser(email, password, openGeneralErrorAlert) {
         // Server responded with error code
         console.error('Server error:', error.response.data.error);
         if (error.response.data.error === "User with this email already exists") {
-          openGeneralErrorAlert("User with this email already exists");
+          openErrorAlert("⚠️ User with this email already exists.");
         }
         else {
-          openGeneralErrorAlert('Server error: ' + error.response.data.error);
+          openErrorAlert('🛑 Server Error: ' + error.response.data.error);
         }
       }
       else if (error.request) {
         // No response from server
         console.error('Network error:', error.message);
-        openGeneralErrorAlert("Network Error: " + error.message);
+        openErrorAlert("🛑 Network Error: " + error.message);
       }
       else {
         // All other errors
         console.error('Error:', error.message);
-        openGeneralErrorAlert("Error: " + error.message);
+        openErrorAlert("🛑 Error: " + error.message);
       }
     }
 }

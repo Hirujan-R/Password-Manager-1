@@ -8,7 +8,7 @@ import './CreatePasswordModal.css';
 
 
 
-function CreatePasswordModal({ show, onHide, handleAddPassword, showGeneralErrorAlert, hideGeneralErrorAlert, errorText }) {
+function CreatePasswordModal({ show, onHide, handleAddPassword, showErrorAlert, hideErrorAlert, errorText }) {
 
 
   const modalTitle = (
@@ -58,7 +58,7 @@ function CreatePasswordModal({ show, onHide, handleAddPassword, showGeneralError
         </Button>
       </div>
       <div className='mt-3'>
-        <Alert showAlert={showGeneralErrorAlert} alertVariant={'danger'} hideAlert={hideGeneralErrorAlert} className='text-center'
+        <Alert showAlert={showErrorAlert} alertVariant={'danger'} hideAlert={hideErrorAlert} className='text-center'
         isDismissible={false} alertBody={<p>{errorText}</p>}/> 
     </div>
     </Container>

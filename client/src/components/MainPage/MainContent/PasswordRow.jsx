@@ -5,7 +5,7 @@ import EditPasswordModal from './EditPasswordModal.jsx';
 import DeletePasswordModal from './DeletePasswordModal.jsx';
 import { useViewModal, useEditModal, useDeleteModal } from '../../../hooks/usePasswordRowStates.jsx';
 import { editPassword, deletePassword } from '../../../utils/PasswordUtils.jsx';
-import { useGeneralErrorAlert } from '../../../hooks/useRegistrationStates.jsx';
+import { useErrorAlert } from '../../../hooks/useAlertStates.jsx';
 
 
 function PasswordRow({passwords, setPasswords, password, openPasswordEdittedAlert, openPasswordDeletedAlert}) {
@@ -21,15 +21,15 @@ function PasswordRow({passwords, setPasswords, password, openPasswordEdittedAler
     const {showDeleteModal, hideDeleteModal, openDeleteModal} = useDeleteModal();
 
 
-    const {showGeneralErrorAlert, hideGeneralErrorAlert, openGeneralErrorAlert, errorText} = useGeneralErrorAlert({});
+    const {showErrorAlert, hideErrorAlert, openErrorAlert, errorText} = useErrorAlert({});
     
     // Function for handling the changes made to the password.
     function HandleEditPassword({newServiceName, newPassword}) {
-        hideGeneralErrorAlert();
+        hideErrorAlert();
         if (newServiceName=="") {
-            openGeneralErrorAlert("⚠️ Error: A service name is required. Please enter a service name to proceed.")
+            openErrorAlert("⚠️ Error: A service name is required. Please enter a service name to proceed.")
         } else if (newPassword=="") {
-            openGeneralErrorAlert("⚠️ Error: A password is required. Please enter a password to proceed.")
+            openErrorAlert("⚠️ Error: A password is required. Please enter a password to proceed.")
         } else {
             const passwordIndex = password.index;
             editPassword({newServiceName, newPassword, passwordIndex, passwords, setPasswords});
@@ -60,7 +60,7 @@ function PasswordRow({passwords, setPasswords, password, openPasswordEdittedAler
                     editPasswordFunction={openEditModal} deletePasswordFunction={openDeleteModal}/>
 
                 <EditPasswordModal show={showEditModal} onHide={hideEditModal} handleEditPassword={HandleEditPassword}
-                    password={password} showGeneralErrorAlert={showGeneralErrorAlert} hideGeneralErrorAlert={hideGeneralErrorAlert}
+                    password={password} showErrorAlert={showErrorAlert} hideErrorAlert={hideErrorAlert}
                     errorText={errorText} />
 
                 <DeletePasswordModal show={showDeleteModal} onHide={hideDeleteModal} password={password} handleDeletePassword={HandleDeletePassword}/>

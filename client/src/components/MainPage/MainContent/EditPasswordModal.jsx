@@ -8,8 +8,7 @@ import './EditPasswordModal.css';
 
 
 
-function EditPasswordModal({ show, onHide, handleEditPassword, password, showGeneralErrorAlert, hideGeneralErrorAlert,
-  errorText}) {
+function EditPasswordModal({ show, onHide, handleEditPassword, password, showErrorAlert, hideErrorAlert, errorText}) {
 
   const [currentServiceName, setCurrentServiceName] = useState(password.name);
   const [currentPasswordValue, setCurrentPasswordValue] = useState(password.password);
@@ -23,7 +22,7 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showGen
   };
 
   const handleCloseEditPasswordModal = () => {
-    hideGeneralErrorAlert();
+    hideErrorAlert();
     onHide();
     setCurrentServiceName(password.name);
     setCurrentPasswordValue(password.password);
@@ -74,7 +73,7 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showGen
       </Button>
     </div>
     <div className='mt-3'>
-      <Alert showAlert={showGeneralErrorAlert} alertVariant={'danger'} hideAlert={hideGeneralErrorAlert} className='text-center'
+      <Alert showAlert={showErrorAlert} alertVariant={'danger'} hideAlert={hideErrorAlert} className='text-center'
       isDismissible={false} alertBody={<p>{errorText}</p>}/> 
 
     </div>
