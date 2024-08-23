@@ -7,11 +7,12 @@ import React, { useState } from 'react';
 import MainPage from './components/MainPage/MainPage';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegistrationPage from './components/RegistrationPage/RegistrationPage'
+import AppRouter from './AppRouter';
 
 const App = () => {
   
   return (
-    <LoginPage />
+    <AppRouter />
     
   );
 };

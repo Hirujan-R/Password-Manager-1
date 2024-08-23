@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col, Button, Container } from "react-bootstrap";
 import { Input } from "../Input";
 import "./MainContent.css";
+import { Link } from "react-router-dom";
 
 
 const MainContent = ({handleRegistration}) => {
@@ -40,7 +41,7 @@ const MainContent = ({handleRegistration}) => {
 
             <Row className="w-100">
                 <Col xs={12} sm={{span:9, offset:2}} lg={{span:4, offset:4}} className="d-flex justify-content-end">
-                    <a href="#" className="login-link link-primary">Have an account? Click here to login!</a>
+                    <Link to="/" className="login-link link-primary">Have an account? Click here to login!</Link>
                     <Button className="ms-4" onClick={() => handleRegistration({
                         username: document.getElementById('usernameInput').value,
                         password: document.getElementById('passwordInput').value,

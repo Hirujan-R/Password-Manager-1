@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
@@ -39,9 +40,11 @@ function Header ({ setQuery, setPasswords, passwords, openEventAlert }) {
                         <Button onClick={onShow} className='add-button me-2'>
                             <FontAwesomeIcon icon={faPlus} />
                         </Button>
-                        <Button className='logout-button d-md-none'>
-                            <FontAwesomeIcon icon={faRightFromBracket} />
-                        </Button>
+                        <Link to={"/"}>
+                            <Button className='logout-button d-md-none'>
+                                <FontAwesomeIcon icon={faRightFromBracket} />
+                            </Button>
+                        </Link>
                     </Col>
                 </Row>
                 <CreatePasswordModal show={showCreatePasswordModal} onHide={onHide} handleAddPassword={handleAddPassword} 

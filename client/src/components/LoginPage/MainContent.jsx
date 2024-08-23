@@ -1,5 +1,6 @@
 import React from "react";
 import { Row, Col, Button, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { Input } from "../Input";
 import "./MainContent.css"
 
@@ -25,7 +26,7 @@ const MainContent = ({ handleLogin }) => {
             </Row>
             <Row className="w-100 mb-5">
                 <Col xs={11} sm={{span:9, offset:1}} lg={{span:4, offset:4}} className="d-flex justify-content-end">
-                    <a href="#" className="register-link link-primary ps-4 ps-lg-0">Don't have an account? Click here to register!</a>
+                    <Link className="register-link link-primary ps-4 ps-lg-0" to="/registration"> Don't have an account? Click here to register!</Link>
                     <Button className="ms-4" onClick={() => handleLogin({
                         username: document.getElementById('usernameInput').value,
                         password: document.getElementById('passwordInput').value
