@@ -8,10 +8,9 @@ const apiClient = axios.create({
 
 export async function addUser(email, password, openErrorAlert) {
     try { 
-      const hashedPassword = await hashPassword(password);
       const response = await apiClient.post('/registration', {
         email: email,
-        password_hash: hashedPassword
+        password: password
       });
       console.log(`User registered successfully! User ID is ${response.data.user_id}`);
     } catch (error) {
@@ -40,21 +39,15 @@ export async function addUser(email, password, openErrorAlert) {
 
 export async function login(email, password, openErrorAlert) {
   try {
-    const response  = await apiClient.get(`/login?email=${encodeURIComponent(email)}`);
-    const isPasswordCorrect = await comparePasswords(password, response.data.password_hash);
-    if (isPasswordCorrect == true) {
-      console.log("User is successfully logged in! User ID is", response.data.user_id);
-      return response.data.user_id;
-    } else {
-      openErrorAlert("⚠️ Password is incorrect.")
-      return;
-    }
+    const response  = await apiClient.get(`/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`);
+    console.log(`User registered logged in! User ID is ${response.data.user_id}`);
+    return response.data.user_id;
   } catch (error) {
     if (error.response) {
       // Server responded with error code
       console.error('Server error:', error.response.data.error);
-      if (error.response.data.error === "User with this email doesn't exist" ) {
-        openErrorAlert("⚠️ User with this email doesn't exist");
+      if (error.response.data.error === 'Incorrect username or password' ) {
+        openErrorAlert("⚠️ Incorrect username or password.");
       } else {
         openErrorAlert('🛑 Server Error: ' + error.response.data.error);
       }
