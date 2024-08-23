@@ -3,7 +3,7 @@ import { Row, Col, Button, Container } from "react-bootstrap";
 import { Input } from "../Input";
 import "./MainContent.css"
 
-const MainContent = ({handleLogin}) => {
+const MainContent = ({ handleLogin }) => {
 
     return (
         <Container fluid className="d-flex flex-column justify-content-center align-items-center min-vh-100">

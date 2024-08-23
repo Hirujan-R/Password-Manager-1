@@ -11,7 +11,7 @@ const LoginPage = () => {
 
     const { showErrorAlert, hideErrorAlert, openErrorAlert, errorText } = useErrorAlert({isTimeout:true});
 
-    const handleLogin = ({username, password}) => {
+    const handleLogin = ({ username, password }) => {
         if (!username) {
             console.log('Email is required');
             openErrorAlert('⚠️ An email is required. Please enter a email to proceed.')

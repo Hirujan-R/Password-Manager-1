@@ -40,14 +40,14 @@ export async function addUser(email, password, openErrorAlert) {
 
 export async function login(email, password, openErrorAlert) {
   try {
-    console.log(email);
-    console.log(password);
     const response  = await apiClient.get(`/login?email=${encodeURIComponent(email)}`);
     const isPasswordCorrect = await comparePasswords(password, response.data.password_hash);
     if (isPasswordCorrect == true) {
       console.log("User is successfully logged in! User ID is", response.data.user_id);
+      return response.data.user_id;
     } else {
       openErrorAlert("⚠️ Password is incorrect.")
+      return;
     }
   } catch (error) {
     if (error.response) {
@@ -67,6 +67,7 @@ export async function login(email, password, openErrorAlert) {
       console.error('Error:', error.message);
       openErrorAlert("🛑 Error: " + error.message);
     }
+    return;
     
   }
 }
