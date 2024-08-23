@@ -25,7 +25,7 @@ const RegistrationPage = () => {
             openErrorAlert("⚠️ Passwords don't match.")
         }
         else {
-            addUser(username, password, openAccountAlreadyExistsAlert, openErrorAlert);
+            addUser(username, password, openErrorAlert);
         }
     }
 

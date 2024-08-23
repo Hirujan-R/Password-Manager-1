@@ -5,14 +5,13 @@ import { Input } from "../Input.jsx";
 import MainContent from "./MainContent.jsx";
 import Footer from "./Footer.jsx";
 import { useErrorAlert } from "../../hooks/useAlertStates.jsx";
+import { login } from "../../utils/apiUtils.jsx";
 
 const LoginPage = () => {
 
     const { showErrorAlert, hideErrorAlert, openErrorAlert, errorText } = useErrorAlert({isTimeout:true});
 
     const handleLogin = ({username, password}) => {
-        console.log(username);
-        console.log(password);
         if (!username) {
             console.log('Email is required');
             openErrorAlert('⚠️ An email is required. Please enter a email to proceed.')
@@ -23,6 +22,7 @@ const LoginPage = () => {
         }
         else {
             console.log("Try to login");
+            login(username, password, openErrorAlert)
         }
     }
 
