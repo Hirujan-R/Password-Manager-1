@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Container, Form, Row, Col, Button, Nav } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import './LoginPage.css'
 import { Input } from "../Input.jsx";
 import MainContent from "./MainContent.jsx";
@@ -10,6 +11,7 @@ import { login } from "../../utils/apiUtils.jsx";
 const LoginPage = () => {
 
     const { showErrorAlert, hideErrorAlert, openErrorAlert, errorText } = useErrorAlert({isTimeout:true});
+    const navigate = useNavigate();
 
     const handleLogin = ({ username, password }) => {
         if (!username) {
@@ -22,7 +24,9 @@ const LoginPage = () => {
         }
         else {
             console.log("Try to login");
-            login(username, password, openErrorAlert)
+            if (login(username, password, openErrorAlert)) {
+                navigate('/main');
+            }
         }
     }
 

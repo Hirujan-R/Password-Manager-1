@@ -1,16 +1,48 @@
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
-const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
+const csrf = require('csrf');
+const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
 const { hashPassword, comparePasswords } = require('./hashUtils.js');
 dotenv.config();
 
 const app = express();
 const port = parseInt(process.env.PORT, 10) || 3000;
 
-app.use(express.json());
-app.use(cors());
+const csrfProtection = csrf();
+const tokens = new csrf();
+
+const verifyToken = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(403).json({ error: "Unauthorised" });
+  }
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user_id = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
+}
+
+const verifyCsrfToken = (req, res, next) => {
+  const csrfToken = req.cookies.csrfToken;
+  if (!csrfToken) {
+    return res.status(403).json({ error: "CSRF token is missing." });
+  }
+  try {
+    if (tokens.verify(process.env.CSRF_SECRET, csrfToken)) {
+      next();
+    } else {
+      res.status(403).json({ error: "Invalid CSRF Token "});
+    }
+  } catch (error) {
+    res.status(403).json({ error: "Invalid CSRF Token "});
+  }
+}
 
 const pool = new Pool({
   user: process.env.PG_USER,
@@ -19,6 +51,12 @@ const pool = new Pool({
   password: process.env.PG_PASSWORD,
   port: parseInt(process.env.PG_PORT, 10) || 5432,
 })
+
+app.use(express.json());
+app.use(cors());
+app.use(cookieParser());
+
+
 
 // Basic route
 app.get('/api/login', async (req, res) => {
@@ -38,10 +76,34 @@ app.get('/api/login', async (req, res) => {
     console.log("Existance of user with inputted email is confirmed.");
     if (await comparePasswords(password, rows[0].password_hash)) {
       console.log("SUCCESS: User logged in successfully");
-      return res.status(200).json({ 
-        message: 'User logged in successfully', 
-        user_id: rows[0].user_id
+
+
+      const token = jwt.sign({ user_id: rows[0].user_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      const csrfToken = tokens.create(process.env.CSRF_SECRET);
+
+      res.cookie('csrfToken', csrfToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict', 
+        maxAge: 3600000
       })
+
+      console.log("CSRF token set.");
+
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 3600000
+      })
+
+      console.log("JWT token set.");
+
+      return res.status(200).json({ 
+        message: 'User logged in successfully',
+      })
+
     } else {
       console.log("ERROR: Incorrect password");
       return res.status(400).json({ error: 'Incorrect username or password' });

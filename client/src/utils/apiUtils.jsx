@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { hashPassword, comparePasswords } from "./PasswordUtils";
+import { useNavigate } from "react-router-dom";
 
 const apiClient = axios.create({
     baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
@@ -40,8 +40,8 @@ export async function addUser(email, password, openErrorAlert) {
 export async function login(email, password, openErrorAlert) {
   try {
     const response  = await apiClient.get(`/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`);
-    console.log(`User registered logged in! User ID is ${response.data.user_id}`);
-    return response.data.user_id;
+    console.log(`User successfully logged in!`);
+    return true;
   } catch (error) {
     if (error.response) {
       // Server responded with error code
@@ -60,7 +60,6 @@ export async function login(email, password, openErrorAlert) {
       console.error('Error:', error.message);
       openErrorAlert("🛑 Error: " + error.message);
     }
-    return;
-    
+    return false;
   }
 }
