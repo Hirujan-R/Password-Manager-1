@@ -8,10 +8,11 @@ import './EditPasswordModal.css';
 
 
 
-function EditPasswordModal({ show, onHide, handleEditPassword, password, showErrorAlert, hideErrorAlert, errorText}) {
+function EditPasswordModal({ show, onHide, handleEditPassword, password, showEditPasswordErrorAlert, 
+  hideEditPasswordErrorAlert, editPasswordErrorText}) {
 
-  const [currentServiceName, setCurrentServiceName] = useState(password.name);
-  const [currentPasswordValue, setCurrentPasswordValue] = useState(password.password);
+  const [currentServiceName, setCurrentServiceName] = useState(password.service_name);
+  const [currentPasswordValue, setCurrentPasswordValue] = useState(password.password_encrypted);
 
   const handleServiceNameChange = (e) => {
     setCurrentServiceName(e.target.value);
@@ -22,10 +23,10 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showErr
   };
 
   const handleCloseEditPasswordModal = () => {
-    hideErrorAlert();
+    hideEditPasswordErrorAlert();
     onHide();
-    setCurrentServiceName(password.name);
-    setCurrentPasswordValue(password.password);
+    setCurrentServiceName(password.service_name);
+    setCurrentPasswordValue(password.password_encrypted);
   };
 
   const modalTitle = (
@@ -65,17 +66,15 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showErr
       <Button variant="secondary" onClick={handleCloseEditPasswordModal}>
         Close
       </Button>
-      <Button variant="primary" onClick={()=>handleEditPassword({
-        newServiceName: document.getElementById('serviceInput').value, 
-        newPassword: document.getElementById('passwordInput').value,
-      })}>
+      <Button variant="primary" onClick={()=>handleEditPassword(
+        {newServiceName: currentServiceName, newPassword: currentPasswordValue})}>
         Save Changes
       </Button>
     </div>
     <div className='mt-3'>
-      <Alert showAlert={showErrorAlert} alertVariant={'danger'} hideAlert={hideErrorAlert} className='text-center'
-      isDismissible={false} alertBody={<p>{errorText}</p>}/> 
-
+      <Alert showAlert={showEditPasswordErrorAlert} alertVariant={'danger'} 
+      hideAlert={hideEditPasswordErrorAlert} className='text-center' isDismissible={false} 
+      alertBody={<p>{editPasswordErrorText}</p>}/> 
     </div>
         
     </Container>

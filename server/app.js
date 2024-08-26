@@ -52,11 +52,11 @@ const verifyCsrfToken = (req, res, next) => {
       next();
     } else {
       console.log("ERROR: Invalid CSRF token.");
-      res.status(400).json({ error: "Invalid CSRF Token "});
+      return res.status(400).json({ error: "Invalid CSRF Token "});
     }
   } catch (error) {
     console.log("ERROR: Invalid CSRF token.");
-    res.status(400).json({ error: "Invalid CSRF Token "});
+    return res.status(400).json({ error: "Invalid CSRF Token "});
   }
 }
 
@@ -70,9 +70,36 @@ const pool = new Pool({
 
 
 
+app.post('/api/registration', async (req, res) => {
+  console.log("POST request received.")
+  const { email, password } = req.body;
 
+  if (!email || !password) {
+    console.log("Error: Email and passwords are required");
+    return res.status(400).json({ error: 'Email and passwords are required'});
+  }
 
-// Basic route
+  try {
+
+    const {rows} = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (rows.length > 0) {
+      console.log("Error: User with this email already exists");
+      return res.status(400).json({ error: "User with this email already exists" });
+    }
+
+    let password_hash = await hashPassword(password);
+    const result = await pool.query('INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING user_id', [email, password_hash]);
+
+    console.log("SUCCESS: User registered successfully.");
+    return res.status(200).json({ message: 'User registered successfully', user_id : result.rows[0].user_id });
+
+  } catch (error) {
+    console.error('Database error:', error);  
+    console.log('Database error:', error); 
+    return res.status(500).json({ error: 'Server error' , details: error.message });
+  }
+});
+
 app.get('/api/login', async (req, res) => {
   console.log("GET request received.")
   const {email, password} = req.query;
@@ -129,47 +156,51 @@ app.get('/api/login', async (req, res) => {
   }
 });
 
-
-app.post('/api/registration', async (req, res) => {
-  console.log("POST request received.")
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    console.log("Error: Email and passwords are required");
-    return res.status(400).json({ error: 'Email and passwords are required'});
-  }
-
-  try {
-
-    const {rows} = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-    if (rows.length > 0) {
-      console.log("Error: User with this email already exists");
-      return res.status(400).json({ error: "User with this email already exists" });
-    }
-
-    let password_hash = await hashPassword(password);
-    const result = await pool.query('INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING user_id', [email, password_hash]);
-
-    console.log("SUCCESS: User registered successfully.");
-    return res.status(201).json({ message: 'User registered successfully', user_id : result.rows[0].user_id });
-
-  } catch (error) {
-    console.error('Database error:', error);  
-    console.log('Database error:', error); 
-    return res.status(500).json({ error: 'Server error' , details: error.message });
-  }
-});
-
 app.get('/api/getpasswords', verifyCsrfToken, verifyToken, async (req, res) => {
   console.log(req.user_id);
   try {
-    const {rows} = await pool.query('SELECT * FROM passwords WHERE user_id = $1', [req.user_id]);
+    const {rows} = await pool.query('SELECT password_id, service_name, password_encrypted FROM passwords WHERE user_id = $1', [req.user_id]);
     return res.status(200).json({ message: "Passwords retrieved.", passwords: rows});
   } catch (error) {
     console.error('Database error:', error);
     console.log('Database error:', error);
     return res.status(500).json({ error: 'Server error' , details: error.message });
   }
+})
+
+app.put('/api/updatepassword', verifyCsrfToken, verifyToken, async (req, res) => {
+  console.log("POST request received");
+  const {password_id, service_name, password} = req.body;
+
+  if (!password_id || !service_name || !password) {
+    // Missing password_id, service_name, or password
+    return res.status(400).json({ error: "Invalid request. Password ID, service name and password need to be provided" });
+  } 
+  
+  try {
+    // prevent multiple quick update requests
+    let {rows} = await pool.query(`SELECT * FROM change_logs WHERE user_id = $1 AND 
+      password_id = $2 AND timestamp >= NOW() - INTERVAL '1 minute'`, [req.user_id, password_id]);
+    if (rows.length > 0) {
+      return res.status(400).json({ error: "Multiple requests within a short period of time are prohibited"});
+    }
+
+    // update passswords table.
+    let updatePasswordQuery = `UPDATE passwords 
+      SET service_name = $1, password_encrypted = $2, updated_at = CURRENT_TIMESTAMP WHERE password_id = $3`;
+    await pool.query(updatePasswordQuery, [service_name, password, password_id]);
+
+    // insert log into change_logs table.
+    let description = "Password with service name " + service_name + " has been updated.";
+    let changeLogQuery = `INSERT INTO change_logs (user_id, password_id, description) VALUES ($1, $2, $3)`;
+    await pool.query(changeLogQuery, [req.user_id, password_id, description]);
+
+    return res.status(200).json({ message: "Password successfully updated." });
+
+  } catch (error) {
+    console.error('Database error: ' + error);
+    console.log('Error:' + error);
+    return res.status(500).json({ error: 'Server error' , details: error.message });} 
 })
 
 // Start the server

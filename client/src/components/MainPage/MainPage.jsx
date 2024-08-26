@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import PASSWORDS from '../../Passwords.jsx';
 import { getPasswords } from '../../utils/apiUtils.jsx';
-import { useEventAlert } from '../../hooks/useAlertStates.jsx';
+import { useEventAlert, useErrorAlert } from '../../hooks/useAlertStates.jsx';
 import { useErrorRetrievingPasswordsModal } from '../../hooks/useModalStates.jsx';
 import ErrorRetrievingPasswordsModal from './MainContent/ErrorRetrievingPasswordsModal.jsx';
 import Header from './Header/Header.jsx';
@@ -20,6 +20,8 @@ const MainPage = () => {
   const [query, setQuery] = useState("");
     
   const { showEventAlert, hideEventAlert, openEventAlert, eventText } = useEventAlert({});
+
+  const {showErrorAlert, hideErrorAlert, openErrorAlert, errorText} = useErrorAlert({isTimeout: true});
 
   const {showErrorRetrievingPasswordsModal, hideErrorRetrievingPasswordsModal, openErrorRetrievingPasswordsModal,
     showErrorRetrievingPasswordsText, setErrorRetrievingPasswordsText} = useErrorRetrievingPasswordsModal();
@@ -47,8 +49,10 @@ const MainPage = () => {
       </div>
       
       <Header setQuery={setQuery} setPasswords={setPasswords} passwords={passwords} openEventAlert={openEventAlert}/>
-      <MainContent passwords={passwords} setPasswords={setPasswords} query={query} openEventAlert={openEventAlert}/>
-      <Footer showEventAlert={showEventAlert} hideEventAlert={hideEventAlert} eventText={eventText}/>
+      <MainContent passwords={passwords} setPasswords={setPasswords} query={query} 
+        openEventAlert={openEventAlert} openErrorAlert={openErrorAlert}/>
+      <Footer showEventAlert={showEventAlert} hideEventAlert={hideEventAlert} eventText={eventText}
+        showErrorAlert={showErrorAlert} hideErrorAlert={hideErrorAlert} errorText={errorText}/>
 
       <ErrorRetrievingPasswordsModal showErrorRetrievingPasswordsModal={showErrorRetrievingPasswordsModal} 
         hideErrorRetrievingPasswordsModal={hideErrorRetrievingPasswordsModal} 

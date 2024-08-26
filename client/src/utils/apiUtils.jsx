@@ -102,3 +102,28 @@ export async function getPasswords(setPasswords) {
   }
   return returnMsg;
 }
+
+export async function editPassword({newServiceName, newPassword, passwordID, setPasswords, openErrorAlert, openEventAlert}) {
+  try {
+    const response = await apiClient.put('/updatepassword', {
+      password_id: passwordID,
+      service_name: newServiceName, 
+      password: newPassword
+    })
+    console.log("User successfully updated password.")
+    getPasswords(setPasswords);
+    openEventAlert("Password has been successfully updated.");
+  } catch (error) {
+    if (error.response) {
+      console.error('⚠️ Server error:', error.response.data.error);
+      openErrorAlert('⚠️ Server error: ' + error.response.data.error);
+    } else if (error.request) {
+      console.error('🛑 Network error:', error.message);
+      openErrorAlert('🛑 Network error: ' + error.message);
+    }
+    else {
+      console.error('🛑 Error:', error.message);
+      openErrorAlert('🛑 Error: ' + error.message);
+    }
+  }
+}
