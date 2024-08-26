@@ -11,36 +11,52 @@ dotenv.config();
 const app = express();
 const port = parseInt(process.env.PORT, 10) || 3000;
 
-const csrfProtection = csrf();
+const csrfProtection = csrf({ secret: process.env.CSRF_SECRET });
 const tokens = new csrf();
 
+app.use(express.json());
+app.use(cors({
+  origin: 'http://localhost:5173', // Replace with your client's origin
+  credentials: true, // Allow credentials (cookies, HTTP authentication)
+}));
+app.use(cookieParser());
+
 const verifyToken = (req, res, next) => {
+  console.log("Start of JWT token verification");
   const token = req.cookies.token;
   if (!token) {
-    return res.status(403).json({ error: "Unauthorised" });
+    console.log("ERROR: JWT token is missing.");
+    return res.status(400).json({ error: "Unauthorised" });
   }
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user_id = decoded;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user_id = decoded.user_id;
+    console.log("SUCCESS: Successful verification of JWT token");
     next();
   } catch (error) {
-    return res.status(401).json({ error: "Invalid token" });
+    console.log("ERROR: Invalid JWT token.");
+    return res.status(400).json({ error: "Invalid JWT token" });
   }
 }
 
 const verifyCsrfToken = (req, res, next) => {
+  console.log("Start of CSRF token verifiaction");
   const csrfToken = req.cookies.csrfToken;
   if (!csrfToken) {
-    return res.status(403).json({ error: "CSRF token is missing." });
+    console.log("ERROR: CSRF token is missing.");
+    return res.status(400).json({ error: "CSRF token is missing." });
   }
   try {
     if (tokens.verify(process.env.CSRF_SECRET, csrfToken)) {
+      console.log("SUCCESS: Successful verification of CSRF token");
       next();
     } else {
-      res.status(403).json({ error: "Invalid CSRF Token "});
+      console.log("ERROR: Invalid CSRF token.");
+      res.status(400).json({ error: "Invalid CSRF Token "});
     }
   } catch (error) {
-    res.status(403).json({ error: "Invalid CSRF Token "});
+    console.log("ERROR: Invalid CSRF token.");
+    res.status(400).json({ error: "Invalid CSRF Token "});
   }
 }
 
@@ -52,9 +68,7 @@ const pool = new Pool({
   port: parseInt(process.env.PG_PORT, 10) || 5432,
 })
 
-app.use(express.json());
-app.use(cors());
-app.use(cookieParser());
+
 
 
 
@@ -84,8 +98,8 @@ app.get('/api/login', async (req, res) => {
 
       res.cookie('csrfToken', csrfToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict', 
+        secure: true,
+        sameSite: 'None', 
         maxAge: 3600000
       })
 
@@ -93,8 +107,8 @@ app.get('/api/login', async (req, res) => {
 
       res.cookie('token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
+        secure: true,
+        sameSite: 'None',
         maxAge: 3600000
       })
 
@@ -116,7 +130,7 @@ app.get('/api/login', async (req, res) => {
 });
 
 
-app.post('/api/registration', async (req,res) => {
+app.post('/api/registration', async (req, res) => {
   console.log("POST request received.")
   const { email, password } = req.body;
 
@@ -145,6 +159,18 @@ app.post('/api/registration', async (req,res) => {
     return res.status(500).json({ error: 'Server error' , details: error.message });
   }
 });
+
+app.get('/api/getpasswords', verifyCsrfToken, verifyToken, async (req, res) => {
+  console.log(req.user_id);
+  try {
+    const {rows} = await pool.query('SELECT * FROM passwords WHERE user_id = $1', [req.user_id]);
+    return res.status(200).json({ message: "Passwords retrieved.", passwords: rows});
+  } catch (error) {
+    console.error('Database error:', error);
+    console.log('Database error:', error);
+    return res.status(500).json({ error: 'Server error' , details: error.message });
+  }
+})
 
 // Start the server
 app.listen(port, () => {

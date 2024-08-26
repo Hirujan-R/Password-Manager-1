@@ -29,3 +29,15 @@ export const useDeleteModal = () => {
     return {showDeleteModal, hideDeleteModal, openDeleteModal};
 }
 
+
+// Modal for redirecting users when there is an error fetching passwords from server
+export const useErrorRetrievingPasswordsModal = () => {
+    const [showErrorRetrievingPasswordsModal, setErrorRetrievingPasswordsModal] = useState(false);
+    const hideErrorRetrievingPasswordsModal = () => setErrorRetrievingPasswordsModal(false);
+    const openErrorRetrievingPasswordsModal = () => setErrorRetrievingPasswordsModal(true);
+    const [showErrorRetrievingPasswordsText, setErrorRetrievingPasswordsText] = useState("");
+
+    return {showErrorRetrievingPasswordsModal, hideErrorRetrievingPasswordsModal, openErrorRetrievingPasswordsModal,
+        showErrorRetrievingPasswordsText, setErrorRetrievingPasswordsText}
+}
+

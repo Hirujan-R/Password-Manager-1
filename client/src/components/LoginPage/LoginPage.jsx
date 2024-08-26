@@ -13,7 +13,7 @@ const LoginPage = () => {
     const { showErrorAlert, hideErrorAlert, openErrorAlert, errorText } = useErrorAlert({isTimeout:true});
     const navigate = useNavigate();
 
-    const handleLogin = ({ username, password }) => {
+    const handleLogin = async ({ username, password }) => {
         if (!username) {
             console.log('Email is required');
             openErrorAlert('⚠️ An email is required. Please enter a email to proceed.')
@@ -24,7 +24,7 @@ const LoginPage = () => {
         }
         else {
             console.log("Try to login");
-            if (login(username, password, openErrorAlert)) {
+            if ( await login(username, password, openErrorAlert) === true ) {
                 navigate('/main');
             }
         }

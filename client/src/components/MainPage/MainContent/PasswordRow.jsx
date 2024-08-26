@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import ViewPasswordModal from './ViewPasswordModal.jsx';
 import EditPasswordModal from './EditPasswordModal.jsx';
 import DeletePasswordModal from './DeletePasswordModal.jsx';
-import { useViewModal, useEditModal, useDeleteModal } from '../../../hooks/usePasswordRowStates.jsx';
+import { useViewModal, useEditModal, useDeleteModal } from '../../../hooks/useModalStates.jsx';
 import { editPassword, deletePassword } from '../../../utils/PasswordUtils.jsx';
 import { useErrorAlert } from '../../../hooks/useAlertStates.jsx';
 

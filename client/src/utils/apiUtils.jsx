@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
 
 const apiClient = axios.create({
     baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
     timeout: 20000,
+    withCredentials: true
 })
 
 export async function addUser(email, password, openErrorAlert) {
@@ -62,4 +62,43 @@ export async function login(email, password, openErrorAlert) {
     }
     return false;
   }
+}
+
+export async function getPasswords(setPasswords) {
+  let returnMsg = ""; 
+  try {
+    console.log("Start of cookie verification");
+    const response = await apiClient.get(`/getpasswords`);
+    setPasswords(response.data.passwords);
+    console.log("Cookies verified");
+    returnMsg = "Passwords retrieved";
+  } catch (error) {
+    if (error.response) {
+      // Server responded with error code
+      if (error.response.status === 500) {
+        console.log("Database Error:", error.response.data.error);
+        console.error("Database Error:", error.response.data.error);
+        returnMsg = "🛑 Error: Failure to connect to database";
+      } else if (error.response.status === 400) {
+        console.log("Session Cookie Error:", error.response.data.error);
+        console.error("Session Cookie Error:", error.response.data.error);
+        returnMsg = "⚠️ Error: Invalid session";
+      } else {
+        console.log("Server Error:" , error.response.data.error);
+        console.error("Server Error:" , error.response.data.error);
+        returnMsg = "🛑 Error: " + error.response.data.error;
+      }
+    } else if (error.request) {
+      // No response from server
+      console.log('Network error:', error.message);
+      console.error('Network error:', error.message);
+      returnMsg = "🛑 Error: " + error.message; 
+    } else {
+      // All other errors
+      console.error('Error:', error.message);
+      console.error("Error: " + error.message);
+      returnMsg = "🛑 Error: " + error.message; 
+    }
+  }
+  return returnMsg;
 }
