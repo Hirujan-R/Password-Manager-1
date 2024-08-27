@@ -33,9 +33,11 @@ function PasswordRow({passwords, setPasswords, password, openEventAlert, openErr
         } else {
             hideEditModal();
             hideViewModal();
-            editPassword({newServiceName: newServiceName, newPassword: newPassword, 
-                passwordID: password.password_id, setPasswords: setPasswords, 
-                openErrorAlert: openErrorAlert, openEventAlert: openEventAlert});
+            if ((newServiceName != password.service_name) || (newPassword != password.password_encrypted)) {
+                editPassword({newServiceName: newServiceName, newPassword: newPassword, 
+                    passwordID: password.password_id, setPasswords: setPasswords, 
+                    openErrorAlert: openErrorAlert, openEventAlert: openEventAlert});
+            }
         }
     }
 
