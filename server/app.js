@@ -6,6 +6,8 @@ const csrf = require('csrf');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const { hashPassword, comparePasswords } = require('./hashUtils.js');
+const { generateDataKey, decryptDataKey } = require('./kmsUtils.js');
+const { encryptPassword, decryptPassword } = require('./encryptionUtils.js');
 dotenv.config();
 
 const app = express();
@@ -59,6 +61,10 @@ const verifyCsrfToken = (req, res, next) => {
     return res.status(400).json({ error: "Invalid CSRF Token "});
   }
 }
+
+
+
+
 
 const pool = new Pool({
   user: process.env.PG_USER,
@@ -159,8 +165,21 @@ app.get('/api/login', async (req, res) => {
 app.get('/api/getpasswords', verifyCsrfToken, verifyToken, async (req, res) => {
   console.log(req.user_id);
   try {
-    const {rows} = await pool.query('SELECT password_id, service_name, password_encrypted FROM passwords WHERE user_id = $1', [req.user_id]);
-    return res.status(200).json({ message: "Passwords retrieved.", passwords: rows});
+    const {rows} = await pool.query('SELECT password_id, service_name, password_encrypted, encrypted_data_key FROM passwords WHERE user_id = $1', [req.user_id]);
+    if (rows.length === 0) {
+      return res.status(200).json({ message: "No Passwords" });
+    }
+    const return_rows = await Promise.all(rows.map(async (row) => {
+      if (row.encrypted_data_key) { 
+        const decryptedDataKey = decryptDataKey(row.encrypted_data_key);
+        return {
+          password_id: row.password_id,
+          service_name: row.service_name,
+          password: decryptPassword(row.password_encrypted, decryptedDataKey)
+        }
+      }
+    }));
+    return res.status(200).json({ message: "Passwords retrieved", passwords: return_rows});
   } catch (error) {
     console.error('Database error:', error);
     console.log('Database error:', error);
@@ -179,23 +198,27 @@ app.put('/api/updatepassword', verifyCsrfToken, verifyToken, async (req, res) =>
   
   try {
     // prevent multiple quick update requests
-    let {rows} = await pool.query(`SELECT * FROM change_logs WHERE user_id = $1 AND 
+    const {rows: recentChangeLogs} = await pool.query(`SELECT * FROM change_logs WHERE user_id = $1 AND 
       password_id = $2 AND timestamp >= NOW() - INTERVAL '1 minute'`, [req.user_id, password_id]);
-    if (rows.length > 0) {
+    if (recentChangeLogs.length > 0) {
       return res.status(400).json({ error: "Multiple requests within a short period of time are prohibited"});
     }
 
     // update passswords table.
-    let updatePasswordQuery = `UPDATE passwords 
-      SET service_name = $1, password_encrypted = $2, updated_at = CURRENT_TIMESTAMP WHERE password_id = $3`;
-    await pool.query(updatePasswordQuery, [service_name, password, password_id]);
-
+    const {rows: encrypted_data_key_rows} = await pool.query(`SELECT encrypted_data_key from passwords WHERE password_id = $1`, [password_id]);
+    if (encrypted_data_key_rows.length > 0) {
+      let data_key = decryptDataKey(encrypted_data_key_rows[0].encrypted_data_key);
+      let updatePasswordQuery = `UPDATE passwords 
+        SET service_name = $1, password_encrypted = $2, updated_at = CURRENT_TIMESTAMP WHERE password_id = $3`;
+      await pool.query(updatePasswordQuery, [service_name, encryptPassword(password, data_key), password_id]);
+    
     // insert log into change_logs table.
     let description = "Password with service name " + service_name + " has been updated.";
     let changeLogQuery = `INSERT INTO change_logs (user_id, password_id, description) VALUES ($1, $2, $3)`;
     await pool.query(changeLogQuery, [req.user_id, password_id, description]);
 
     return res.status(200).json({ message: "Password successfully updated." });
+    } else {return res.status(400).json({ error: "Error updating password. Password doesn't exist in database"});}
 
   } catch (error) {
     console.error('Database error: ' + error);

@@ -69,9 +69,11 @@ export async function getPasswords(setPasswords) {
   try {
     console.log("Start of cookie verification");
     const response = await apiClient.get(`/getpasswords`);
-    setPasswords(response.data.passwords);
+    if (response.data.message != "No Passwords") {
+      setPasswords(response.data.passwords);
+    }
     console.log("Cookies verified");
-    returnMsg = "Passwords retrieved";
+    returnMsg = response.data.message;
   } catch (error) {
     if (error.response) {
       // Server responded with error code

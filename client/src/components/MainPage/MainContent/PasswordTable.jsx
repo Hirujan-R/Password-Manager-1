@@ -15,7 +15,7 @@ function PasswordTable({passwords, setPasswords, query, openEventAlert, openErro
     }
 
     const rows = [];
-    const tableItems = getFilteredItems(query, passwords);
+    const tableItems = getFilteredItems();
 
     
 
@@ -23,13 +23,13 @@ function PasswordTable({passwords, setPasswords, query, openEventAlert, openErro
         while (rows.length > 0) {
             rows.pop();
         }
-        tableItems.forEach((password) => {
-        rows.push(
-            <PasswordRow passwords={passwords} setPasswords={setPasswords} password={password} 
-            openEventAlert={openEventAlert} openErrorAlert={openErrorAlert}/>
-        )
-    })
-    }
+        if (tableItems.length === 0) {
+            tableItems.forEach((password) => {
+                rows.push(
+                    <PasswordRow passwords={passwords} setPasswords={setPasswords} password={password} 
+                    openEventAlert={openEventAlert} openErrorAlert={openErrorAlert}/>)    
+        })
+    }}
 
     CreateRows();
     

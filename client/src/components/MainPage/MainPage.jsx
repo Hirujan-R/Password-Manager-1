@@ -16,7 +16,7 @@ import Footer from './Footer/Footer.jsx';
 const MainPage = () => {
 
   // State managing passwords
-  const [passwords, setPasswords] = useState([]);
+  const [passwords, setPasswords] = useState({});
   const [query, setQuery] = useState("");
     
   const { showEventAlert, hideEventAlert, openEventAlert, eventText } = useEventAlert({});
@@ -29,7 +29,7 @@ const MainPage = () => {
   useEffect(() => {
     const fetchPasswords = async () => {
       const returnMsg = await getPasswords(setPasswords);
-      if (returnMsg != "Passwords retrieved") {
+      if (returnMsg != "Passwords retrieved" && returnMsg != "No Passwords") {
         setErrorRetrievingPasswordsText(returnMsg);
         openErrorRetrievingPasswordsModal();
       }

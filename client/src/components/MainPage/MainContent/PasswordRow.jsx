@@ -33,7 +33,7 @@ function PasswordRow({passwords, setPasswords, password, openEventAlert, openErr
         } else {
             hideEditModal();
             hideViewModal();
-            if ((newServiceName != password.service_name) || (newPassword != password.password_encrypted)) {
+            if ((newServiceName != password.service_name) || (newPassword != password.password)) {
                 editPassword({newServiceName: newServiceName, newPassword: newPassword, 
                     passwordID: password.password_id, setPasswords: setPasswords, 
                     openErrorAlert: openErrorAlert, openEventAlert: openEventAlert});
