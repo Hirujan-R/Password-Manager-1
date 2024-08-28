@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PasswordRow from './PasswordRow';
 import { Container, Table, Row, Col } from 'react-bootstrap';
 import './PasswordTable.css'
@@ -6,35 +6,23 @@ import './PasswordTable.css'
 
 function PasswordTable({passwords, setPasswords, query, openEventAlert, openErrorAlert}) {
 
-
-    function getFilteredItems() {
+    const tableItems = useMemo(() => {
         if (!query) {
             return passwords;
         }
-        return passwords.filter(password => password.name.toLowerCase().includes(query.toLowerCase()));
-    }
+        return passwords.filter(password => password.service_name.toLowerCase.includes(query.toLowerCase()));
+    }, [passwords, query]);
 
-    const rows = [];
-    const tableItems = getFilteredItems();
-
-    
-
-    function CreateRows() {
-        while (rows.length > 0) {
-            rows.pop();
-        }
-        if (tableItems.length === 0) {
-            tableItems.forEach((password) => {
-                rows.push(
-                    <PasswordRow passwords={passwords} setPasswords={setPasswords} password={password} 
-                    openEventAlert={openEventAlert} openErrorAlert={openErrorAlert}/>)    
-        })
-    }}
-
-    CreateRows();
-    
+    const rows = useMemo(() => {
+        return tableItems.map((password) => (
+            <PasswordRow passwords={passwords} setPasswords={setPasswords} password={password}
+                openEventAlert={openEventAlert} openErrorAlert={openErrorAlert}/>
+        ));
+    }, [tableItems, passwords, setPasswords, openEventAlert, openErrorAlert]);
 
     
+    
+
 
     return (
         <Container fluid className='table-container'>

@@ -6,6 +6,7 @@ import { faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import CreatePasswordModal from './CreatePasswordModal';
 import { addPassword } from '../../../utils/PasswordUtils';
+import { createPassword } from '../../../utils/apiUtils';
 import './Header.css';
 import { useErrorAlert } from '../../../hooks/useAlertStates';
 
@@ -24,9 +25,9 @@ function Header ({ setQuery, setPasswords, passwords, openEventAlert }) {
         } else if (newPassword=="") {
             openErrorAlert("⚠️ Error: A password is required. Please enter a password to proceed.")
         } else {
-            addPassword({newServiceName, newPassword, passwords, setPasswords});
+            createPassword({serviceName: newServiceName, password: newPassword, 
+                openEventAlert, openErrorAlert, setPasswords})
             onHide();
-            openEventAlert("Password successfully created!");
         }
     }
 

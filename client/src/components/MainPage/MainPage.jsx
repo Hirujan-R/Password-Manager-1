@@ -16,7 +16,7 @@ import Footer from './Footer/Footer.jsx';
 const MainPage = () => {
 
   // State managing passwords
-  const [passwords, setPasswords] = useState({});
+  const [passwords, setPasswords] = useState([]);
   const [query, setQuery] = useState("");
     
   const { showEventAlert, hideEventAlert, openEventAlert, eventText } = useEventAlert({});
@@ -36,6 +36,10 @@ const MainPage = () => {
     }
     fetchPasswords();
   }, []);
+
+  useEffect(() => {
+    console.log('Updated Passwords State:', passwords[0]);
+  }, [passwords]);
   
   return (
     <div className="main-page d-flex flex-column min-vh-100">

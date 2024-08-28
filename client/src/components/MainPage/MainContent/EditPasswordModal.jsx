@@ -12,7 +12,7 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showEdi
   hideEditPasswordErrorAlert, editPasswordErrorText}) {
 
   const [currentServiceName, setCurrentServiceName] = useState(password.service_name);
-  const [currentPasswordValue, setCurrentPasswordValue] = useState(password.password_encrypted);
+  const [currentPasswordValue, setCurrentPasswordValue] = useState(password.password);
 
   const handleServiceNameChange = (e) => {
     setCurrentServiceName(e.target.value);
@@ -26,7 +26,7 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showEdi
     hideEditPasswordErrorAlert();
     onHide();
     setCurrentServiceName(password.service_name);
-    setCurrentPasswordValue(password.password_encrypted);
+    setCurrentPasswordValue(password.password);
   };
 
   const modalTitle = (

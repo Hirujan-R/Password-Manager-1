@@ -77,7 +77,7 @@ const pool = new Pool({
 
 
 app.post('/api/registration', async (req, res) => {
-  console.log("POST request received.")
+  console.log("Registration request received")
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -107,7 +107,7 @@ app.post('/api/registration', async (req, res) => {
 });
 
 app.get('/api/login', async (req, res) => {
-  console.log("GET request received.")
+  console.log("Login request received")
   const {email, password} = req.query;
   if (!email || !password) {
     console.log("Error: Email or password is missing.");
@@ -163,23 +163,29 @@ app.get('/api/login', async (req, res) => {
 });
 
 app.get('/api/getpasswords', verifyCsrfToken, verifyToken, async (req, res) => {
-  console.log(req.user_id);
+  console.log('Get Passwords request received');
   try {
     const {rows} = await pool.query('SELECT password_id, service_name, password_encrypted, encrypted_data_key FROM passwords WHERE user_id = $1', [req.user_id]);
     if (rows.length === 0) {
       return res.status(200).json({ message: "No Passwords" });
     }
-    const return_rows = await Promise.all(rows.map(async (row) => {
+    const password_rows = await Promise.all(rows.map(async (row) => {
       if (row.encrypted_data_key) { 
-        const decryptedDataKey = decryptDataKey(row.encrypted_data_key);
+        const decryptedDataKey = await decryptDataKey(row.encrypted_data_key);
         return {
           password_id: row.password_id,
           service_name: row.service_name,
           password: decryptPassword(row.password_encrypted, decryptedDataKey)
         }
+      } else {
+        return {
+          password_id: row.password_id,
+          service_name: row.service_name,
+          password: "Error retrieving password. Please delete the password"
+        }
       }
     }));
-    return res.status(200).json({ message: "Passwords retrieved", passwords: return_rows});
+    return res.status(200).json({ message: "Passwords retrieved", passwords: password_rows });
   } catch (error) {
     console.error('Database error:', error);
     console.log('Database error:', error);
@@ -187,8 +193,36 @@ app.get('/api/getpasswords', verifyCsrfToken, verifyToken, async (req, res) => {
   }
 })
 
+app.post('/api/createpassword', verifyCsrfToken, verifyToken, async (req, res) => {
+  console.log('Create Password request received');
+  const {service_name, password} = req.body;
+  if (!service_name || !password) {
+    // Missing service_name, or password
+    return res.status(400).json({ error: "Invalid request. Service name and password need to be provided" });
+  } 
+
+  try {
+    //Inserting password in database
+    const {dataKey: data_key, encryptedDataKey: encrypted_data_key} = await generateDataKey();
+    const {rows: password_id_row} = await pool.query(`INSERT INTO passwords (user_id, service_name, password_encrypted, encrypted_data_key) 
+      VALUES ($1, $2, $3, $4) RETURNING password_id`, 
+      [req.user_id, service_name, encryptPassword({password, dataKey: data_key}), encrypted_data_key]);
+
+    // Insert log into change table
+    let description = "Password with service name " + service_name + " has been created.";
+    let changeLogQuery = `INSERT INTO change_logs (user_id, password_id, description) VALUES ($1, $2, $3)`;
+    await pool.query(changeLogQuery, [parseInt(req.user_id,10), password_id_row[0].password_id, description]);
+
+    return res.status(200).json({ message: 'Password successfully created.' });
+  } catch (error) {
+    console.error('Database error: ' + error);
+    console.log('Error:' + error);
+    return res.status(500).json({ error: 'Server error' , details: error.message });
+  }
+})
+
 app.put('/api/updatepassword', verifyCsrfToken, verifyToken, async (req, res) => {
-  console.log("POST request received");
+  console.log("Update Password request received");
   const {password_id, service_name, password} = req.body;
 
   if (!password_id || !service_name || !password) {
@@ -207,7 +241,7 @@ app.put('/api/updatepassword', verifyCsrfToken, verifyToken, async (req, res) =>
     // update passswords table.
     const {rows: encrypted_data_key_rows} = await pool.query(`SELECT encrypted_data_key from passwords WHERE password_id = $1`, [password_id]);
     if (encrypted_data_key_rows.length > 0) {
-      let data_key = decryptDataKey(encrypted_data_key_rows[0].encrypted_data_key);
+      let data_key = await decryptDataKey(encrypted_data_key_rows[0].encrypted_data_key);
       let updatePasswordQuery = `UPDATE passwords 
         SET service_name = $1, password_encrypted = $2, updated_at = CURRENT_TIMESTAMP WHERE password_id = $3`;
       await pool.query(updatePasswordQuery, [service_name, encryptPassword(password, data_key), password_id]);

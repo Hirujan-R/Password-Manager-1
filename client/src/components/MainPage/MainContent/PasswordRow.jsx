@@ -43,8 +43,6 @@ function PasswordRow({passwords, setPasswords, password, openEventAlert, openErr
 
     // Function for handling deletion password.
     function HandleDeletePassword() {
-        const passwordIndex = password.index;
-        deletePassword({passwordIndex, passwords, setPasswords});
         hideDeleteModal();
         hideViewModal();
         openEventAlert("Password successfully deleted!");

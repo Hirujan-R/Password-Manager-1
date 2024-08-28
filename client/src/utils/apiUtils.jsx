@@ -70,7 +70,9 @@ export async function getPasswords(setPasswords) {
     console.log("Start of cookie verification");
     const response = await apiClient.get(`/getpasswords`);
     if (response.data.message != "No Passwords") {
-      setPasswords(response.data.passwords);
+      if (Array.isArray(response.data.passwords) && response.data.passwords.length > 0) {
+        setPasswords(response.data.passwords);
+      }
     }
     console.log("Cookies verified");
     returnMsg = response.data.message;
@@ -102,7 +104,31 @@ export async function getPasswords(setPasswords) {
       returnMsg = "🛑 Error: " + error.message; 
     }
   }
+  console.log(returnMsg);
   return returnMsg;
+}
+
+export async function createPassword({serviceName, password, openEventAlert, openErrorAlert, setPasswords}) {
+  try {
+    const response = await apiClient.post('/createpassword', {
+      service_name: serviceName,
+      password: password
+    })
+    console.log('Password successfully created')
+    getPasswords(setPasswords);
+    openEventAlert("Password successfully created.");
+  } catch (error) {
+    if (error.response) {
+      console.error('⚠️ Server error:', error.response.data.error);
+      openErrorAlert('⚠️ Server error: ' + error.response.data.error);
+    } else if (error.request) {
+      console.error('🛑 Network error:', error.message);
+      openErrorAlert('🛑 Network error: ' + error.message);
+    } else {
+      console.error('🛑 Error:', error.message);
+      openErrorAlert('🛑 Error: ' + error.message);
+    }
+  }
 }
 
 export async function editPassword({newServiceName, newPassword, passwordID, setPasswords, openErrorAlert, openEventAlert}) {
