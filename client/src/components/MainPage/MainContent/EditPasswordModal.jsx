@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import Modal from '../../Modal.jsx';
 import { randomisePassword } from '../../../utils/PasswordUtils.jsx';
@@ -13,6 +13,13 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showEdi
 
   const [currentServiceName, setCurrentServiceName] = useState(password.service_name);
   const [currentPasswordValue, setCurrentPasswordValue] = useState(password.password);
+
+  useEffect(() => {
+    if (show) {
+      setCurrentServiceName(password.service_name);
+      setCurrentPasswordValue(password.password);
+    }
+  }, [show, password.service_name, password.password])
 
   const handleServiceNameChange = (e) => {
     setCurrentServiceName(e.target.value);
@@ -66,8 +73,8 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password, showEdi
       <Button variant="secondary" onClick={handleCloseEditPasswordModal}>
         Close
       </Button>
-      <Button variant="primary" onClick={()=>handleEditPassword(
-        {newServiceName: currentServiceName, newPassword: currentPasswordValue})}>
+      <Button variant="primary" onClick={()=>
+        handleEditPassword({newServiceName: currentServiceName, newPassword: currentPasswordValue})}>
         Save Changes
       </Button>
     </div>

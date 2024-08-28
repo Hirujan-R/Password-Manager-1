@@ -36,10 +36,6 @@ const MainPage = () => {
     }
     fetchPasswords();
   }, []);
-
-  useEffect(() => {
-    console.log('Updated Passwords State:', passwords[0]);
-  }, [passwords]);
   
   return (
     <div className="main-page d-flex flex-column min-vh-100">

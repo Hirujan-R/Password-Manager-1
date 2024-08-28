@@ -67,44 +67,36 @@ export async function login(email, password, openErrorAlert) {
 export async function getPasswords(setPasswords) {
   let returnMsg = ""; 
   try {
-    console.log("Start of cookie verification");
     const response = await apiClient.get(`/getpasswords`);
     if (response.data.message != "No Passwords") {
       if (Array.isArray(response.data.passwords) && response.data.passwords.length > 0) {
         setPasswords(response.data.passwords);
       }
     }
-    console.log("Cookies verified");
     returnMsg = response.data.message;
   } catch (error) {
     if (error.response) {
       // Server responded with error code
       if (error.response.status === 500) {
-        console.log("Database Error:", error.response.data.error);
         console.error("Database Error:", error.response.data.error);
         returnMsg = "🛑 Error: Failure to connect to database";
       } else if (error.response.status === 400) {
-        console.log("Session Cookie Error:", error.response.data.error);
         console.error("Session Cookie Error:", error.response.data.error);
         returnMsg = "⚠️ Error: Invalid session";
       } else {
-        console.log("Server Error:" , error.response.data.error);
         console.error("Server Error:" , error.response.data.error);
         returnMsg = "🛑 Error: " + error.response.data.error;
       }
     } else if (error.request) {
       // No response from server
-      console.log('Network error:', error.message);
       console.error('Network error:', error.message);
       returnMsg = "🛑 Error: " + error.message; 
     } else {
       // All other errors
-      console.error('Error:', error.message);
       console.error("Error: " + error.message);
       returnMsg = "🛑 Error: " + error.message; 
     }
   }
-  console.log(returnMsg);
   return returnMsg;
 }
 
@@ -114,13 +106,14 @@ export async function createPassword({serviceName, password, openEventAlert, ope
       service_name: serviceName,
       password: password
     })
-    console.log('Password successfully created')
     getPasswords(setPasswords);
     openEventAlert("Password successfully created.");
   } catch (error) {
     if (error.response) {
       console.error('⚠️ Server error:', error.response.data.error);
       openErrorAlert('⚠️ Server error: ' + error.response.data.error);
+
+      // Error codes for invalid cookies and sessions
     } else if (error.request) {
       console.error('🛑 Network error:', error.message);
       openErrorAlert('🛑 Network error: ' + error.message);
@@ -138,13 +131,15 @@ export async function editPassword({newServiceName, newPassword, passwordID, set
       service_name: newServiceName, 
       password: newPassword
     })
-    console.log("User successfully updated password.")
     getPasswords(setPasswords);
     openEventAlert("Password has been successfully updated.");
   } catch (error) {
     if (error.response) {
       console.error('⚠️ Server error:', error.response.data.error);
       openErrorAlert('⚠️ Server error: ' + error.response.data.error);
+
+
+      // Error codes for invalid cookies and sessions
     } else if (error.request) {
       console.error('🛑 Network error:', error.message);
       openErrorAlert('🛑 Network error: ' + error.message);

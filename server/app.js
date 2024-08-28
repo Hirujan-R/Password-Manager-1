@@ -165,7 +165,8 @@ app.get('/api/login', async (req, res) => {
 app.get('/api/getpasswords', verifyCsrfToken, verifyToken, async (req, res) => {
   console.log('Get Passwords request received');
   try {
-    const {rows} = await pool.query('SELECT password_id, service_name, password_encrypted, encrypted_data_key FROM passwords WHERE user_id = $1', [req.user_id]);
+    const {rows} = await pool.query(`SELECT password_id, service_name, password_encrypted, encrypted_data_key FROM passwords 
+      WHERE user_id = $1 ORDER BY created_at`, [req.user_id]);
     if (rows.length === 0) {
       return res.status(200).json({ message: "No Passwords" });
     }
@@ -244,7 +245,7 @@ app.put('/api/updatepassword', verifyCsrfToken, verifyToken, async (req, res) =>
       let data_key = await decryptDataKey(encrypted_data_key_rows[0].encrypted_data_key);
       let updatePasswordQuery = `UPDATE passwords 
         SET service_name = $1, password_encrypted = $2, updated_at = CURRENT_TIMESTAMP WHERE password_id = $3`;
-      await pool.query(updatePasswordQuery, [service_name, encryptPassword(password, data_key), password_id]);
+      await pool.query(updatePasswordQuery, [service_name, encryptPassword({password, dataKey: data_key}), password_id]);
     
     // insert log into change_logs table.
     let description = "Password with service name " + service_name + " has been updated.";
