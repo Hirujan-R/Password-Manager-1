@@ -37,7 +37,7 @@ const verifyToken = (req, res, next) => {
     next();
   } catch (error) {
     console.log("ERROR: Invalid JWT token.");
-    return res.status(400).json({ error: "Invalid JWT token" });
+    return res.status(400).json({ error: "Unauthorised" });
   }
 }
 
@@ -46,7 +46,7 @@ const verifyCsrfToken = (req, res, next) => {
   const csrfToken = req.cookies.csrfToken;
   if (!csrfToken) {
     console.log("ERROR: CSRF token is missing.");
-    return res.status(400).json({ error: "CSRF token is missing." });
+    return res.status(400).json({ error: "Unauthorised" });
   }
   try {
     if (tokens.verify(process.env.CSRF_SECRET, csrfToken)) {
@@ -54,11 +54,11 @@ const verifyCsrfToken = (req, res, next) => {
       next();
     } else {
       console.log("ERROR: Invalid CSRF token.");
-      return res.status(400).json({ error: "Invalid CSRF Token "});
+      return res.status(400).json({ error: "Unauthorised" });
     }
   } catch (error) {
     console.log("ERROR: Invalid CSRF token.");
-    return res.status(400).json({ error: "Invalid CSRF Token "});
+    return res.status(400).json({ error: "Unauthorised" });
   }
 }
 

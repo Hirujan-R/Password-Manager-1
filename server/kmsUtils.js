@@ -4,7 +4,6 @@ require('dotenv').config();
 const kmsClient= new KMSClient({ region: process.env.AWS_REGION});
 
 async function generateDataKey() {
-    console.log(process.env.KMS_KEY_ID);
     const params = {
         KeyId: process.env.KMS_KEY_ID,
         KeySpec: 'AES_256'
@@ -17,8 +16,6 @@ async function generateDataKey() {
         const encryptedDataKey = response.CiphertextBlob;
 
         // Ensure the data key is 32 bytes long
-        console.log(dataKey);
-
 
         return {
             dataKey: (Buffer.from(dataKey)).toString('base64'),

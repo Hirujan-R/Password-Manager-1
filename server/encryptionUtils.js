@@ -1,11 +1,9 @@
 const crypto = require('crypto');
 
 function encryptPassword({password, dataKey}) {
-    console.log('Data Key Buffer Length:', dataKey.length);
 
     const key = Buffer.from(dataKey, 'base64');
-
-    console.log('Key Buffer Length:', key.length);
+    
     if (key.length !== 32) {
         throw new RangeError('Invalid key length: AES-256 requires a 32-byte key.');
     }

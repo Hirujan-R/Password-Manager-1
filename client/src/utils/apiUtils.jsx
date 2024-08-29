@@ -110,10 +110,16 @@ export async function createPassword({serviceName, password, openEventAlert, ope
     openEventAlert("Password successfully created.");
   } catch (error) {
     if (error.response) {
-      console.error('⚠️ Server error:', error.response.data.error);
-      openErrorAlert('⚠️ Server error: ' + error.response.data.error);
-
-      // Error codes for invalid cookies and sessions
+      if (error.response.status === 500) {
+        console.error("Database Error:", error.response.data.error);
+        openErrorAlert("🛑 Error: Failure to connect to database");
+      } else if (error.response.status === 400) {
+        console.error("User error: " + error.response.data.error);
+        if (error.response.data.error === "unauthorised") {
+          getPasswords(setPasswords);
+        } else {
+          openErrorAlert("🛑 Error: " + error.response.data.error);
+        }}
     } else if (error.request) {
       console.error('🛑 Network error:', error.message);
       openErrorAlert('🛑 Network error: ' + error.message);
@@ -135,16 +141,20 @@ export async function editPassword({newServiceName, newPassword, passwordID, set
     openEventAlert("Password has been successfully updated.");
   } catch (error) {
     if (error.response) {
-      console.error('⚠️ Server error:', error.response.data.error);
-      openErrorAlert('⚠️ Server error: ' + error.response.data.error);
-
-
-      // Error codes for invalid cookies and sessions
+      if (error.response.status === 500) {
+        console.error("Database Error:", error.response.data.error);
+        openErrorAlert("🛑 Error: Failure to connect to database");
+      } else if (error.response.status === 400) {
+        console.error("User error: " + error.response.data.error);
+        if (error.response.data.error === "unauthorised") {
+          getPasswords(setPasswords);
+        } else {
+          openErrorAlert("🛑 Error: " + error.response.data.error);
+        }}
     } else if (error.request) {
       console.error('🛑 Network error:', error.message);
       openErrorAlert('🛑 Network error: ' + error.message);
-    }
-    else {
+    } else {
       console.error('🛑 Error:', error.message);
       openErrorAlert('🛑 Error: ' + error.message);
     }
