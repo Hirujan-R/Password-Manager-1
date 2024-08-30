@@ -240,19 +240,20 @@ app.put('/api/updatepassword', verifyCsrfToken, verifyToken, async (req, res) =>
     }
 
     // update passswords table.
-    const {rows: encrypted_data_key_rows} = await pool.query(`SELECT encrypted_data_key from passwords WHERE password_id = $1`, [password_id]);
-    if (encrypted_data_key_rows.length > 0) {
-      let data_key = await decryptDataKey(encrypted_data_key_rows[0].encrypted_data_key);
+    const {rows: password_rows} = await pool.query(`SELECT password_id from passwords WHERE password_id = $1`, [password_id]);
+    if (password_rows.length > 0) {
+      let { dataKey, encryptedDataKey } = await generateDataKey();
       let updatePasswordQuery = `UPDATE passwords 
-        SET service_name = $1, password_encrypted = $2, updated_at = CURRENT_TIMESTAMP WHERE password_id = $3`;
-      await pool.query(updatePasswordQuery, [service_name, encryptPassword({password, dataKey: data_key}), password_id]);
+        SET service_name = $1, password_encrypted = $2, updated_at = CURRENT_TIMESTAMP, encrypted_data_key = $3 
+        WHERE password_id = $4`;
+      await pool.query(updatePasswordQuery, [service_name, encryptPassword({password, dataKey}), encryptedDataKey, password_id]);
     
-    // insert log into change_logs table.
-    let description = "Password with service name " + service_name + " has been updated.";
-    let changeLogQuery = `INSERT INTO change_logs (user_id, password_id, description) VALUES ($1, $2, $3)`;
-    await pool.query(changeLogQuery, [req.user_id, password_id, description]);
+      // insert log into change_logs table.
+      let description = "Password with service name " + service_name + " has been updated.";
+      let changeLogQuery = `INSERT INTO change_logs (user_id, password_id, description) VALUES ($1, $2, $3)`;
+      await pool.query(changeLogQuery, [req.user_id, password_id, description]);
 
-    return res.status(200).json({ message: "Password successfully updated." });
+      return res.status(200).json({ message: "Password successfully updated." });
     } else {return res.status(400).json({ error: "Error updating password. Password doesn't exist in database"});}
 
   } catch (error) {
