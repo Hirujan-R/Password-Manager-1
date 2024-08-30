@@ -212,7 +212,7 @@ app.post('/api/createpassword', verifyCsrfToken, verifyToken, async (req, res) =
     // Insert log into change table
     let description = "Password with service name " + service_name + " has been created.";
     let changeLogQuery = `INSERT INTO change_logs (user_id, password_id, description) VALUES ($1, $2, $3)`;
-    await pool.query(changeLogQuery, [parseInt(req.user_id,10), password_id_row[0].password_id, description]);
+    await pool.query(changeLogQuery, [parseInt(req.user_id,10), parseInt(password_id_row[0].password_id), description]);
 
     return res.status(200).json({ message: 'Password successfully created.' });
   } catch (error) {
@@ -234,14 +234,20 @@ app.put('/api/updatepassword', verifyCsrfToken, verifyToken, async (req, res) =>
   try {
     // prevent multiple quick update requests
     const {rows: recentChangeLogs} = await pool.query(`SELECT * FROM change_logs WHERE user_id = $1 AND 
-      password_id = $2 AND timestamp >= NOW() - INTERVAL '1 minute'`, [req.user_id, password_id]);
+      password_id = $2 AND timestamp >= NOW() - INTERVAL '10 seconds'`, [req.user_id, password_id]);
     if (recentChangeLogs.length > 0) {
       return res.status(400).json({ error: "Multiple requests within a short period of time are prohibited"});
     }
 
     // update passswords table.
-    const {rows: password_rows} = await pool.query(`SELECT password_id from passwords WHERE password_id = $1`, [password_id]);
+    const {rows: password_rows} = await pool.query(`SELECT service_name from passwords WHERE password_id = $1`, [password_id]);
     if (password_rows.length > 0) {
+      let description = "Password with service name " + password_rows[0].service_name + " has been updated.";
+      const {rows: recentChangeLogs} = await pool.query(`SELECT * FROM change_logs WHERE user_id = $1 AND 
+        password_id = $2 AND description = $3 AND timestamp >= NOW() - INTERVAL '1 minute'`, [req.user_id, password_id, description]);
+      if (recentChangeLogs.length > 0) {
+        return res.status(400).json({ error: "Multiple requests within a short period of time are prohibited"});
+      }
       let { dataKey, encryptedDataKey } = await generateDataKey();
       let updatePasswordQuery = `UPDATE passwords 
         SET service_name = $1, password_encrypted = $2, updated_at = CURRENT_TIMESTAMP, encrypted_data_key = $3 
@@ -249,7 +255,7 @@ app.put('/api/updatepassword', verifyCsrfToken, verifyToken, async (req, res) =>
       await pool.query(updatePasswordQuery, [service_name, encryptPassword({password, dataKey}), encryptedDataKey, password_id]);
     
       // insert log into change_logs table.
-      let description = "Password with service name " + service_name + " has been updated.";
+      
       let changeLogQuery = `INSERT INTO change_logs (user_id, password_id, description) VALUES ($1, $2, $3)`;
       await pool.query(changeLogQuery, [req.user_id, password_id, description]);
 
