@@ -5,8 +5,7 @@ import EditPasswordModal from './EditPasswordModal.jsx';
 import DeletePasswordModal from './DeletePasswordModal.jsx';
 import { useErrorAlert } from '../../../hooks/useAlertStates.jsx';
 import { useViewModal, useEditModal, useDeleteModal } from '../../../hooks/useModalStates.jsx';
-import { deletePassword } from '../../../utils/PasswordUtils.jsx';
-import { editPassword } from '../../../utils/apiUtils.jsx';
+import { editPassword, deletePassword } from '../../../utils/apiUtils.jsx';
 
 
 function PasswordRow({passwords, setPasswords, password, openEventAlert, openErrorAlert}) {
@@ -18,7 +17,7 @@ function PasswordRow({passwords, setPasswords, password, openEventAlert, openErr
     // Modal for editting password
     const {showEditModal, hideEditModal, openEditModal} = useEditModal();
 
-    // Modal for deleting passwor
+    // Modal for deleting password
     const {showDeleteModal, hideDeleteModal, openDeleteModal} = useDeleteModal();
 
     const {showErrorAlert: showEditPasswordErrorAlert, hideErrorAlert: hideEditPasswordErrorAlert, openErrorAlert: openEditPasswordErrorAlert, errorText: editPasswordErrorText} = useErrorAlert({});
@@ -45,7 +44,7 @@ function PasswordRow({passwords, setPasswords, password, openEventAlert, openErr
     function HandleDeletePassword() {
         hideDeleteModal();
         hideViewModal();
-        openEventAlert("Password successfully deleted!");
+        deletePassword({passwordID: password.password_id, openEventAlert, openErrorAlert, setPasswords});
     }
 
     

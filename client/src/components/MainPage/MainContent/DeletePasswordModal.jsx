@@ -10,7 +10,7 @@ function DeletePasswordModal({ show, onHide, password, handleDeletePassword}) {
   
     const bodyContent = (
       <div>
-        <p>Are you sure you want to delete the password for {password.name}?</p>
+        <p>Are you sure you want to delete the password for {password.service_name}?</p>
       </div>
     )
   

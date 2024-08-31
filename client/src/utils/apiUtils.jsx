@@ -72,7 +72,7 @@ export async function getPasswords(setPasswords) {
       if (Array.isArray(response.data.passwords) && response.data.passwords.length > 0) {
         setPasswords(response.data.passwords);
       }
-    }
+    } else {setPasswords([])};
     returnMsg = response.data.message;
   } catch (error) {
     if (error.response) {
@@ -106,7 +106,7 @@ export async function createPassword({serviceName, password, openEventAlert, ope
       service_name: serviceName,
       password: password
     })
-    getPasswords(setPasswords);
+    await getPasswords(setPasswords);
     openEventAlert("Password successfully created.");
   } catch (error) {
     if (error.response) {
@@ -116,7 +116,7 @@ export async function createPassword({serviceName, password, openEventAlert, ope
       } else if (error.response.status === 400) {
         console.error("User error: " + error.response.data.error);
         if (error.response.data.error === "unauthorised") {
-          getPasswords(setPasswords);
+          await getPasswords(setPasswords);
         } else {
           openErrorAlert("🛑 Error: " + error.response.data.error);
         }}
@@ -137,7 +137,7 @@ export async function editPassword({newServiceName, newPassword, passwordID, set
       service_name: newServiceName, 
       password: newPassword
     })
-    getPasswords(setPasswords);
+    await getPasswords(setPasswords);
     openEventAlert("Password has been successfully updated.");
   } catch (error) {
     if (error.response) {
@@ -147,7 +147,7 @@ export async function editPassword({newServiceName, newPassword, passwordID, set
       } else if (error.response.status === 400) {
         console.error("User error: " + error.response.data.error);
         if (error.response.data.error === "unauthorised") {
-          getPasswords(setPasswords);
+          await getPasswords(setPasswords);
         } else {
           openErrorAlert("🛑 Error: " + error.response.data.error);
         }}
@@ -159,4 +159,32 @@ export async function editPassword({newServiceName, newPassword, passwordID, set
       openErrorAlert('🛑 Error: ' + error.message);
     }
   }
+}
+
+export async function deletePassword({passwordID, openEventAlert, openErrorAlert, setPasswords}) {
+  try {
+    const response = await apiClient.delete(`/deletepassword/${passwordID}`)
+    console.log('Password successfully deleted.');
+    await getPasswords(setPasswords);
+    openEventAlert('Password successfully deleted.');
+
+  } catch (error) {
+    if (error.response) {
+      if (error.response.status === 500) {
+        console.error('🛑 Database Error: ' + error.response.data.details);
+      } else if (error.response.status === 400) {
+        console.error('🛑 User Error: ' + error.response.data.error);
+        if (error.message === "unauthorised") {
+          await getPasswords(setPasswords);
+        } else {openErrorAlert('🛑 Error: ' + error.response.data.error);}
+      }
+    } else if (error.request) {
+      console.error('🛑 Network Error: ' + error.message);
+      openErrorAlert('🛑 Network Error: ' + error.message);
+    } else {
+      console.log('Error: ' + error.message);
+      openErrorAlert('🛑 Error: ' + error.message);
+    }
+  }
+  
 }

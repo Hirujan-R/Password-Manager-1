@@ -232,19 +232,13 @@ app.put('/api/updatepassword', verifyCsrfToken, verifyToken, async (req, res) =>
   } 
   
   try {
-    // prevent multiple quick update requests
-    const {rows: recentChangeLogs} = await pool.query(`SELECT * FROM change_logs WHERE user_id = $1 AND 
-      password_id = $2 AND timestamp >= NOW() - INTERVAL '10 seconds'`, [req.user_id, password_id]);
-    if (recentChangeLogs.length > 0) {
-      return res.status(400).json({ error: "Multiple requests within a short period of time are prohibited"});
-    }
 
     // update passswords table.
     const {rows: password_rows} = await pool.query(`SELECT service_name from passwords WHERE password_id = $1`, [password_id]);
     if (password_rows.length > 0) {
       let description = "Password with service name " + password_rows[0].service_name + " has been updated.";
       const {rows: recentChangeLogs} = await pool.query(`SELECT * FROM change_logs WHERE user_id = $1 AND 
-        password_id = $2 AND description = $3 AND timestamp >= NOW() - INTERVAL '1 minute'`, [req.user_id, password_id, description]);
+        password_id = $2 AND description = $3 AND timestamp >= NOW() - INTERVAL '10 seconds'`, [req.user_id, password_id, description]);
       if (recentChangeLogs.length > 0) {
         return res.status(400).json({ error: "Multiple requests within a short period of time are prohibited"});
       }
@@ -266,6 +260,50 @@ app.put('/api/updatepassword', verifyCsrfToken, verifyToken, async (req, res) =>
     console.error('Database error: ' + error);
     console.log('Error:' + error);
     return res.status(500).json({ error: 'Server error' , details: error.message });} 
+})
+
+app.delete('/api/deletepassword/:id', verifyCsrfToken, verifyToken, async (req, res) => {
+  console.log('Delete Password request received');
+  const { id: password_id } = req.params;
+  // Ensures no invalid requests
+  if (!password_id) { 
+    return res.status(400).json( { error: 'Invalid request. Password ID needs to be provided' });
+  }
+  const user_id = req.user_id;
+  try {
+
+    // Makes sure that passwords aren't unintentionally deleted
+    const { rows: delete_query_rows } = await pool.query(`SELECT * FROM change_logs 
+      WHERE description ILIKE $1 AND user_id = $2 AND timestamp >= NOW() - INTERVAL '10 seconds'`, ['%deleted%', user_id]);
+    if (delete_query_rows.length > 0) {
+      console.log("TOO many reqss");
+      return res.status(400).json( { error: 'Multiple requests within a short period of time are prohibited'} );
+    }
+
+    // Deletes password from passwords table
+    const {rows: service_name_row} = await pool.query(`DELETE FROM passwords WHERE password_id = $1 RETURNING service_name`, 
+      [parseInt(password_id)]);
+    if (service_name_row.length === 0) {
+      console.error('User Error: No password found with given ID');
+      return res.status(400).json( { error: 'No password found with given ID'} )
+    }
+
+    // Adds to change_log table
+    let description = "Password with service name " + service_name_row[0].service_name + " has been deleted.";
+    await pool.query(`INSERT INTO change_logs (user_id, password_id, description)
+      VALUES ($1, $2, $3)`, [parseInt(user_id), parseInt(password_id), description]);
+
+    // Returns successful deletion
+    return res.status(200).json({ message: "Password successfully deleted." });
+
+  } catch (error) {
+
+    // Database error
+    console.error("Database error: " + error);
+    return res.status(500).json( { error: 'Server Error', details: error.message });
+
+  }
+  
 })
 
 // Start the server
