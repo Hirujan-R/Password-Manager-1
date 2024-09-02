@@ -25,7 +25,6 @@ const LoginPage = () => {
             openErrorAlert('⚠️ A password is required. Please enter a password to proceed.')
         }
         else {
-            console.log("Try to login");
             if ( await login(username, password, openErrorAlert) === true ) {
                 navigate('/main');
             }

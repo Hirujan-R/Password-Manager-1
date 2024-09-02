@@ -192,7 +192,7 @@ export async function deletePassword({passwordID, openEventAlert, openErrorAlert
 export async function removeCookies(openErrorAlert) {
   try {
     const response = await apiClient.post('/removecookies');
-    console.log('Successfully logged out');
+    console.log('Successfully removed cookies');
   } catch (error) {
     if (error.response) {
       console.error(error.response.data.error);

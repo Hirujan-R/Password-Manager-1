@@ -11,9 +11,7 @@ const RegistrationPage = () => {
 
     const { showErrorAlert, hideErrorAlert, openErrorAlert, errorText } = useErrorAlert({isTimeout:true});
 
-    useEffect(() => {
-        removeCookies(openErrorAlert);
-    }, []);
+    removeCookies(openErrorAlert);
     
 
     const handleRegistration = ({username, password, checkPassword}) => {
