@@ -23,6 +23,7 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
+
 const verifyToken = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
@@ -59,9 +60,6 @@ const verifyCsrfToken = (req, res, next) => {
     return res.status(400).json({ error: "Unauthorised" });
   }
 }
-
-
-
 
 
 const pool = new Pool({
@@ -165,6 +163,30 @@ app.get('/api/login', async (req, res) => {
     client.release();
   }
 });
+
+app.post('/api/removecookies', async (req, res) => {
+  console.log('Remove Cookies request received');
+  try {
+    res.cookie('csrftoken', '', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+      expires: new Date(0)
+    });
+
+    res.cookie('token', '', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+      expires: new Date(0)
+    });
+
+    console.log('SUCCESS: Cookies successfully removed');
+    res.status(200).json({ message: 'Successfully logged out' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
 
 app.get('/api/getpasswords', verifyCsrfToken, verifyToken, async (req, res) => {
   console.log('Get Passwords request received');

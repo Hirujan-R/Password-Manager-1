@@ -5,7 +5,10 @@ import RegistrationPage from './components/RegistrationPage/RegistrationPage';
 import MainPage from './components/MainPage/MainPage';
 
 
+
+
 function AppRouter() {
+
     return (
         <Router>
             <Routes>

@@ -188,3 +188,22 @@ export async function deletePassword({passwordID, openEventAlert, openErrorAlert
   }
   
 }
+
+export async function removeCookies(openErrorAlert) {
+  try {
+    const response = await apiClient.post('/removecookies');
+    console.log('Successfully logged out');
+  } catch (error) {
+    if (error.response) {
+      console.error(error.response.data.error);
+      openErrorAlert(error.response.data.error);
+    } else if (error.request) {
+      console.error("Server Error: " + error.message);
+      openErrorAlert("Server Error " + error.message);
+    } else {
+      console.error("Error: " + error.message);
+      openErrorAlert("Error: " + error.message);
+    }
+  }
+}
+  

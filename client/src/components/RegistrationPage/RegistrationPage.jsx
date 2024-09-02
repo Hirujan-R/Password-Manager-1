@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './RegistrationPage.css'
-import { addUser } from "../../utils/apiUtils.jsx";
+import { addUser, removeCookies } from "../../utils/apiUtils.jsx";
 import { useErrorAlert } from "../../hooks/useAlertStates.jsx"
 import MainContent from "./MainContent.jsx";
 import Footer from "./Footer.jsx";
@@ -10,6 +10,11 @@ const RegistrationPage = () => {
 
 
     const { showErrorAlert, hideErrorAlert, openErrorAlert, errorText } = useErrorAlert({isTimeout:true});
+
+    useEffect(() => {
+        removeCookies(openErrorAlert);
+    }, []);
+    
 
     const handleRegistration = ({username, password, checkPassword}) => {
         if (!username) {

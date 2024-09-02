@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import PASSWORDS from '../../Passwords.jsx';
-import { getPasswords } from '../../utils/apiUtils.jsx';
+import { getPasswords, removeCookies } from '../../utils/apiUtils.jsx';
 import { useEventAlert, useErrorAlert } from '../../hooks/useAlertStates.jsx';
 import { useErrorRetrievingPasswordsModal } from '../../hooks/useModalStates.jsx';
 import ErrorRetrievingPasswordsModal from './MainContent/ErrorRetrievingPasswordsModal.jsx';
@@ -26,8 +26,9 @@ const MainPage = () => {
   const {showErrorRetrievingPasswordsModal, hideErrorRetrievingPasswordsModal, openErrorRetrievingPasswordsModal,
     showErrorRetrievingPasswordsText, setErrorRetrievingPasswordsText} = useErrorRetrievingPasswordsModal();
 
+
   useEffect(() => {
-    const fetchPasswords = async () => {
+      const fetchPasswords = async () => {
       const returnMsg = await getPasswords(setPasswords);
       if (returnMsg != "Passwords retrieved" && returnMsg != "No Passwords") {
         setErrorRetrievingPasswordsText(returnMsg);
@@ -35,14 +36,16 @@ const MainPage = () => {
       }
     }
     fetchPasswords();
+
   }, []);
+
   
   return (
     <div className="main-page d-flex flex-column min-vh-100">
 
       <div className='d-none d-md-flex justify-content-end p-md-3'>
         <Link to={"/"}>
-          <Button>
+          <Button onClick={removeCookies}>
             <FontAwesomeIcon icon={faRightFromBracket} />
           </Button>
         </Link>
