@@ -1,3 +1,4 @@
+/*
 .login-link {
     opacity: 1;
 }
@@ -9,23 +10,23 @@
 
 
 .re-enter-password {
-    padding-top: 4px; /* Default padding */
+    padding-top: 4px; 
 }
 
 @media (max-width: 576px) {
     .re-enter-password {
-        padding-top: 12px; /* Padding for screens 600px wide and below */
+        padding-top: 12px; 
     }
 }
 
 @media (max-width: 404px) {
     .re-enter-password {
-        padding-top: 0px; /* Padding for screens 600px wide and below */
+        padding-top: 0px; 
     }
 }
 
 .enter-username {
-    padding-top: 4px; /* Default padding */
+    padding-top: 4px; 
 }
 
 .check-password-input {
@@ -34,7 +35,7 @@
 
 @media (max-width: 482px) {
     .enter-username {
-        padding-top: 0px; /* Padding for screens 600px wide and below */
+        padding-top: 0px; 
     }
     .check-password-input {
         padding-top: 8px;
@@ -43,9 +44,10 @@
 
 @media (max-width: 576px) {
     .enter-username {
-        padding-top: 8px; /* Padding for screens 600px wide and below */
+        padding-top: 8px; 
     }
     .check-password-input {
         padding-top: 0px;
     }
-}
+} 
+*/

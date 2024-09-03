@@ -3,7 +3,6 @@ import { Row, Col, Button, Container, Form } from "react-bootstrap";
 import { useForm, Controller } from 'react-hook-form';
 import { addUser } from "../../utils/apiUtils";
 import { Input } from "../Input";
-import "./MainContent.css";
 import { Link } from "react-router-dom";
 
 
@@ -19,8 +18,8 @@ const MainContent = ({openErrorAlert, openEventAlert}) => {
         <Container fluid className="d-flex flex-column justify-content-center align-items-center min-vh-100">
             <Form className="w-100" onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group className="mb-3">
-                    <Row className="w-100">
-                        <Col xs={{offset:4, span:4}}>
+                    <Row className="w-100 mx-auto">
+                        <Col xs={12} sm={{offset:1, span:10}} md={{offset:2, span:8}} lg={{offset:4, span:4}}>
                             <Controller
                                 name='email'
                                 control={control}
@@ -44,8 +43,8 @@ const MainContent = ({openErrorAlert, openEventAlert}) => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                    <Row className="w-100">
-                        <Col xs={{offset:4, span:4}}>
+                    <Row className="w-100 mx-auto">
+                        <Col xs={12} sm={{offset:1, span:10}} md={{offset:2, span:8}} lg={{offset:4, span:4}}>
                             <Controller
                                 name='password'
                                 control={control}
@@ -61,9 +60,9 @@ const MainContent = ({openErrorAlert, openEventAlert}) => {
                     </Row>
                 </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Row className="w-100">
-                        <Col xs={{offset:4, span:4}}>
+                <Form.Group className="mb-4 mb-lg-3">
+                    <Row className="w-100 mx-auto">
+                        <Col xs={12} sm={{offset:1, span:10}} md={{offset:2, span:8}} lg={{offset:4, span:4}}>
                             <Controller
                                 name='retypepassword'
                                 control={control}
@@ -82,9 +81,9 @@ const MainContent = ({openErrorAlert, openEventAlert}) => {
                         </Col>
                     </Row>
                 </Form.Group>
-                <Row className="w-100">
-                    <Col xs={{span:4,offset:4}} className="d-flex justify-content-end align-items-center" >
-                        <Link className="register-link link-primary" to="/registration"> Have an account? Click here to login!</Link>
+                <Row className="w-100 mx-auto">
+                    <Col xs={12} sm={{offset:1, span:10}} md={{offset:2, span:8}} lg={{offset:4, span:4}} className="d-flex justify-content-end align-items-center" >
+                        <Link className="register-link link-primary mb-0" to="/"> Have an account? Click here to login!</Link>
                         <Button className="ms-3" type="submit">Register</Button>
                     </Col>
                 </Row>
