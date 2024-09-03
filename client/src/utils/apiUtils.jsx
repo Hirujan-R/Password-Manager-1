@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useEffect } from 'react';
 
 const apiClient = axios.create({
     baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
@@ -6,33 +7,31 @@ const apiClient = axios.create({
     withCredentials: true
 })
 
-export async function addUser(email, password, openErrorAlert) {
+export async function addUser({email, password, openErrorAlert, openEventAlert}) {
     try { 
       const response = await apiClient.post('/registration', {
         email: email,
         password: password
       });
       console.log(`User registered successfully! User ID is ${response.data.user_id}`);
+      openEventAlert('User registered successfully!');
     } catch (error) {
       if (error.response) {
         // Server responded with error code
         console.error('Server error:', error.response.data.error);
         if (error.response.data.error === "User with this email already exists") {
-          openErrorAlert("⚠️ User with this email already exists.");
-        }
-        else {
-          openErrorAlert('🛑 Server Error: ' + error.response.data.error);
+          openErrorAlert({errorDetails:'🛑 Server Error: ' + error.response.data.error});
         }
       }
       else if (error.request) {
         // No response from server
         console.error('Network error:', error.message);
-        openErrorAlert("🛑 Network Error: " + error.message);
+        openErrorAlert({errorDetails:"🛑 Network Error: " + error.message});
       }
       else {
         // All other errors
         console.error('Error:', error.message);
-        openErrorAlert("🛑 Error: " + error.message);
+        openErrorAlert({errorDetails:"🛑 Error: " + error.message});
       }
     }
 }
@@ -47,18 +46,18 @@ export async function login(email, password, openErrorAlert) {
       // Server responded with error code
       console.error('Server error:', error.response.data.error);
       if (error.response.data.error === 'Incorrect username or password' ) {
-        openErrorAlert("⚠️ Incorrect username or password.");
+        openErrorAlert({errorDetails:"⚠️ Incorrect username or password."});
       } else {
-        openErrorAlert('🛑 Server Error: ' + error.response.data.error);
+        openErrorAlert({errorDetails:'🛑 Server Error: ' + error.response.data.error});
       }
     } else if (error.request) {
       // No response from server
       console.error('Network error:', error.message);
-      openErrorAlert("🛑 Network Error: " + error.message);
+      openErrorAlert({errorDetails:"🛑 Network Error: " + error.message});
     } else {
       // All other errors
       console.error('Error:', error.message);
-      openErrorAlert("🛑 Error: " + error.message);
+      openErrorAlert({errorDetails:"🛑 Error: " + error.message});
     }
     return false;
   }
@@ -112,20 +111,20 @@ export async function createPassword({serviceName, password, openEventAlert, ope
     if (error.response) {
       if (error.response.status === 500) {
         console.error("Database Error:", error.response.data.error);
-        openErrorAlert("🛑 Error: Failure to connect to database");
+        openErrorAlert({errorDetails:"🛑 Error: Failure to connect to database"});
       } else if (error.response.status === 400) {
-        console.error("User error: " + error.response.data.error);
+        console.error({errorDetails:"User error: " + error.response.data.error});
         if (error.response.data.error === "unauthorised") {
           await getPasswords(setPasswords);
         } else {
-          openErrorAlert("🛑 Error: " + error.response.data.error);
+          openErrorAlert({errorDetails:"🛑 Error: " + error.response.data.error});
         }}
     } else if (error.request) {
       console.error('🛑 Network error:', error.message);
-      openErrorAlert('🛑 Network error: ' + error.message);
+      openErrorAlert({errorDetails:'🛑 Network error: ' + error.message});
     } else {
       console.error('🛑 Error:', error.message);
-      openErrorAlert('🛑 Error: ' + error.message);
+      openErrorAlert({errorDetails:'🛑 Error: ' + error.message});
     }
   }
 }
@@ -143,20 +142,20 @@ export async function editPassword({newServiceName, newPassword, passwordID, set
     if (error.response) {
       if (error.response.status === 500) {
         console.error("Database Error:", error.response.data.error);
-        openErrorAlert("🛑 Error: Failure to connect to database");
+        openErrorAlert({errorDetails:"🛑 Error: Failure to connect to database"});
       } else if (error.response.status === 400) {
         console.error("User error: " + error.response.data.error);
         if (error.response.data.error === "unauthorised") {
           await getPasswords(setPasswords);
         } else {
-          openErrorAlert("🛑 Error: " + error.response.data.error);
+          openErrorAlert({errorDetails:"🛑 Error: " + error.response.data.error});
         }}
     } else if (error.request) {
       console.error('🛑 Network error:', error.message);
-      openErrorAlert('🛑 Network error: ' + error.message);
+      openErrorAlert({errorDetails:'🛑 Network error: ' + error.message});
     } else {
       console.error('🛑 Error:', error.message);
-      openErrorAlert('🛑 Error: ' + error.message);
+      openErrorAlert({errorDetails:'🛑 Error: ' + error.message});
     }
   }
 }
@@ -176,14 +175,14 @@ export async function deletePassword({passwordID, openEventAlert, openErrorAlert
         console.error('🛑 User Error: ' + error.response.data.error);
         if (error.message === "unauthorised") {
           await getPasswords(setPasswords);
-        } else {openErrorAlert('🛑 Error: ' + error.response.data.error);}
+        } else {openErrorAlert({errorDetails:'🛑 Error: ' + error.response.data.error});}
       }
     } else if (error.request) {
       console.error('🛑 Network Error: ' + error.message);
-      openErrorAlert('🛑 Network Error: ' + error.message);
+      openErrorAlert({errorDetails:'🛑 Network Error: ' + error.message});
     } else {
       console.log('Error: ' + error.message);
-      openErrorAlert('🛑 Error: ' + error.message);
+      openErrorAlert({errorDetails:'🛑 Error: ' + error.message});
     }
   }
   
@@ -196,13 +195,13 @@ export async function removeCookies(openErrorAlert) {
   } catch (error) {
     if (error.response) {
       console.error(error.response.data.error);
-      openErrorAlert(error.response.data.error);
+      openErrorAlert({errorDetails:error.response.data.error});
     } else if (error.request) {
       console.error("Server Error: " + error.message);
-      openErrorAlert("Server Error " + error.message);
+      openErrorAlert({errorDetails:"Server Error " + error.message});
     } else {
       console.error("Error: " + error.message);
-      openErrorAlert("Error: " + error.message);
+      openErrorAlert({errorDetails:"Error: " + error.message});
     }
   }
 }

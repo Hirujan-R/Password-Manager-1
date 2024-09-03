@@ -5,13 +5,16 @@ export const useErrorAlert = ({isTimeout=false, timeout=3000}) => {
     const [errorText, setErrorText] = useState("")
     const [showErrorAlert, setErrorAlert] = useState(false);
     const hideErrorAlert = () => setErrorAlert(false);
-    const openErrorAlert = (errorDetails) => {
+    const openErrorAlert = ({errorDetails}) => {
         if (!errorDetails) {console.log("No error details")}
         else {
             setErrorAlert(true);
             setErrorText(errorDetails);
             if (isTimeout) {
-                setTimeout(() => {hideErrorAlert()}, timeout);  
+                const timeoutId = setTimeout(() => {
+                    hideErrorAlert();
+                }, timeout);  
+                return () => clearTimeout(timeoutId);
             }
         } 
     };

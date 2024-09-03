@@ -1,55 +1,94 @@
 import React from "react";
-import { Row, Col, Button, Container } from "react-bootstrap";
+import { Row, Col, Button, Container, Form } from "react-bootstrap";
+import { useForm, Controller } from 'react-hook-form';
+import { addUser } from "../../utils/apiUtils";
 import { Input } from "../Input";
 import "./MainContent.css";
 import { Link } from "react-router-dom";
 
 
-const MainContent = ({handleRegistration}) => {
+const MainContent = ({openErrorAlert, openEventAlert}) => {
+
+    const { control, handleSubmit, formState: { errors }, getValues } = useForm();
+
+    const onSubmit = (data) => {
+        addUser({email: data.email, password: data.password, openErrorAlert, openEventAlert});
+    }
+
     return (
         <Container fluid className="d-flex flex-column justify-content-center align-items-center min-vh-100">
-            <Row className="w-100">
-                <Col xs={5} sm={4} lg={{span:3, offset:2}} className="text-sm-end">
-                    <p>Enter Username (Email): </p>
-                </Col>
-                <Col xs={7} lg={3} className=''>
-                    <Input formControlId={'usernameInput'} formControlClassName={'border border-primary'}/>
-                </Col>
-            </Row>
+            <Form className="w-100" onSubmit={handleSubmit(onSubmit)}>
+                <Form.Group className="mb-3">
+                    <Row className="w-100">
+                        <Col xs={{offset:4, span:4}}>
+                            <Controller
+                                name='email'
+                                control={control}
+                                defaultValue=""
+                                rules={{ 
+                                    required: 'Email is required',
+                                    pattern: {
+                                        value:  /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                        message: 'Invalid email address'
+                                    }
+                                }}
+                                render={({ field }) => (
+                                    <Form.Control className="border border-primary" type="text" placeholder="Email" 
+                                        isInvalid={!!errors.email} {...field}/>
+                                )}
+                            />
+                            {errors.email && <Form.Control.Feedback className="mb-0" type="invalid">{errors.email.message}</Form.Control.Feedback>}
+                        </Col>
+                    </Row>
+                    
+                </Form.Group>
 
+                <Form.Group className="mb-3">
+                    <Row className="w-100">
+                        <Col xs={{offset:4, span:4}}>
+                            <Controller
+                                name='password'
+                                control={control}
+                                defaultValue=""
+                                rules={{ required: 'Password is required' }}
+                                render={({ field }) => (
+                                    <Form.Control className="border border-primary" type="password" placeholder="Password" 
+                                        isInvalid={errors.password} {...field}/>
+                                )}
+                            />
+                            {errors.password && <Form.Control.Feedback className="mb-0" type="invalid">{errors.password.message}</Form.Control.Feedback>}
+                        </Col>
+                    </Row>
+                </Form.Group>
 
+                <Form.Group className="mb-3">
+                    <Row className="w-100">
+                        <Col xs={{offset:4, span:4}}>
+                            <Controller
+                                name='retypepassword'
+                                control={control}
+                                defaultValue=""
+                                rules={{ 
+                                    required: "Please retype your password",
+                                    validate: value => value === getValues('password') || "Passwords don't match"
+                                }}
+                                render={({ field }) => (
+                                    <Form.Control className="border border-primary" type="password" placeholder="Retype Password" 
+                                        isInvalid={errors.retypepassword} {...field}/>
+                                )}
+                            />
+                            {errors.retypepassword && <Form.Control.Feedback className="mb-0" type="invalid">{errors.retypepassword.message}</Form.Control.Feedback>}
 
-            <Row className="w-100">
-                <Col xs={5} sm={4} lg={{span:3, offset:2}} className="text-sm-end">
-                    <p>Enter Password: </p>
-                </Col>
-                <Col xs={7} lg={3} className=''>
-                    <Input formControlId={'passwordInput'} formControlClassName='border border-primary' type='password'/>
-                </Col>
-            </Row>
-
-
-            <Row className="w-100">
-                <Col xs={5} sm={4} lg={{span:3, offset:2}} className="text-sm-end">
-                    <p>Re-enter Password: </p>
-                </Col>
-                <Col xs={7} lg={3} className=''>
-                    <Input formControlId={'checkPasswordInput'} formControlClassName='border border-primary' type='password'/>
-                </Col>
-            </Row>
-
-
-            <Row className="w-100">
-                <Col xs={12} sm={{span:9, offset:2}} lg={{span:4, offset:4}} className="d-flex justify-content-end">
-                    <Link to="/" className="login-link link-primary">Have an account? Click here to login!</Link>
-                    <Button className="ms-4" onClick={() => handleRegistration({
-                        username: document.getElementById('usernameInput').value,
-                        password: document.getElementById('passwordInput').value,
-                        checkPassword: document.getElementById('checkPasswordInput').value
-                    })}>Register</Button>
-                </Col>
-                
-            </Row>
+                        </Col>
+                    </Row>
+                </Form.Group>
+                <Row className="w-100">
+                    <Col xs={{span:4,offset:4}} className="d-flex justify-content-end align-items-center" >
+                        <Link className="register-link link-primary" to="/registration"> Have an account? Click here to login!</Link>
+                        <Button className="ms-3" type="submit">Register</Button>
+                    </Col>
+                </Row>
+            </Form>
         </Container>
     )
 }

@@ -8,10 +8,12 @@ import { Form } from "react-bootstrap";
 <p>Service Name: <input id='serviceInput' onChange={handleServiceNameChange} value={currentServiceName}></input></p> */
 
 
-export const Input = ({formClassName="", formControlId, formControlClassName="", type="text", onChange, value}) => {
+export const Input = ({formClassName="", formControlId,
+    formControlClassName="", placeholder="", type="text", onChange, value}) => {
     return (
         <Form className={formClassName}>
-            <Form.Control id={formControlId} className={formControlClassName} type={type} onChange={onChange} value={value} />
+            <Form.Control id={formControlId} className={formControlClassName} type={type} onChange={onChange} value={value} 
+                placeholder={placeholder}/>
         </Form>
     )
 }
