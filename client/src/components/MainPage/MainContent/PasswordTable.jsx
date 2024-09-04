@@ -10,8 +10,8 @@ function PasswordTable({passwords, setPasswords, query, openEventAlert, openErro
         if (!query) {
             return passwords;
         }
-        return passwords.filter(password => password.service_name.toLowerCase.includes(query.toLowerCase()));
-    }, [passwords, query]);
+        return passwords.filter(password => password.service_name.toLowerCase().includes(query.toLowerCase()));}
+    , [passwords, query]);
 
     const rows = useMemo(() => {
         return tableItems.map((password) => (
