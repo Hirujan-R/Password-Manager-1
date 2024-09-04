@@ -1,4 +1,3 @@
-/*
 .login-link {
     opacity: 1;
 }
@@ -8,46 +7,3 @@
 }
 
 
-
-.re-enter-password {
-    padding-top: 4px; 
-}
-
-@media (max-width: 576px) {
-    .re-enter-password {
-        padding-top: 12px; 
-    }
-}
-
-@media (max-width: 404px) {
-    .re-enter-password {
-        padding-top: 0px; 
-    }
-}
-
-.enter-username {
-    padding-top: 4px; 
-}
-
-.check-password-input {
-    padding-top: 0px;
-}
-
-@media (max-width: 482px) {
-    .enter-username {
-        padding-top: 0px; 
-    }
-    .check-password-input {
-        padding-top: 8px;
-    }
-}
-
-@media (max-width: 576px) {
-    .enter-username {
-        padding-top: 8px; 
-    }
-    .check-password-input {
-        padding-top: 0px;
-    }
-} 
-*/

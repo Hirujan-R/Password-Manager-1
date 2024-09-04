@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import PASSWORDS from '../../Passwords.jsx';
 import { getPasswords, removeCookies } from '../../utils/apiUtils.jsx';
 import { useEventAlert, useErrorAlert } from '../../hooks/useAlertStates.jsx';
 import { useErrorRetrievingPasswordsModal } from '../../hooks/useModalStates.jsx';

@@ -20,7 +20,7 @@ export async function addUser({email, password, openErrorAlert, openEventAlert})
         // Server responded with error code
         console.error('Server error:', error.response.data.error);
         if (error.response.data.error === "User with this email already exists") {
-          openErrorAlert({errorDetails:'🛑 Server Error: ' + error.response.data.error});
+          openErrorAlert({errorDetails:'🛑 User Error: ' + error.response.data.error});
         }
       }
       else if (error.request) {
@@ -36,7 +36,7 @@ export async function addUser({email, password, openErrorAlert, openEventAlert})
     }
 }
 
-export async function login(email, password, openErrorAlert) {
+export async function login({email, password, openErrorAlert}) {
   try {
     const response  = await apiClient.get(`/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`);
     console.log(`User successfully logged in!`);
