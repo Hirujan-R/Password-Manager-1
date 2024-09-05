@@ -1,13 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { getPasswords, removeCookies } from '../../utils/apiUtils.jsx';
 import { useEventAlert, useErrorAlert } from '../../hooks/useAlertStates.jsx';
-import { useErrorRetrievingPasswordsModal } from '../../hooks/useModalStates.jsx';
-import ErrorRetrievingPasswordsModal from './MainContent/ErrorRetrievingPasswordsModal.jsx';
+import { useErrorModal } from '../../hooks/useModalStates.jsx';
+import ErrorModal from './MainContent/ErrorModal.jsx';
 import Header from './Header/Header.jsx';
 import MainContent from './MainContent/MainContent.jsx';
 import Footer from './Footer/Footer.jsx';
@@ -22,17 +22,13 @@ const MainPage = () => {
 
   const {showErrorAlert, hideErrorAlert, openErrorAlert, errorText} = useErrorAlert({isTimeout: true});
 
-  const {showErrorRetrievingPasswordsModal, hideErrorRetrievingPasswordsModal, openErrorRetrievingPasswordsModal,
-    showErrorRetrievingPasswordsText, setErrorRetrievingPasswordsText} = useErrorRetrievingPasswordsModal();
+  const {showErrorModal, hideErrorModal, openErrorModal, showErrorTitle, showErrorText} = useErrorModal();
+
 
 
   useEffect(() => {
-      const fetchPasswords = async () => {
-      const returnMsg = await getPasswords(setPasswords);
-      if (returnMsg != "Passwords retrieved" && returnMsg != "No Passwords") {
-        setErrorRetrievingPasswordsText(returnMsg);
-        openErrorRetrievingPasswordsModal();
-      }
+      const fetchPasswords = async () => { 
+        await getPasswords({setPasswords, openErrorAlert, openErrorModal});
     }
     fetchPasswords();
 
@@ -50,15 +46,13 @@ const MainPage = () => {
         </Link>
       </div>
       
-      <Header setQuery={setQuery} setPasswords={setPasswords} passwords={passwords} openEventAlert={openEventAlert}/>
+      <Header setQuery={setQuery} setPasswords={setPasswords} openEventAlert={openEventAlert} mainOpenErrorAlert={openErrorAlert} openErrorModal={openErrorModal}/>
       <MainContent passwords={passwords} setPasswords={setPasswords} query={query} 
-        openEventAlert={openEventAlert} openErrorAlert={openErrorAlert}/>
+        openEventAlert={openEventAlert} openErrorAlert={openErrorAlert} openErrorModal={openErrorModal}/>
       <Footer showEventAlert={showEventAlert} hideEventAlert={hideEventAlert} eventText={eventText}
         showErrorAlert={showErrorAlert} hideErrorAlert={hideErrorAlert} errorText={errorText}/>
 
-      <ErrorRetrievingPasswordsModal showErrorRetrievingPasswordsModal={showErrorRetrievingPasswordsModal} 
-        hideErrorRetrievingPasswordsModal={hideErrorRetrievingPasswordsModal} 
-        showErrorRetrievingPasswordsText={showErrorRetrievingPasswordsText}/>
+      <ErrorModal showErrorModal={showErrorModal} hideErrorModal={hideErrorModal} showErrorText={showErrorText} showErrorTitle={showErrorTitle}/>
 
     </div>
   );

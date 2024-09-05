@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const apiClient = axios.create({
     baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
@@ -63,65 +64,65 @@ export async function login({email, password, openErrorAlert}) {
   }
 }
 
-export async function getPasswords(setPasswords) {
-  let returnMsg = ""; 
+export async function getPasswords({setPasswords, openErrorAlert, openErrorModal}) {
   try {
     const response = await apiClient.get(`/getpasswords`);
     if (response.data.message != "No Passwords") {
       if (Array.isArray(response.data.passwords) && response.data.passwords.length > 0) {
         setPasswords(response.data.passwords);
       }
-    } else {setPasswords([])};
-    returnMsg = response.data.message;
+    } else {
+      setPasswords([]);
+    }
+    
   } catch (error) {
     if (error.response) {
       // Server responded with error code
       if (error.response.status === 500) {
         console.error("Database Error:", error.response.data.error);
-        returnMsg = "🛑 Error: Failure to connect to database";
+        openErrorModal({errorTitle:"Error Retrieving Passwords", errorDetails:"🛑 Error: Failure to connect to database"});
       } else if (error.response.status === 400) {
         console.error("Session Cookie Error:", error.response.data.error);
-        returnMsg = "⚠️ Error: Invalid session";
+        openErrorModal({errorTitle:"Error Retrieving Passwords", errorDetails:'🛑 Your session has expired'});
       } else {
         console.error("Server Error:" , error.response.data.error);
-        returnMsg = "🛑 Error: " + error.response.data.error;
+        openErrorAlert({errorDetails:"🛑 Error: " + error.response.data.error});
       }
     } else if (error.request) {
       // No response from server
       console.error('Network error:', error.message);
-      returnMsg = "🛑 Error: " + error.message; 
+      openErrorModal({errorTitle:"Error Retrieving Passwords", errorDetails:"🛑 Error: " + error.message}); 
     } else {
       // All other errors
       console.error("Error: " + error.message);
-      returnMsg = "🛑 Error: " + error.message; 
+      openErrorAlert({errorDetails:"🛑 Error: " + error.message}); 
     }
   }
-  return returnMsg;
 }
 
-export async function createPassword({serviceName, password, openEventAlert, openErrorAlert, setPasswords}) {
+export async function createPassword({serviceName, password, setPasswords, openEventAlert, openErrorAlert, openErrorModal}) {
   try {
     const response = await apiClient.post('/createpassword', {
       service_name: serviceName,
       password: password
     })
-    await getPasswords(setPasswords);
+    await getPasswords({setPasswords, openErrorAlert, openErrorModal});
     openEventAlert("Password successfully created.");
   } catch (error) {
     if (error.response) {
       if (error.response.status === 500) {
         console.error("Database Error:", error.response.data.error);
-        openErrorAlert({errorDetails:"🛑 Error: Failure to connect to database"});
+        openErrorModal({errorTitle: "Error Adding Password", errorDetails:"🛑 Error: Failure to connect to database"});
       } else if (error.response.status === 400) {
         console.error({errorDetails:"User error: " + error.response.data.error});
-        if (error.response.data.error === "unauthorised") {
-          await getPasswords(setPasswords);
+        if (error.response.data.error === "Unauthorised") {
+          openErrorModal({errorTitle: "Error Adding Password", errorDetails:"🛑 Error: Your session has expired"});
         } else {
-          openErrorAlert({errorDetails:"🛑 Error: " + error.response.data.error});
+          openErrorModal({errorTitle: "Error Adding Password", errorDetails:"🛑 Error: " + error.response.data.error});
         }}
     } else if (error.request) {
       console.error('🛑 Network error:', error.message);
-      openErrorAlert({errorDetails:'🛑 Network error: ' + error.message});
+      openErrorModal({errorTitle: "Error Adding Password", errorDetails:'🛑 Network error: ' + error.message});
     } else {
       console.error('🛑 Error:', error.message);
       openErrorAlert({errorDetails:'🛑 Error: ' + error.message});
@@ -129,30 +130,30 @@ export async function createPassword({serviceName, password, openEventAlert, ope
   }
 }
 
-export async function editPassword({newServiceName, newPassword, passwordID, setPasswords, openErrorAlert, openEventAlert}) {
+export async function editPassword({newServiceName, newPassword, passwordID, setPasswords, openEventAlert, openErrorAlert, openErrorModal}) {
   try {
     const response = await apiClient.put('/updatepassword', {
       password_id: passwordID,
       service_name: newServiceName, 
       password: newPassword
     })
-    await getPasswords(setPasswords);
+    await getPasswords({setPasswords, openErrorAlert, openErrorModal});
     openEventAlert("Password has been successfully updated.");
   } catch (error) {
     if (error.response) {
       if (error.response.status === 500) {
         console.error("Database Error:", error.response.data.error);
-        openErrorAlert({errorDetails:"🛑 Error: Failure to connect to database"});
+        openErrorModal({errorTitle:"Error Editting Password", errorDetails:"🛑 Error: Failure to connect to database"});
       } else if (error.response.status === 400) {
         console.error("User error: " + error.response.data.error);
-        if (error.response.data.error === "unauthorised") {
-          await getPasswords(setPasswords);
+        if (error.response.data.error === "Unauthorised") {
+          openErrorModal({errorTitle:"Error Editting Password", errorDetails:"🛑 Error: Your session has expired"});
         } else {
-          openErrorAlert({errorDetails:"🛑 Error: " + error.response.data.error});
+          openErrorAlert({errorDetails:"🛑 Error: Your session has expired"});
         }}
     } else if (error.request) {
       console.error('🛑 Network error:', error.message);
-      openErrorAlert({errorDetails:'🛑 Network error: ' + error.message});
+      openErrorModal({errorTitle:"Error Editting Password", errorDetails:'🛑 Network error: ' + error.message});
     } else {
       console.error('🛑 Error:', error.message);
       openErrorAlert({errorDetails:'🛑 Error: ' + error.message});
@@ -160,26 +161,27 @@ export async function editPassword({newServiceName, newPassword, passwordID, set
   }
 }
 
-export async function deletePassword({passwordID, openEventAlert, openErrorAlert, setPasswords}) {
+export async function deletePassword({passwordID, openEventAlert, openErrorAlert, setPasswords, openErrorModal}) {
   try {
     const response = await apiClient.delete(`/deletepassword/${passwordID}`)
     console.log('Password successfully deleted.');
-    await getPasswords(setPasswords);
+    await getPasswords({setPasswords, openErrorAlert, openErrorModal});
     openEventAlert('Password successfully deleted.');
 
   } catch (error) {
     if (error.response) {
       if (error.response.status === 500) {
         console.error('🛑 Database Error: ' + error.response.data.details);
+        openErrorModal({errorTitle:'Error Deleting Password', errorDetails:'🛑 Database Error: ' + error.response.data.details});
       } else if (error.response.status === 400) {
         console.error('🛑 User Error: ' + error.response.data.error);
-        if (error.message === "unauthorised") {
-          await getPasswords(setPasswords);
+        if (error.response.data.error === "Unauthorised") {
+          openErrorModal({errorTitle:'Error Deleting Password', errorDetails:'🛑 Error: Your session has expired'});
         } else {openErrorAlert({errorDetails:'🛑 Error: ' + error.response.data.error});}
       }
     } else if (error.request) {
       console.error('🛑 Network Error: ' + error.message);
-      openErrorAlert({errorDetails:'🛑 Network Error: ' + error.message});
+      openErrorModal({errorTitle:'Error Deleting Password', errorDetails:'🛑 Network Error: ' + error.message});
     } else {
       console.log('Error: ' + error.message);
       openErrorAlert({errorDetails:'🛑 Error: ' + error.message});

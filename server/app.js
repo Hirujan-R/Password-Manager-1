@@ -136,14 +136,14 @@ app.get('/api/login', async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: 'None', 
-        maxAge: 3600000
+        maxAge: 10000
       })
 
       res.cookie('token', token, {
         httpOnly: true,
         secure: true,
         sameSite: 'None',
-        maxAge: 3600000
+        maxAge: 10000
       })
 
       console.log('SUCCESS: User logged in successfully');

@@ -8,7 +8,7 @@ import { useViewModal, useEditModal, useDeleteModal } from '../../../hooks/useMo
 import { editPassword, deletePassword } from '../../../utils/apiUtils.jsx';
 
 
-function PasswordRow({passwords, setPasswords, password, openEventAlert, openErrorAlert}) {
+function PasswordRow({passwords, setPasswords, password, openEventAlert, openErrorAlert, openErrorModal}) {
     
     // Modal for viewing password
      const {showViewModal, hideViewModal, openViewModal} = useViewModal();
@@ -34,8 +34,8 @@ function PasswordRow({passwords, setPasswords, password, openEventAlert, openErr
             hideViewModal();
             if ((newServiceName != password.service_name) || (newPassword != password.password)) {
                 editPassword({newServiceName: newServiceName, newPassword: newPassword, 
-                    passwordID: password.password_id, setPasswords: setPasswords, 
-                    openErrorAlert: openErrorAlert, openEventAlert: openEventAlert});
+                    passwordID: password.password_id, setPasswords: setPasswords, openEventAlert: openEventAlert,
+                    openErrorAlert: openErrorAlert, openErrorModal: openErrorModal });
             }
         }
     }
@@ -44,7 +44,7 @@ function PasswordRow({passwords, setPasswords, password, openEventAlert, openErr
     function HandleDeletePassword() {
         hideDeleteModal();
         hideViewModal();
-        deletePassword({passwordID: password.password_id, openEventAlert, openErrorAlert, setPasswords});
+        deletePassword({passwordID: password.password_id, setPasswords, openEventAlert, openErrorAlert, openErrorModal});
     }
 
     

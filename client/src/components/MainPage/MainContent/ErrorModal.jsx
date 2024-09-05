@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../../Modal";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const ErrorRetrievingPasswordsModal = ({showErrorRetrievingPasswordsModal, 
-    hideErrorRetrievingPasswordsModal, showErrorRetrievingPasswordsText}) => {
+const ErrorModal = ({showErrorModal, 
+    hideErrorModal, showErrorText, showErrorTitle}) => {
 
     const navigate = useNavigate();
 
     const modalTitle = (
-        "Error Retrieving Passwords"
+        <p>{showErrorTitle}</p>
     );
 
     const bodyContent = (
         <Container className='d-flex flex-column'>
             <Row>
                 <Col xs={12} className='pe-0 pt-1 me-1'>
-                <p>{showErrorRetrievingPasswordsText}. You will be redirected to the login page.</p>
+                <p>{showErrorText}. You will be redirected to the login page.</p>
                 </Col>
             </Row>
         </Container>
@@ -33,9 +33,9 @@ const ErrorRetrievingPasswordsModal = ({showErrorRetrievingPasswordsModal,
       
     )
 
-    return <Modal show={showErrorRetrievingPasswordsModal} onHide={hideErrorRetrievingPasswordsModal} 
+    return <Modal show={showErrorModal} onHide={hideErrorModal} 
     modalTitle={modalTitle} bodyContent={bodyContent} footerContent={footerContent} 
     titleClassName='w-100 text-center' isCloseButton={false} backdrop={"static"} keyboard={false} />
 }
 
-export default ErrorRetrievingPasswordsModal;
+export default ErrorModal;

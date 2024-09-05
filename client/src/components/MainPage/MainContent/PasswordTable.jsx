@@ -4,7 +4,7 @@ import { Container, Table, Row, Col } from 'react-bootstrap';
 import './PasswordTable.css'
 
 
-function PasswordTable({passwords, setPasswords, query, openEventAlert, openErrorAlert}) {
+function PasswordTable({passwords, setPasswords, query, openEventAlert, openErrorAlert, openErrorModal}) {
 
     const tableItems = useMemo(() => {
         if (!query) {
@@ -16,7 +16,7 @@ function PasswordTable({passwords, setPasswords, query, openEventAlert, openErro
     const rows = useMemo(() => {
         return tableItems.map((password) => (
             <PasswordRow passwords={passwords} setPasswords={setPasswords} password={password}
-                openEventAlert={openEventAlert} openErrorAlert={openErrorAlert}/>
+                openEventAlert={openEventAlert} openErrorAlert={openErrorAlert} openErrorModal={openErrorModal}/>
         ));
     }, [tableItems, passwords, setPasswords, openEventAlert, openErrorAlert]);
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainContent from "./MainContent.jsx";
 import Footer from "./Footer.jsx";
 import { useErrorAlert } from "../../hooks/useAlertStates.jsx";
@@ -8,7 +8,10 @@ const LoginPage = () => {
 
     const { showErrorAlert, hideErrorAlert, openErrorAlert, errorText } = useErrorAlert({isTimeout:true});
     
-    removeCookies(openErrorAlert);
+    useEffect(() => {
+        removeCookies(openErrorAlert);
+    }, []);
+    
 
     return (
         <div className='d-flex flex-column min-vh-100'>

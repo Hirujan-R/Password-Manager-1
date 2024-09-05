@@ -1,10 +1,12 @@
 import React from 'react';
-import { Input } from '../../Input';
+import { Form } from 'react-bootstrap';
 
 function SearchBar ( {setQuery} ) {
 
     return (
-        <Input formControlClassName='border border-primary' onChange={e => setQuery(e.target.value)}/>
+        <Form>
+            <Form.Control className={'border border-primary'} onChange={e => setQuery(e.target.value)} placeholder={'Search Service'}/>
+        </Form>
     )
 }
 

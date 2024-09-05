@@ -10,7 +10,7 @@ import { createPassword } from '../../../utils/apiUtils';
 import './Header.css';
 import { useErrorAlert } from '../../../hooks/useAlertStates';
 
-function Header ({ setQuery, setPasswords, passwords, openEventAlert }) {
+function Header ({ setQuery, setPasswords, openEventAlert, mainOpenErrorAlert, openErrorModal }) {
     const [showCreatePasswordModal, setShowCreatePasswordModal] = useState(false);
     const onHide = () => (setShowCreatePasswordModal(false));
     const onShow = () => (setShowCreatePasswordModal(true));
@@ -25,20 +25,20 @@ function Header ({ setQuery, setPasswords, passwords, openEventAlert }) {
         } else if (newPassword=="") {
             openErrorAlert("⚠️ Error: A password is required. Please enter a password to proceed.")
         } else {
-            createPassword({serviceName: newServiceName, password: newPassword, 
-                openEventAlert, openErrorAlert, setPasswords})
+            createPassword({serviceName: newServiceName, password: newPassword, setPasswords,
+                openEventAlert, openErrorAlert:mainOpenErrorAlert, openErrorModal})
             onHide();
         }
     }
 
     return (
             <Container fluid className='px-sm-5 py-5'>
-                <Row>
-                    <Col xs={{span:7, offset:1}} sm={{span:8, offset:1}} md={{span: 8, offset: 2}} lg={{span: 5, offset: 3}}>
+                <Row className='mx-auto'>
+                    <Col className='my-auto ps-md-0' xs={{span:7, offset:1}} sm={{span:8, offset:1}} md={{span: 6, offset: 3}} lg={{span: 5, offset: 3}}>
                         <SearchBar setQuery={setQuery}/>
                     </Col>
-                    <Col xs={4} sm={2} lg={4} className='d-flex'>
-                        <Button onClick={onShow} className='add-button me-2'>
+                    <Col xs={4} sm={3} md={2} lg={4} className='d-flex ps-md-0 ps-0'>
+                        <Button onClick={onShow} className='add-button me-2 '>
                             <FontAwesomeIcon icon={faPlus} />
                         </Button>
                         <Link to={"/"}>
