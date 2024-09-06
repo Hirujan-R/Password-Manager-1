@@ -136,14 +136,14 @@ app.get('/api/login', async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: 'None', 
-        maxAge: 10000
+        maxAge: 3600000
       })
 
       res.cookie('token', token, {
         httpOnly: true,
         secure: true,
         sameSite: 'None',
-        maxAge: 10000
+        maxAge: 3600000
       })
 
       console.log('SUCCESS: User logged in successfully');
@@ -321,7 +321,7 @@ app.delete('/api/deletepassword/:id', verifyCsrfToken, verifyToken, async (req, 
     // Makes sure that passwords aren't unintentionally deleted
     await client.query(`BEGIN`);
     const { rows: delete_query_rows } = await client.query(`SELECT * FROM change_logs 
-      WHERE description ILIKE $1 AND user_id = $2 AND timestamp >= NOW() - INTERVAL '10 seconds'`, ['%deleted%', user_id]);
+      WHERE description ILIKE $1 AND user_id = $2 AND timestamp >= NOW() - INTERVAL '5 seconds'`, ['%deleted%', user_id]);
     if (delete_query_rows.length > 0) {
       console.error('Error: Too many delete requests in a short period of time');
       return res.status(400).json( { error: 'Multiple requests within a short period of time are prohibited'} );
