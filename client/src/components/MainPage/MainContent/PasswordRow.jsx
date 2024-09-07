@@ -13,30 +13,21 @@ function PasswordRow({passwords, setPasswords, password, openEventAlert, openErr
     // Modal for viewing password
      const {showViewModal, hideViewModal, openViewModal} = useViewModal();
 
-
     // Modal for editting password
     const {showEditModal, hideEditModal, openEditModal} = useEditModal();
 
     // Modal for deleting password
     const {showDeleteModal, hideDeleteModal, openDeleteModal} = useDeleteModal();
 
-    const {showErrorAlert: showEditPasswordErrorAlert, hideErrorAlert: hideEditPasswordErrorAlert, openErrorAlert: openEditPasswordErrorAlert, errorText: editPasswordErrorText} = useErrorAlert({});
     
     // Function for handling the changes made to the password.
     function HandleEditPassword({newServiceName, newPassword}) {
-        hideEditPasswordErrorAlert();
-        if (newServiceName=="") {
-            openEditPasswordErrorAlert("⚠️ Error: A service name is required. Please enter a service name to proceed.")
-        } else if (newPassword=="") {
-            openEditPasswordErrorAlert("⚠️ Error: A password is required. Please enter a password to proceed.")
-        } else {
-            hideEditModal();
-            hideViewModal();
-            if ((newServiceName != password.service_name) || (newPassword != password.password)) {
-                editPassword({newServiceName: newServiceName, newPassword: newPassword, 
-                    passwordID: password.password_id, setPasswords: setPasswords, openEventAlert: openEventAlert,
-                    openErrorAlert: openErrorAlert, openErrorModal: openErrorModal });
-            }
+        hideEditModal();
+        hideViewModal();
+        if ((newServiceName != password.service_name) || (newPassword != password.password)) {
+            editPassword({newServiceName: newServiceName, newPassword: newPassword, 
+                passwordID: password.password_id, setPasswords: setPasswords, openEventAlert: openEventAlert,
+                openErrorAlert: openErrorAlert, openErrorModal: openErrorModal });
         }
     }
 
@@ -59,8 +50,7 @@ function PasswordRow({passwords, setPasswords, password, openEventAlert, openErr
                     editPasswordFunction={openEditModal} deletePasswordFunction={openDeleteModal}/>
 
                 <EditPasswordModal show={showEditModal} onHide={hideEditModal} handleEditPassword={HandleEditPassword}
-                    password={password} showEditPasswordErrorAlert={showEditPasswordErrorAlert} 
-                    hideEditPasswordErrorAlert={hideEditPasswordErrorAlert} editPasswordErrorText={editPasswordErrorText}/>
+                    password={password}/>
 
                 <DeletePasswordModal show={showDeleteModal} onHide={hideDeleteModal} password={password} handleDeletePassword={HandleDeletePassword}/>
             </td>

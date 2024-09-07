@@ -68,6 +68,7 @@ const pool = new Pool({
   database: process.env.PG_DATABASE,
   password: process.env.PG_PASSWORD,
   port: parseInt(process.env.PG_PORT, 10) || 5432,
+  max: 20
 })
 
 
@@ -83,7 +84,6 @@ app.post('/api/registration', async (req, res) => {
 
   const client = await pool.connect();
   try {
-    await client.query(`BEGIN`);
     const {rows} = await client.query(`SELECT * FROM users WHERE email = $1`, [email]);
     if (rows.length > 0) {
       console.log('Error: User with this email already exists');
@@ -92,13 +92,10 @@ app.post('/api/registration', async (req, res) => {
 
     let password_hash = await hashPassword(password);
     const result = await client.query(`INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING user_id`, [email, password_hash]);
-
-    await client.query('COMMIT');
     console.log('SUCCESS: User registered successfully.');
     return res.status(200).json({ message: 'User registered successfully', user_id : result.rows[0].user_id });
 
   } catch (error) {
-    await client.query(`ROLLBACK`);
     console.error('Database error:', error);   
     return res.status(500).json({ error: 'Server error' , details: error.message });
   } finally {
@@ -115,9 +112,7 @@ app.get('/api/login', async (req, res) => {
   }
   const client = await pool.connect();
   try {
-    await client.query(`BEGIN`);
     const {rows} = await client.query(`SELECT user_id, password_hash FROM users WHERE email = $1`, [email]);
-    await client.query(`COMMIT`);
     console.log("Database query result:", rows);
     if (rows.length === 0) {
       console.error("Error: User does not exist.");
@@ -157,7 +152,6 @@ app.get('/api/login', async (req, res) => {
     } 
   } catch (error) {
     console.error('Database error:', error);  
-    await client.query(`ROLLBACK`);
     return res.status(500).json({ error: 'Server error' , details: error.message });
   } finally {
     client.release();
@@ -192,10 +186,8 @@ app.get('/api/getpasswords', verifyCsrfToken, verifyToken, async (req, res) => {
   console.log('Get Passwords request received');
   const client = await pool.connect();
   try {
-    await client.query(`BEGIN`);
     const {rows} = await client.query(`SELECT password_id, service_name, password_encrypted, encrypted_data_key FROM passwords 
       WHERE user_id = $1 ORDER BY created_at`, [req.user_id]);
-    await client.query(`COMMIT`);
     if (rows.length === 0) {
       return res.status(200).json({ message: 'No Passwords' });
     }
@@ -219,7 +211,6 @@ app.get('/api/getpasswords', verifyCsrfToken, verifyToken, async (req, res) => {
     return res.status(200).json({ message: 'Passwords retrieved', passwords: password_rows });
   } catch (error) {
     console.error('Database error:', error);
-    await client.query(`ROLLBACK`);
     return res.status(500).json({ error: 'Server error' , details: error.message });
   } finally {
       client.release();

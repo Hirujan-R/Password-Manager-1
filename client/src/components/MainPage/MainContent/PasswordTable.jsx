@@ -15,7 +15,7 @@ function PasswordTable({passwords, setPasswords, query, openEventAlert, openErro
 
     const rows = useMemo(() => {
         return tableItems.map((password) => (
-            <PasswordRow passwords={passwords} setPasswords={setPasswords} password={password}
+            <PasswordRow key={password.password_id} passwords={passwords} setPasswords={setPasswords} password={password}
                 openEventAlert={openEventAlert} openErrorAlert={openErrorAlert} openErrorModal={openErrorModal}/>
         ));
     }, [tableItems, passwords, setPasswords, openEventAlert, openErrorAlert]);

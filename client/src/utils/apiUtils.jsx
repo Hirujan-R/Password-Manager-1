@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const apiClient = axios.create({
     baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
-    timeout: 20000,
+    timeout: 5000,
     withCredentials: true
 })
 
@@ -149,7 +149,7 @@ export async function editPassword({newServiceName, newPassword, passwordID, set
         if (error.response.data.error === "Unauthorised") {
           openErrorModal({errorTitle:"Error Editting Password", errorDetails:"🛑 Error: Your session has expired"});
         } else {
-          openErrorAlert({errorDetails:"🛑 Error: Your session has expired"});
+          openErrorAlert({errorDetails: '🛑 Error: ' + error.response.data.error});
         }}
     } else if (error.request) {
       console.error('🛑 Network error:', error.message);
