@@ -3,6 +3,7 @@ import { Button, Container, Row, Col, Form } from 'react-bootstrap';
 import { useForm, Controller } from 'react-hook-form';
 import Modal from '../../Modal.jsx';
 import { randomisePassword } from '../../../utils/PasswordUtils.jsx';
+import './CreatePasswordModal.css';
 
 
 
@@ -87,11 +88,11 @@ function CreatePasswordModal({ show, onHide, handleAddPassword }) {
     <Container>
       <Row className='d-flex justify-content-end'>
         <Col className='d-flex justify-content-end pe-0 w-auto' xs={{offset:5, span:3}} sm={{offset:7, span:2}}>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant='light' onClick={handleClose}>
             Close
           </Button>
         </Col>
-        <Col className='d-flex justify-content-end pe-0 w-auto' xs={{offset:0, span:3}} sm={{span:1}}>
+        <Col className='d-flex justify-content-end pe-0 w-auto ps-2' xs={{offset:0, span:3}} sm={{span:1}}>
           <Button variant="primary" onClick={handleSubmit(onSubmit)}>
             Create
           </Button>
@@ -105,7 +106,7 @@ function CreatePasswordModal({ show, onHide, handleAddPassword }) {
 
 
   return (
-    <Modal show={show} onHide={handleClose} modalTitle={modalTitle} titleClassName='w-100 text-center' bodyContent={bodyContent} footerContent={footerContent}></Modal>
+    <Modal show={show} onHide={handleClose} modalTitle={modalTitle} titleClassName='w-100 text-center' headerClassName='modal-header' footerClassName='modal-footer' bodyContent={bodyContent} footerContent={footerContent}></Modal>
   );
 };
 

@@ -46,6 +46,7 @@ function PasswordRow({passwords, setPasswords, password, openEventAlert, openErr
                 <Button variant='primary' onClick={openViewModal}>
                     Show Password
                 </Button>
+                
                 <ViewPasswordModal show={showViewModal} onHide={hideViewModal} password={password} 
                     editPasswordFunction={openEditModal} deletePasswordFunction={openDeleteModal}/>
 
