@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket, faGear } from '@fortawesome/free-solid-svg-icons';
 import { getPasswords, removeCookies } from '../../utils/apiUtils.jsx';
 import { useEventAlert, useErrorAlert } from '../../hooks/useAlertStates.jsx';
 import { useErrorModal } from '../../hooks/useModalStates.jsx';
@@ -39,6 +39,9 @@ const MainPage = () => {
     <div className="main-page d-flex flex-column min-vh-100">
 
       <div className='d-none d-md-flex justify-content-end p-md-3'>
+        <Button className='me-2'>
+          <FontAwesomeIcon icon={faGear} />
+        </Button>
         <Link to={"/"}>
           <Button onClick={removeCookies}>
             <FontAwesomeIcon icon={faRightFromBracket} />
