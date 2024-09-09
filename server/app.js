@@ -349,6 +349,31 @@ app.delete('/api/deletepassword/:id', verifyCsrfToken, verifyToken, async (req, 
   
 })
 
+app.get('/api/getemail', verifyCsrfToken, verifyToken, async (req, res) => {
+  console.log('Get Email request received');
+  const user_id = req.user_id;
+  if (!user_id) {
+    console.error('ERROR: No user ID provided');
+    return res.status(400).json( {error: 'No user ID provided'} );
+  }
+  const client = await pool.connect();
+  try {
+    const {rows: email_row} = await client.query('SELECT email FROM users WHERE user_id = $1', [user_id]);
+    if (email_row.length === 0) {
+      console.error('ERROR: No email found with given user ID');
+      return res.status(400).json( {error: 'No email found with given user ID'} );
+    } else {
+      console.log('SUCCESS: Email successfully retrieved');
+      return res.json({email: email_row[0].email});
+    }
+  } catch (error) {
+    console.error('ERROR: ' + error.message);
+    return res.status(500).json( {error: error.message} );
+  } finally {
+    client.release();
+  }
+})
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

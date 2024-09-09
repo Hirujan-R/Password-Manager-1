@@ -190,6 +190,34 @@ export async function deletePassword({passwordID, openEventAlert, openErrorAlert
   
 }
 
+
+export async function getEmail({openErrorAlert, openErrorModal}) {
+  try {
+    const response = await apiClient.get('/getemail');
+    console.log('Email successfully retrieved');
+    return response.data.email;
+  } catch (error) {
+    if (error.response) {
+      if (error.response.status === 500) {
+        console.error('Database Error: ' + error.response.data.error);
+        openErrorModal({errorDetails:'Database Error: ' + error.response.data.error});
+      } else if (error.response.status === 400) {
+        console.error('User Error: ' + error.response.data.error);
+        if (error.response.data.error === "Unauthorised") {
+          openErrorModal({errorTitle:'Error Deleting Password', errorDetails:'🛑 Error: Your session has expired'});
+        } else {openErrorAlert({errorDetails:'🛑 Error: ' + error.response.data.error});}
+      }
+    } else if (error.request) {
+      console.error('Server Error: ' + error.message);
+      openErrorModal({errorDetails:'Server Error: ' + error.message});
+    } else {
+      console.error('Error: ' + error.message);
+      openErrorAlert({errorDetails:'Error: ' + error.message});
+    }
+  }
+  
+}
+
 export async function removeCookies(openErrorAlert) {
   try {
     const response = await apiClient.post('/removecookies');

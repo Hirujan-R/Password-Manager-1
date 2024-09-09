@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Modal from "../../Modal";
+import Modal from "./Modal";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 

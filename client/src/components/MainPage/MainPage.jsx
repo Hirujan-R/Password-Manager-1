@@ -7,7 +7,7 @@ import { faRightFromBracket, faGear } from '@fortawesome/free-solid-svg-icons';
 import { getPasswords, removeCookies } from '../../utils/apiUtils.jsx';
 import { useEventAlert, useErrorAlert } from '../../hooks/useAlertStates.jsx';
 import { useErrorModal } from '../../hooks/useModalStates.jsx';
-import ErrorModal from './MainContent/ErrorModal.jsx';
+import ErrorModal from '../ErrorModal.jsx';
 import Header from './Header/Header.jsx';
 import MainContent from './MainContent/MainContent.jsx';
 import Footer from './Footer/Footer.jsx';
