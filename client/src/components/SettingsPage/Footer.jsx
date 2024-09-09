@@ -4,7 +4,7 @@ import Alert from '../Alert.jsx'
 
 const Footer = ({showEventAlert, hideEventAlert, eventText, showErrorAlert, hideErrorAlert, errorText}) => {
     return (
-        <div className="d-flex justify-content-end pe-3 pb-3 align-items-end flex-grow-1">
+        <div className="d-flex flex-column justify-content-end pe-3 pb-3 align-items-end flex-grow-1">
 
         <Alert showAlert={showEventAlert} alertVariant={"success"} hideAlert={hideEventAlert}
         isDismissible={true} alertBody={<p>{eventText}</p>}/>

@@ -26,7 +26,7 @@ export const useEventAlert = ({isTimeout=true, timeout=2000}) => {
     const [eventText, setEventText] = useState("")
     const [showEventAlert, setEventAlert] = useState(false);
     const hideEventAlert = () => setEventAlert(false);
-    const openEventAlert = (eventDetails) => {
+    const openEventAlert = ({eventDetails}) => {
         setEventAlert(true);
         setEventText(eventDetails);
         if (isTimeout) {

@@ -39,9 +39,12 @@ const MainPage = () => {
     <div className="main-page d-flex flex-column min-vh-100">
 
       <div className='d-none d-md-flex justify-content-end p-md-3'>
-        <Button className='me-2'>
-          <FontAwesomeIcon icon={faGear} />
-        </Button>
+        <Link to={'/settings'}>
+          <Button className='me-2'>
+            <FontAwesomeIcon icon={faGear} />
+          </Button>
+        </Link>
+        
         <Link to={"/"}>
           <Button onClick={removeCookies}>
             <FontAwesomeIcon icon={faRightFromBracket} />

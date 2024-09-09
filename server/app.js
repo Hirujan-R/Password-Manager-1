@@ -374,6 +374,85 @@ app.get('/api/getemail', verifyCsrfToken, verifyToken, async (req, res) => {
   }
 })
 
+app.put('/api/updateemail', verifyToken, verifyCsrfToken, async (req,res) => {
+  console.log('Update email request received');
+  const {newEmail: new_email} = req.body;
+  const user_id = req.user_id;
+  if (!user_id) {
+    console.error('ERROR: No user ID provided');
+    return res.status(400).json( {error: 'No user ID provided'} );
+  }
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const { rows: update_query_rows } = await client.query(`SELECT * FROM user_change_logs 
+      WHERE description ILIKE $1 AND user_id = $2 AND timestamp >= NOW() - INTERVAL '5 seconds'`, ['%Email Updated%', user_id]);
+    if (update_query_rows.length > 0) {
+      console.error('Error: Too many update email requests in a short period of time');
+      return res.status(400).json( {error: 'Multiple requests within a short period of time are prohibited'} );
+    }
+    const { rows: email_rows } = await client.query(`SELECT user_id from users WHERE email = $1`, [new_email]);
+    if (email_rows.length > 0) {
+      console.error('Error: That email is already being used for another account');
+      return res.status(400).json( {error: 'That email is already being used for another account'} );
+    }
+    await client.query(`UPDATE users SET email = $1 WHERE user_id = $2;`, [new_email, user_id]);
+    await client.query(`INSERT INTO user_change_logs (user_id, description) 
+      VALUES ($1, 'Email Updated')`, [user_id]);
+    await client.query(`COMMIT`);
+    console.log('SUCCESS: Email successfully updated');
+    return res.status(200).json( {message: 'Email successfully updated'} );
+  } catch (error) {
+    console.error('Database Error: ' + error.message);
+    await client.query(`ROLLBACK`);
+    return res.status(400).json( {error: error.message} );
+  } finally {
+    client.release();
+  }
+
+})
+
+app.put('/api/updateuserpassword', verifyToken, verifyCsrfToken, async (req,res) => {
+  console.log('Update user password request received');
+  const {oldPassword: old_password , newPassword: new_password} = req.body;
+  const user_id = req.user_id;
+  if (!user_id) {
+    console.error('ERROR: No user ID provided');
+    return res.status(400).json( {error: 'No user ID provided'} );
+  }
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const { rows: update_query_rows } = await client.query(`SELECT * FROM user_change_logs 
+      WHERE description ILIKE $1 AND user_id = $2 AND timestamp >= NOW() - INTERVAL '5 seconds'`, ['%Password Updated%', user_id]);
+    if (update_query_rows.length > 0) {
+      console.error('Error: Too many update user password requests in a short period of time');
+      return res.status(400).json( {error: 'Multiple requests within a short period of time are prohibited'} );
+    }
+    
+    const { rows: old_password_rows } = await client.query(`SELECT password_hash FROM users 
+      WHERE user_id = $1`, [user_id]);
+    if (! await comparePasswords(old_password, old_password_rows[0].password_hash)) {
+      return res.status(400).json( {error: 'The current password you used is incorrect'} );
+    }
+    const new_password_hash = await hashPassword(new_password);
+    await client.query(`UPDATE users SET password_hash = $1 WHERE user_id = $2;`, [new_password_hash, user_id]);
+    await client.query(`INSERT INTO user_change_logs (user_id, description) 
+      VALUES ($1, $2)`, [user_id, 'Password Updated']);
+    await client.query(`COMMIT`);
+    console.log('SUCCESS: User Password successfully updated');
+    return res.status(200).json( {message: 'User Password successfully updated'} );
+
+  } catch (error) {
+    console.error('Database Error: ' + error.message);
+    await client.query(`ROLLBACK`);
+    return res.status(400).json( {error: error.message} );
+  } finally {
+    client.release();
+  }
+
+})
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

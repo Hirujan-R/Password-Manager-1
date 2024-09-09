@@ -200,22 +200,82 @@ export async function getEmail({openErrorAlert, openErrorModal}) {
     if (error.response) {
       if (error.response.status === 500) {
         console.error('Database Error: ' + error.response.data.error);
-        openErrorModal({errorDetails:'Database Error: ' + error.response.data.error});
+        openErrorModal({errorTitle:'Error Retrieving Email', errorDetails:'🛑 Database Error: ' + error.response.data.error});
       } else if (error.response.status === 400) {
         console.error('User Error: ' + error.response.data.error);
         if (error.response.data.error === "Unauthorised") {
-          openErrorModal({errorTitle:'Error Deleting Password', errorDetails:'🛑 Error: Your session has expired'});
+          openErrorModal({errorTitle:'Error Retrieving Email', errorDetails:'🛑 Error: Your session has expired'});
         } else {openErrorAlert({errorDetails:'🛑 Error: ' + error.response.data.error});}
       }
     } else if (error.request) {
       console.error('Server Error: ' + error.message);
-      openErrorModal({errorDetails:'Server Error: ' + error.message});
+      openErrorModal({errorTitle:'Error Retrieving Email', errorDetails:'🛑 Server Error: ' + error.message});
     } else {
       console.error('Error: ' + error.message);
-      openErrorAlert({errorDetails:'Error: ' + error.message});
+      openErrorAlert({errorDetails:'🛑 Error: ' + error.message});
     }
   }
   
+}
+
+export async function editEmail({newEmail, openErrorAlert, openEventAlert, openErrorModal, setEmail}) {
+  try {
+    const response = await apiClient.put('/updateemail', {
+      newEmail: newEmail
+    });
+    console.log('Email successfully updated');
+    openEventAlert({eventDetails: 'Email successfully updated'});
+    setEmail(newEmail);
+  } catch (error) {
+      if (error.response) {
+        if (error.response.status === 500) {
+          console.error("Database Error:", error.response.data.error);
+          openErrorModal({errorTitle:"Error Editting Email", errorDetails:"🛑 Error: Failure to connect to database"});
+        } else if (error.response.status === 400) {
+          console.error("User error: " + error.response.data.error);
+          if (error.response.data.error === "Unauthorised") {
+            openErrorModal({errorTitle:"Error Editting Email", errorDetails:"🛑 Error: Your session has expired"});
+          } else {
+            openErrorAlert({errorDetails: '🛑 Error: ' + error.response.data.error});
+          }}
+      } else if (error.request) {
+        console.error('🛑 Network error:', error.message);
+        openErrorModal({errorTitle:"Error Editting Email", errorDetails:'🛑 Network error: ' + error.message});
+      } else {
+        console.error('🛑 Error:', error.message);
+        openErrorAlert({errorDetails:'🛑 Error: ' + error.message});
+      }
+  }
+}
+
+export async function editUserPassword({oldPassword, newPassword, openErrorAlert, openEventAlert, openErrorModal}) {
+  try {
+    const response = await apiClient.put('/updateuserpassword', {
+      oldPassword: oldPassword, 
+      newPassword: newPassword
+    });
+    console.log('User Password successfully updated');
+    openEventAlert({eventDetails:'User Password successfully updated'});
+  } catch (error) {
+      if (error.response) {
+        if (error.response.status === 500) {
+          console.error("Database Error:", error.response.data.error);
+          openErrorModal({errorTitle:"Error Editting Password", errorDetails:"🛑 Error: Failure to connect to database"});
+        } else if (error.response.status === 400) {
+          console.error("User error: " + error.response.data.error);
+          if (error.response.data.error === "Unauthorised") {
+            openErrorModal({errorTitle:"Error Editting Password", errorDetails:"🛑 Error: Your session has expired"});
+          } else {
+            openErrorAlert({errorDetails: '🛑 Error: ' + error.response.data.error});
+          }}
+      } else if (error.request) {
+        console.error('🛑 Network error:', error.message);
+        openErrorModal({errorTitle:"Error Editting Password", errorDetails:'🛑 Network error: ' + error.message});
+      } else {
+        console.error('🛑 Error:', error.message);
+        openErrorAlert({errorDetails:'🛑 Error: ' + error.message});
+      }
+  }
 }
 
 export async function removeCookies(openErrorAlert) {

@@ -31,9 +31,11 @@ function Header ({ setQuery, setPasswords, openEventAlert, mainOpenErrorAlert, o
                     <Button onClick={onShow} className='add-button me-2 '>
                         <FontAwesomeIcon icon={faPlus} />
                     </Button>
-                    <Button className='settings-button me-2 d-md-none'>
-                        <FontAwesomeIcon icon={faGear} />
-                    </Button>
+                    <Link to={'/settings'}>
+                        <Button className='settings-button me-2 d-md-none'>
+                            <FontAwesomeIcon icon={faGear} />
+                        </Button>
+                    </Link>
                     <Link to={"/"}>
                         <Button className='logout-button d-md-none'>
                             <FontAwesomeIcon icon={faRightFromBracket} />

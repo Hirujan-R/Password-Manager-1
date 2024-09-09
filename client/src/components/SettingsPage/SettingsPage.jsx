@@ -18,7 +18,7 @@ export const SettingsPage = () => {
     return (
         <div className='min-vh-100 d-flex flex-column'>
             <Header />
-            <MainContent openErrorAlert={openErrorAlert} openErrorModal={openErrorModal}/>
+            <MainContent openErrorAlert={openErrorAlert} openErrorModal={openErrorModal} openEventAlert={openEventAlert}/>
             <Footer showEventAlert={showEventAlert} hideEventAlert={hideEventAlert} eventText={eventText} 
                 showErrorAlert={showErrorAlert} hideErrorAlert={hideErrorAlert} errorText={errorText}/>
 
