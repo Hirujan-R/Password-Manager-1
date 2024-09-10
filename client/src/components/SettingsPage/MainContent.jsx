@@ -134,7 +134,7 @@ const MainContent = ({openErrorAlert, openErrorModal, openEventAlert}) => {
                 </Form.Group>
                     
                 <Row>
-                    <Col xs={{offset:3, span:6}} md={{offset:4, span:4}} className="mb-3 mb-md-5">
+                    <Col xs={{offset:3, span:6}} md={{offset:4, span:4}} className="mb-3 mb-md-4">
                         <Button type="submit">Save Changes</Button>
                     </Col>
                 </Row>
