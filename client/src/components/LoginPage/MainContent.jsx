@@ -12,7 +12,7 @@ const MainContent = ({ openErrorAlert }) => {
     const navigate = useNavigate();
 
     const onSubmit = async (data) => {
-        if ( await login({email:data.email, password:data.password, openErrorAlert}) === true ) {
+        if ( await login({email: data.email, password: data.password, openErrorAlert}) === true ) {
             navigate('/main');
         }
     }

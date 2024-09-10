@@ -26,10 +26,10 @@ const MainContent = ({openErrorAlert, openErrorModal, openEventAlert}) => {
 
     const onSubmit = async (data) => {
         if (data.email !== '' && data.email !== email) {
-            await editEmail({newEmail:data.email, openErrorAlert, openEventAlert, openErrorModal, setEmail});
+            await editEmail({newEmail: data.email, openErrorAlert, openEventAlert, openErrorModal, setEmail});
         }
         if (data.oldPassword !== '' && data.newPassword !== '') {
-            await editUserPassword({oldPassword:data.oldPassword, newPassword:data.newPassword, openErrorAlert, openEventAlert, openErrorModal});
+            await editUserPassword({oldPassword: data.oldPassword, newPassword: data.newPassword, openErrorAlert, openEventAlert, openErrorModal});
         }
         
     }

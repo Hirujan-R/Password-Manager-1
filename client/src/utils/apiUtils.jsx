@@ -15,7 +15,7 @@ export async function addUser({email, password, openErrorAlert, openEventAlert})
         password: password
       });
       console.log(`User registered successfully! User ID is ${response.data.user_id}`);
-      openEventAlert('User registered successfully!');
+      openEventAlert({eventDetails:'User registered successfully!'});
     } catch (error) {
       if (error.response) {
         // Server responded with error code
@@ -107,7 +107,7 @@ export async function createPassword({serviceName, password, setPasswords, openE
       password: password
     })
     await getPasswords({setPasswords, openErrorAlert, openErrorModal});
-    openEventAlert("Password successfully created.");
+    openEventAlert({eventDetails:"Password successfully created"});
   } catch (error) {
     if (error.response) {
       if (error.response.status === 500) {
@@ -138,7 +138,7 @@ export async function editPassword({newServiceName, newPassword, passwordID, set
       password: newPassword
     })
     await getPasswords({setPasswords, openErrorAlert, openErrorModal});
-    openEventAlert("Password has been successfully updated.");
+    openEventAlert({eventDetails:"Password has been successfully updated"});
   } catch (error) {
     if (error.response) {
       if (error.response.status === 500) {
@@ -166,7 +166,7 @@ export async function deletePassword({passwordID, openEventAlert, openErrorAlert
     const response = await apiClient.delete(`/deletepassword/${passwordID}`)
     console.log('Password successfully deleted.');
     await getPasswords({setPasswords, openErrorAlert, openErrorModal});
-    openEventAlert('Password successfully deleted.');
+    openEventAlert({eventDetails:'Password successfully deleted'});
 
   } catch (error) {
     if (error.response) {

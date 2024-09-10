@@ -3,9 +3,15 @@ import { Form } from 'react-bootstrap';
 
 function SearchBar ( {setQuery} ) {
 
+    const handleEnterPress = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+        } 
+    }
+
     return (
         <Form>
-            <Form.Control className={'border border-primary'} onChange={e => setQuery(e.target.value)} placeholder={'Search Service'}/>
+            <Form.Control className={'border border-primary'} onKeyDown={handleEnterPress} onChange={e => setQuery(e.target.value)} placeholder={'Search Service'}/>
         </Form>
     )
 }
