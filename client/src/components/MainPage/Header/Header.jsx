@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faRightFromBracket, faGear } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import CreatePasswordModal from './CreatePasswordModal';
-import { addPassword } from '../../../utils/PasswordUtils';
 import { createPassword } from '../../../utils/apiUtils';
 import './Header.css';
 import { useErrorAlert } from '../../../hooks/useAlertStates';

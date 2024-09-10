@@ -2,5 +2,12 @@
   width: 100%;
   margin: 0 auto;
   text-align: center;
+  background-color: #040404f1;
+  -webkit-text-fill-color: rgb(7, 178, 7);
+  font-family: 'Courier New', Courier, monospace;
+  color: green;
 }
+
+
+
 

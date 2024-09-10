@@ -1,0 +1,14 @@
+.alert {
+    -webkit-text-fill-color: black;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.alert-success {
+    background-color: #186b2b;
+    border-color: #186b2b;
+}
+
+.alert-danger {
+    background-color: rgb(238, 118, 118);
+    border-color: rgb(238, 118, 118);
+}

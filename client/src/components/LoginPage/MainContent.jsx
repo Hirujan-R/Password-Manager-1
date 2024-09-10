@@ -35,11 +35,11 @@ const MainContent = ({ openErrorAlert }) => {
                                     }
                                 }}
                                 render={({field}) => (
-                                    <Form.Control className='border border-primary' type="text" placeholder="Email"
+                                    <Form.Control className='input-field' type="text" placeholder="Email"
                                         isInvalid={!!errors.email} {...field}/>
                                 )}
                             />
-                            {errors.email && <Form.Control.Feedback className="mb-0" type="invalid">{errors.email.message}</Form.Control.Feedback>}
+                            {errors.email && <Form.Control.Feedback className="input-field-feedback mb-0" type="invalid">{errors.email.message}</Form.Control.Feedback>}
                         </Col>
                     </Row>
                 </Form.Group>
@@ -54,19 +54,19 @@ const MainContent = ({ openErrorAlert }) => {
                                     required: 'Password is required'
                                 }}
                                 render={({field}) => (
-                                    <Form.Control className='border border-primary' type="password" placeholder="Password"
+                                    <Form.Control className='input-field' type="password" placeholder="Password"
                                         isInvalid={!!errors.password} {...field}/>
                                 )}
 
                             />
-                            {errors.password && <Form.Control.Feedback className="mb-0" type="invalid">{errors.password.message}</Form.Control.Feedback>}
+                            {errors.password && <Form.Control.Feedback className="input-field-feedback mb-0" type="invalid">{errors.password.message}</Form.Control.Feedback>}
                         </Col>
                     </Row>
                 </Form.Group>
                 <Row className="w-100 mx-auto">
                     <Col xs={12} sm={{span:10, offset:1}} md={{offset:2, span:8}} lg={{span:4, offset:4}} className="d-flex justify-content-end align-items-center">
                         <Link className="register-link link-primary mb-0" to="/registration"> Don't have an account? Click here to register!</Link>
-                        <Button className="ms-3" type="submit">Login</Button>
+                        <Button className="button ms-3" type="submit">Login</Button>
                     </Col>
                 </Row>
             </Form>
