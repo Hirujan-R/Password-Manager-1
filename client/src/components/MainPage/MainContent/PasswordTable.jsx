@@ -26,9 +26,9 @@ function PasswordTable({passwords, setPasswords, query, openEventAlert, openErro
 
     return (
         <Container fluid className='table-container'>
-            <Table className='border border-primary' striped bordered hover>
+            <Table className='password-table' striped hover bordered>
                 <thead>
-                    <tr>
+                    <tr >
                         <th>Name</th>
                         <th>Password</th>
                     </tr>

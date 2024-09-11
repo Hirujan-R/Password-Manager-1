@@ -41,9 +41,9 @@ function PasswordRow({passwords, setPasswords, password, openEventAlert, openErr
     
     return (
         <tr>
-            <td>{password.service_name}</td>
+            <td>{password.service_name}</td>   
             <td>
-                <Button variant='primary' onClick={openViewModal}>
+                <Button className='primary-button' onClick={openViewModal}>
                     Show Password
                 </Button>
                 

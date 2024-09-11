@@ -11,7 +11,7 @@ function SearchBar ( {setQuery} ) {
 
     return (
         <Form>
-            <Form.Control className={'border border-primary'} onKeyDown={handleEnterPress} onChange={e => setQuery(e.target.value)} placeholder={'Search Service'}/>
+            <Form.Control className={'input-field'} onKeyDown={handleEnterPress} onChange={e => setQuery(e.target.value)} placeholder={'Search Service'}/>
         </Form>
     )
 }

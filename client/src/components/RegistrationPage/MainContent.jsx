@@ -32,7 +32,7 @@ const MainContent = ({openErrorAlert, openEventAlert}) => {
                                     }
                                 }}
                                 render={({ field }) => (
-                                    <Form.Control className="border border-primary" type="text" placeholder="Email" 
+                                    <Form.Control className="input-field" type="text" placeholder="Email" 
                                         isInvalid={!!errors.email} {...field}/>
                                 )}
                             />
@@ -51,7 +51,7 @@ const MainContent = ({openErrorAlert, openEventAlert}) => {
                                 defaultValue=""
                                 rules={{ required: 'Password is required' }}
                                 render={({ field }) => (
-                                    <Form.Control className="border border-primary" type="password" placeholder="Password" 
+                                    <Form.Control className="input-field" type="password" placeholder="Password" 
                                         isInvalid={errors.password} {...field}/>
                                 )}
                             />
@@ -72,7 +72,7 @@ const MainContent = ({openErrorAlert, openEventAlert}) => {
                                     validate: value => value === getValues('password') || "Passwords don't match"
                                 }}
                                 render={({ field }) => (
-                                    <Form.Control className="border border-primary" type="password" placeholder="Retype Password" 
+                                    <Form.Control className="input-field" type="password" placeholder="Retype Password" 
                                         isInvalid={errors.retypepassword} {...field}/>
                                 )}
                             />
@@ -83,8 +83,8 @@ const MainContent = ({openErrorAlert, openEventAlert}) => {
                 </Form.Group>
                 <Row className="w-100 mx-auto">
                     <Col xs={12} sm={{offset:1, span:10}} md={{offset:2, span:8}} lg={{offset:4, span:4}} className="d-flex justify-content-end align-items-center" >
-                        <Link className="login-link link-primary mb-0" to="/"> Have an account? Click here to login!</Link>
-                        <Button className="ms-3" type="submit">Register</Button>
+                        <Link className="hyperlink link-primary mb-0" to="/"> Have an account? Click here to login!</Link>
+                        <Button className="primary-button ms-3" type="submit">Register</Button>
                     </Col>
                 </Row>
             </Form>

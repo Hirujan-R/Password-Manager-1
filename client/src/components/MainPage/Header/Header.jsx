@@ -27,16 +27,16 @@ function Header ({ setQuery, setPasswords, openEventAlert, mainOpenErrorAlert, o
                     <SearchBar setQuery={setQuery}/>
                 </Col>
                 <Col xs={5} sm={3} md={2} lg={4} className='d-flex ps-md-0 ps-0'>
-                    <Button onClick={onShow} className='add-button me-2 '>
+                    <Button onClick={onShow} className='primary-button add-button me-2 '>
                         <FontAwesomeIcon icon={faPlus} />
                     </Button>
                     <Link to={'/settings'}>
-                        <Button className='settings-button me-2 d-md-none'>
+                        <Button className='primary-button settings-button me-2 d-md-none'>
                             <FontAwesomeIcon icon={faGear} />
                         </Button>
                     </Link>
                     <Link to={"/"}>
-                        <Button className='logout-button d-md-none'>
+                        <Button className='primary-button logout-button d-md-none'>
                             <FontAwesomeIcon icon={faRightFromBracket} />
                         </Button>
                     </Link>

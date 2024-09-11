@@ -40,13 +40,13 @@ const MainPage = () => {
 
       <div className='d-none d-md-flex justify-content-end p-md-3'>
         <Link to={'/settings'}>
-          <Button className='me-2'>
+          <Button className='primary-button me-2'>
             <FontAwesomeIcon icon={faGear} />
           </Button>
         </Link>
         
         <Link to={"/"}>
-          <Button onClick={removeCookies}>
+          <Button className='primary-button' onClick={removeCookies}>
             <FontAwesomeIcon icon={faRightFromBracket} />
           </Button>
         </Link>

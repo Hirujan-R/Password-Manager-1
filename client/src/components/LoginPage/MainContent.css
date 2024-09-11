@@ -1,38 +1,5 @@
-.register-link {
-    opacity: 1;
-    -webkit-text-fill-color: green;
-}
-
-.register-link:hover {
-    opacity: 0.5;
-}
-
-.input-field {
-    background-color: #302e2eee;
-    border: 1px solid green;
-    border-radius: 1rem;
-    caret-color: green;
-}
-
-.input-field:focus {
-    background-color: #302e2eee;
-    border: 1px solid green;
-    border-radius: 1rem;
-    box-shadow: 0 0 0 0.1rem green;
-}
-
 .input-field-feedback {
     -webkit-text-fill-color: rgba(255, 0, 0, 0.488);
 }
 
 
-.button {
-    background-color: rgb(0, 61, 0);
-    -webkit-text-fill-color: white;
-    border: 1px solid green;
-    border-radius: 1rem;
-}
-
-.button:hover {
-    background-color: green;
-}
