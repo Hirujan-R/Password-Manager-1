@@ -8,15 +8,16 @@
   color: green;
 }
 
-#root .primary-button {
+#root .primary-button, #root .primary-button:focus {
   background-color: rgb(0, 61, 0);
   -webkit-text-fill-color: white;
   border: 1px solid green;
   border-radius: 1rem;
 }
 
-#root .primary-button:hover {
+#root .primary-button:hover, #root .primary-button:active {
   background-color: green;
+  border: 1px solid green;
 }
 
 #root .input-field {

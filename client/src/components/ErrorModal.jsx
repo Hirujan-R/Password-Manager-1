@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import './ErrorModal.css';
 
 const ErrorModal = ({showErrorModal, 
     hideErrorModal, showErrorText, showErrorTitle}) => {
@@ -25,7 +26,7 @@ const ErrorModal = ({showErrorModal,
     const footerContent = (
         <Container fluid>
         <div className='d-flex justify-content-end'>
-          <Button variant="secondary" onClick={() => navigate('/')}>
+          <Button className="primary-button" onClick={() => navigate('/')}>
             Go to Login Page
           </Button>
         </div>

@@ -28,8 +28,8 @@ function ViewPasswordModal({show, onHide, password, editPasswordFunction, delete
             </Row>
             <Row>
             <Col>
-                <Button className='primary-button me-2' onClick={() => CopyPassword(password)}><FontAwesomeIcon icon={faCopy} /></Button>
-                <Button className='primary-button me-2' onClick={editPasswordFunction}><FontAwesomeIcon icon={faPenToSquare} /></Button>
+                <Button className='primary-button' onClick={() => CopyPassword(password)}><FontAwesomeIcon icon={faCopy} /></Button>
+                <Button className='primary-button' onClick={editPasswordFunction}><FontAwesomeIcon icon={faPenToSquare} /></Button>
                 <Button className='danger-button' onClick={deletePasswordFunction}><FontAwesomeIcon icon={faTrash} /></Button>
             </Col>
             </Row>

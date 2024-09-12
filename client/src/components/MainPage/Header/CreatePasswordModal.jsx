@@ -9,7 +9,7 @@ import './CreatePasswordModal.css';
 
 function CreatePasswordModal({ show, onHide, handleAddPassword }) {
 
-  const { control, handleSubmit, formState: {errors}, getValues, reset } = useForm();
+  const { control, handleSubmit, formState: {errors}, getValues, reset, setValue } = useForm();
 
 
   const onSubmit = (data) => {
@@ -72,7 +72,7 @@ function CreatePasswordModal({ show, onHide, handleAddPassword }) {
               {errors.password && <Form.Control.Feedback className='mb-0' type='invalid'>{errors.password.message}</Form.Control.Feedback>}
             </Col>
             <Col xs={{span:4}} sm={3} className='d-flex justify-content-end pe-0'>
-              <Button className='p-1 primary-button' style={{height:'38px'}} onClick={() => randomisePassword('passwordInput')}>Randomise</Button>
+              <Button className='p-1 primary-button' style={{height:'38px'}} onClick={() => randomisePassword(setValue,'password')}>Randomise</Button>
             </Col>
           </Row>
         </Form.Group>
