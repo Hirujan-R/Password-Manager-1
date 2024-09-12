@@ -33,6 +33,13 @@
   box-shadow: 0 0 0 0.1rem green;
 }
 
+#root .input-field:-webkit-autofill, 
+#root .input-field:-webkit-autofill:focus,
+#root .input-field.input-field:-webkit-autofill:hover,
+#root .input-field.input-field:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #302e2eee inset;
+}
+
 #root .hyperlink {
   opacity: 1;
   -webkit-text-fill-color: green;

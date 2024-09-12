@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import Modal from '../../Modal.jsx';
+import './DeletePasswordModal.css';
 
 function DeletePasswordModal({ show, onHide, password, handleDeletePassword}) {
 
@@ -9,17 +10,17 @@ function DeletePasswordModal({ show, onHide, password, handleDeletePassword}) {
     ) 
   
     const bodyContent = (
-      <div>
+      <div className='body-content'>
         <p>Are you sure you want to delete the password for {password.service_name}?</p>
       </div>
     )
   
     const footerContent = (
-      <div>
-        <Button variant="secondary" onClick={onHide}>
+      <div className='footer-content'>
+        <Button className="secondary-button me-2" onClick={onHide}>
           Close
         </Button>
-        <Button variant="danger" onClick={handleDeletePassword}>
+        <Button className="danger-button" onClick={handleDeletePassword}>
           Delete
         </Button>
       </div>
@@ -28,7 +29,7 @@ function DeletePasswordModal({ show, onHide, password, handleDeletePassword}) {
   
   
     return (
-      <Modal show={show} onHide={onHide} modalTitle={modalTitle} bodyContent={bodyContent} footerContent={footerContent}></Modal>
+      <Modal show={show} onHide={onHide} modalTitle={modalTitle} titleClassName='w-100 text-center' bodyContent={bodyContent} footerContent={footerContent}></Modal>
     );
   };
   

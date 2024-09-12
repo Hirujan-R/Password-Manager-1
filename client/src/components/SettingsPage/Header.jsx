@@ -8,13 +8,13 @@ const Header = () => {
     return (
         <div className="d-flex justify-content-end pe-4 pt-4">
             <Link to={'/main'}>
-                <Button className="me-3">
+                <Button className="primary-button me-3">
                     <FontAwesomeIcon icon={faHouse} />
                 </Button>
             </Link>
             
             <Link to={'/'}>
-                <Button>
+                <Button className="primary-button">
                     <FontAwesomeIcon icon={faRightFromBracket}/>
                 </Button>
             </Link>

@@ -12,3 +12,12 @@
     background-color: rgb(238, 118, 118);
     border-color: rgb(238, 118, 118);
 }
+
+.alert-copy-text {
+    padding: 0;
+    margin: 0;
+    background-color: #12111100;
+    -webkit-text-fill-color: rgb(7, 178, 7);
+    font-family: 'Courier New', Courier, monospace;
+
+}

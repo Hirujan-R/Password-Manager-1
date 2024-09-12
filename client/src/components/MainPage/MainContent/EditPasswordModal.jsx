@@ -30,7 +30,7 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password}) {
   ) 
 
   const bodyContent = (
-    <Container className='h-100'>
+    <Container className='body-content h-100'>
       <Form>
         <Form.Group>
           <Row className='mb-2 mb-md-2'>
@@ -43,8 +43,8 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password}) {
                   required: 'Service Name is required'
                 }}
                 render={({field}) => (
-                  <Form.Control id={'serviceInput'} className={'border border-primary'} placeholder={'Service Name'}
-                    isInvalid={!!errors.service} {...field}/>
+                  <Form.Control id={'serviceInput'} className={'input-field'} placeholder={'Service Name'}
+                    isInvalid={!!errors.service} maxLength={20} {...field}/>
                 )}
               />
               {errors.service && <Form.Control.Feedback className='mb-0' type='invalid'>{errors.service.message}</Form.Control.Feedback>}
@@ -62,14 +62,14 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password}) {
                     required: 'Password is required'
                   }}
                   render={({field}) => (
-                    <Form.Control id={'passwordInput'} className={'border border-primary'} placeholder={'Password'}
-                      isInvalid={!!errors.password} {...field}/>
+                    <Form.Control id={'passwordInput'} className={'input-field'} placeholder={'Password'}
+                      isInvalid={!!errors.password} maxLength={25} {...field}/>
                   )}
               />
               {errors.password && <Form.Control.Feedback className='mb-0' type='invalid'>{errors.password.message}</Form.Control.Feedback>}
             </Col>
             <Col xs={{span:4}} sm={3} className='d-flex justify-content-end pe-0'>
-              <Button className='p-1' style={{height:'38px'}} onClick={() => randomisePassword('passwordInput')}>Randomise</Button>
+              <Button className='primary-button p-1' style={{height:'38px'}} onClick={() => randomisePassword('passwordInput')}>Randomise</Button>
             </Col>
           </Row>
         </Form.Group>
@@ -78,15 +78,15 @@ function EditPasswordModal({ show, onHide, handleEditPassword, password}) {
   )
 
   const footerContent = (
-    <Container>
+    <Container className='footer-content'>
       <Row className='d-flex justify-content-end'>
         <Col className='d-flex justify-content-end pe-0 w-auto' xs={{offset:5, span:3}} sm={{offset:7, span:2}}>
-          <Button variant="light" onClick={handleClose}>
+          <Button className='secondary-button' onClick={handleClose}>
             Close
           </Button>
         </Col>
         <Col className='d-flex justify-content-end pe-0 w-auto' xs={{offset:0, span:3}} sm={{span:1}}>
-          <Button variant="primary" onClick={handleSubmit(onSubmit)}>
+          <Button className='primary-button' onClick={handleSubmit(onSubmit)}>
             Edit
           </Button>
         </Col>

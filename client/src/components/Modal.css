@@ -1,0 +1,49 @@
+.modal {
+    margin: 0 auto;
+    text-align: center;
+    -webkit-text-fill-color: rgb(7, 178, 7);
+    font-family: 'Courier New', Courier, monospace;
+    color: green;
+    
+}
+
+.modal .modal-header, .modal .modal-footer {
+    background-color: #040404f1;
+    color: green;
+    border: 2px solid green;
+    
+}
+
+.modal .modal-header {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.modal .modal-body {
+    background-color: #040404f1;
+    border: 1px solid green;
+}
+
+.modal .modal-footer {
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+.modal-header .modal-close {
+    background-color: transparent;
+    border: none;
+    color: green;
+    font-size: 1.5rem;
+    padding: 0%;
+    line-height: 1;
+    pointer-events: auto;
+
+}
+
+.modal-header .modal-close:hover, .modal-header .modal-close:focus, .modal-header .modal-close:active {
+    background-color: transparent;
+    outline: none;
+    color: rgb(1, 150, 1);
+    border: none;
+}
+

@@ -1,0 +1,11 @@
+.main-content .danger-button {
+    background-color: #de2828ee;
+    -webkit-text-fill-color: white;
+    border: 1px solid #de2828ee;
+    border-radius: 1rem;
+}
+
+.main-content .danger-button:hover, .main-content .danger-button:active{
+    background-color: green;
+    border: 1px solid green;
+}

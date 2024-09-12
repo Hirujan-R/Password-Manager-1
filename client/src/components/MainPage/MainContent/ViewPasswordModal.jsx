@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Modal as BootstrapModal, Button, Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCopy, faTrash, faPenToSquare} from '@fortawesome/free-solid-svg-icons';
-
 import Modal from '../../Modal.jsx';
 import Alert from '../../Alert.jsx';
 import { useEventAlert } from '../../../hooks/useAlertStates.jsx';
@@ -23,15 +22,15 @@ function ViewPasswordModal({show, onHide, password, editPasswordFunction, delete
     )
     
     const bodyContent = (
-        <div className='d-flex flex-column justify-content-center text-center'>
+        <div className='body-content d-flex flex-column justify-content-center text-center'>
             <Row>
                 <p>{password.password}</p>
             </Row>
             <Row>
             <Col>
-                <Button className='me-2' variant='secondary' onClick={() => CopyPassword(password)}><FontAwesomeIcon icon={faCopy} /></Button>
-                <Button className='me-2' variant='primary' onClick={editPasswordFunction}><FontAwesomeIcon icon={faPenToSquare} /></Button>
-                <Button variant='danger' onClick={deletePasswordFunction}><FontAwesomeIcon icon={faTrash} /></Button>
+                <Button className='primary-button me-2' onClick={() => CopyPassword(password)}><FontAwesomeIcon icon={faCopy} /></Button>
+                <Button className='primary-button me-2' onClick={editPasswordFunction}><FontAwesomeIcon icon={faPenToSquare} /></Button>
+                <Button className='danger-button' onClick={deletePasswordFunction}><FontAwesomeIcon icon={faTrash} /></Button>
             </Col>
             </Row>
         </div>   
@@ -39,8 +38,8 @@ function ViewPasswordModal({show, onHide, password, editPasswordFunction, delete
     
     const footerContent = (
         <Container fluid>
-            <Alert showAlert={showEventAlert} alertVariant={'secondary'} hideAlert={hideEventAlert} 
-            isDismissible={false} alertHeading={"Success!"} alertBody={<p>{eventText}</p>}/>
+            <Alert showAlert={showEventAlert} alertVariant='copy-text' hideAlert={hideEventAlert} 
+            isDismissible={false} alertHeading={"Password Copied!"} alertBody={<p>{eventText}</p>}/>
         </Container>  
     )
 
