@@ -5,7 +5,7 @@ import { editEmail, editUserPassword, getEmail } from "../../utils/apiUtils";
 import './MainContent.css';
 
 
-const MainContent = ({openErrorAlert, openErrorModal, openEventAlert}) => {
+const MainContent = ({openErrorAlert, openErrorModal, openEventAlert, openDeleteAccountModal}) => {
 
     const { control ,handleSubmit, formState: { errors }, getValues, reset } = useForm();
     const [email, setEmail] = useState('');
@@ -102,7 +102,7 @@ const MainContent = ({openErrorAlert, openErrorModal, openEventAlert}) => {
                                         notOldPassword: (value) => value === '' || value !== getValues('oldPassword') || 'New Password must be different from current password'
                                     }
                                 }}
-                                render={({ field}) => (
+                                render={({field}) => (
                                     <Form.Control className="input-field" placeholder="Enter new password" type="password"
                                         isInvalid={!!errors.newPassword} {...field} />
                                 )}
@@ -140,8 +140,8 @@ const MainContent = ({openErrorAlert, openErrorModal, openEventAlert}) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
-                        <Button xs={{offset:3, span:6}} md={{offset:5, span:2}} className="danger-button">Delete Account</Button>
+                    <Col xs={{offset:3, span:6}} md={{offset:5, span:2}}>
+                        <Button onClick={openDeleteAccountModal} className="danger-button">Delete Account</Button>
                     </Col>
                 </Row>
                 

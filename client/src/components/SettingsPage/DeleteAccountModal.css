@@ -1,0 +1,47 @@
+.footer-content .secondary-button {
+    background-color: #1c281aee;
+    -webkit-text-fill-color: white;
+    border: 1px solid green;
+    border-radius: 1rem;
+}
+
+.footer-content .danger-button {
+    background-color: #de2828ee;
+    -webkit-text-fill-color: white;
+    border: 1px solid #de2828ee;
+    border-radius: 1rem;
+}
+  
+.footer-content .secondary-button:hover, .footer-content .secondary-button:active,
+.footer-content .danger-button:hover, .footer-content .danger-button:active {
+    background-color: green;
+    border: 1px solid green;
+}
+
+.body-content .input-field {
+    background-color: #302e2eee;
+    border: 1px solid green;
+    border-radius: 1rem;
+    caret-color: green;
+}
+  
+.body-content .input-field:focus {
+    background-color: #302e2eee;
+    border: 1px solid green;
+    border-radius: 1rem;
+    box-shadow: 0 0 0 0.1rem green;
+}
+  
+.body-content .input-field:-webkit-autofill, 
+.body-content .input-field:-webkit-autofill:focus,
+.body-content .input-field.input-field:-webkit-autofill:hover,
+.body-content .input-field.input-field:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #302e2eee inset;
+}
+
+.no-copy {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}

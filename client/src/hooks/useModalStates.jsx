@@ -29,6 +29,14 @@ export const useDeleteModal = () => {
     return {showDeleteModal, hideDeleteModal, openDeleteModal};
 }
 
+export const useDeleteAccountModal = () => {
+    const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
+    const openDeleteAccountModal = () => setShowDeleteAccountModal(true);
+    const hideDeleteAccountModal = () => setShowDeleteAccountModal(false);
+
+    return {showDeleteAccountModal, hideDeleteAccountModal, openDeleteAccountModal};
+}
+
 
 // Modal for redirecting users when there is an error fetching passwords from server
 export const useErrorModal = () => {
