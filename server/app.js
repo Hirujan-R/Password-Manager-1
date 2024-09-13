@@ -269,7 +269,7 @@ app.put('/api/updatepassword', verifyCsrfToken, verifyToken, async (req, res) =>
     if (password_rows.length > 0) {
       let description = 'Password with service name ' + password_rows[0].service_name + ' has been updated.';
       const {rows: recentChangeLogs} = await client.query(`SELECT * FROM change_logs WHERE user_id = $1 AND 
-        password_id = $2 AND description = $3 AND timestamp >= NOW() - INTERVAL '10 seconds'`, [req.user_id, password_id, description]);
+        password_id = $2 AND description = $3 AND timestamp >= NOW() - INTERVAL '5 seconds'`, [req.user_id, password_id, description]);
       if (recentChangeLogs.length > 0) {
         return res.status(400).json({ error: 'Multiple requests within a short period of time are prohibited' });
       }
@@ -447,6 +447,33 @@ app.put('/api/updateuserpassword', verifyToken, verifyCsrfToken, async (req,res)
     console.error('Database Error: ' + error.message);
     await client.query(`ROLLBACK`);
     return res.status(400).json( {error: error.message} );
+  } finally {
+    client.release();
+  }
+
+})
+
+app.delete('/api/deleteuser', verifyToken, verifyCsrfToken, async (req,res) => {
+  console.log('Delete account request received');
+  const user_id = req.user_id;
+  if (!user_id) {
+    console.error('ERROR: No user ID provided');
+    return res.status(400).json( {error: 'No user ID provided'} );
+  }
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    await client.query(`DELETE FROM passwords WHERE user_id = $1`, [user_id]);
+    await client.query(`DELETE FROM users WHERE user_id = $1`, [user_id]);
+    await client.query(`INSERT INTO user_change_logs (user_id, description) 
+      VALUES ($1, $2)`, [user_id, 'Account Deleted']);
+    await client.query(`COMMIT`);
+    console.log('SUCCESS: Account successfully deleted');
+    return res.status(200).json( {message: 'Account successfully deleted'} );
+  } catch (error) {
+    console.error('Error: ' + error.message);
+    await client.query(`ROLLBACK`);
+    return res.status(500).json( {error: error.message} );
   } finally {
     client.release();
   }

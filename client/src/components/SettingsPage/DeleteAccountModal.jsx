@@ -4,8 +4,9 @@ import Modal from '../Modal.jsx';
 import { generateRandomPassword } from '../../utils/PasswordUtils.jsx';
 import './DeleteAccountModal.css';
 import {useForm, Controller} from 'react-hook-form';
+import { deleteUser } from '../../utils/apiUtils.jsx';
 
-function DeleteAccountModal({ show, onHide}) {
+function DeleteAccountModal({ show, onHide, openErrorModal, openErrorAlert}) {
     
     const { control ,handleSubmit, formState: { errors }, getValues, reset } = useForm();
 
@@ -22,10 +23,11 @@ function DeleteAccountModal({ show, onHide}) {
 
     
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         console.log('Hi');
         reset({confirmDelete:''}); // Reset the form
         onHide();
+        await deleteUser({openErrorAlert, openErrorModal})
     };
 
     const modalTitle = (
@@ -34,7 +36,7 @@ function DeleteAccountModal({ show, onHide}) {
   
     const bodyContent = (
       <div className='body-content'>
-        <p className='no-copy'>Are you sure you want to delete your account? This action is irreversible. 
+        <p className='' >Are you sure you want to delete your account? This action is irreversible. 
             To confirm deletion Enter the following line into the input field below: <br /> {deleteLine}</p>
         <Form>
             <Controller 
@@ -43,10 +45,10 @@ function DeleteAccountModal({ show, onHide}) {
                 defaultValue=''
                 rules={{
                     validate: {
-                        matchesDeleteLine: (value) => value === deleteLine || 'The input does not match the required deletion confirmation line.'
+                        matchesDeleteLine: (value) => value === deleteLine || 'The input does not match the required delete confirmation line.'
                     }
                 }}
-                render={({field}) => (<Form.Control className='input-field' placeholder='Enter deletion confirmation line'
+                render={({field}) => (<Form.Control className='input-field' placeholder='Enter delete confirmation line'
                     isInvalid={!!errors.confirmDelete} {...field}/>
                 )}
             />

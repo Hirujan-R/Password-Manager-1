@@ -278,6 +278,35 @@ export async function editUserPassword({oldPassword, newPassword, openErrorAlert
   }
 }
 
+
+export async function deleteUser({openErrorAlert, openErrorModal}) {
+  try {
+    const response = await apiClient.delete('/deleteuser');
+    console.log('User account succesfully deleted');
+    openErrorModal({errorTitle: 'Account Successfully Deleted', 
+      errorDetails:'Account successfully deleted'});
+  } catch (error) {
+    if (error.response) {
+      if (error.response.status === 500) {
+        console.error('🛑 Error: ' + error.response.data.details);
+        openErrorModal({errorTitle:'Error Deleting Account', errorDetails:'🛑 Error: ' + error.response.data.details});
+      } else if (error.response.status === 400) {
+        console.error('🛑 User Error: ' + error.response.data.error);
+        if (error.response.data.error === "Unauthorised") {
+          openErrorModal({errorTitle:'Error Deleting Account', errorDetails:'🛑 Error: Your session has expired'});
+        } else {openErrorAlert({errorDetails:'🛑 Error: ' + error.response.data.error});}
+      }
+    } else if (error.request) {
+      console.error('🛑 Network Error: ' + error.message);
+      openErrorModal({errorTitle:'Error Deleting Password', errorDetails:'🛑 Network Error: ' + error.message});
+    } else {
+      console.log('Error: ' + error.message);
+      openErrorAlert({errorDetails:'🛑 Error: ' + error.message});
+    }
+  }
+}
+
+
 export async function removeCookies(openErrorAlert) {
   try {
     const response = await apiClient.post('/removecookies');

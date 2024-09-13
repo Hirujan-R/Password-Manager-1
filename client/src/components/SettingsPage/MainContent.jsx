@@ -16,7 +16,7 @@ const MainContent = ({openErrorAlert, openErrorModal, openEventAlert, openDelete
         }
         fetchEmail();
         
-    },[openErrorAlert, openErrorModal]);
+    }, []);
 
     useEffect(() => {
         if (email) {

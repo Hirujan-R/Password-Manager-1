@@ -27,7 +27,8 @@ export const SettingsPage = () => {
                 showErrorAlert={showErrorAlert} hideErrorAlert={hideErrorAlert} errorText={errorText}/>
 
             <ErrorModal showErrorModal={showErrorModal} hideErrorModal={hideErrorModal} showErrorText={showErrorText} showErrorTitle={showErrorTitle}/>
-            <DeleteAccountModal show={showDeleteAccountModal} onHide={hideDeleteAccountModal} />
+            <DeleteAccountModal show={showDeleteAccountModal} onHide={hideDeleteAccountModal} 
+                openErrorModal={openErrorModal} openErrorAlert={openErrorAlert} />
         </div>
     )
 };
