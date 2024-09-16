@@ -7,6 +7,7 @@ import './Modal.css';
 function Modal({ show, onHide, className="", modalTitle, bodyContent, footerContent, 
     titleClassName="", headerClassName="", bodyClassName="", footerClassName="", isCloseButton=true, backdrop=true, keyboard=true}) 
 {
+    // Modal that is used for variety of cases such as viewing, editting, and changing passwords
     return (
         <BootstrapModal show={show} onHide={onHide} className={`modal ${className}`} backdrop={backdrop} keyboard={keyboard}>
             <BootstrapModal.Header className={`modal-header ${headerClassName}`}>

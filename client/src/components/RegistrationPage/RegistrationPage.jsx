@@ -9,12 +9,13 @@ import Footer from "./Footer.jsx";
 const RegistrationPage = () => {
 
 
+    // State management for error alert and event alert
     const { showErrorAlert, hideErrorAlert, openErrorAlert, errorText } = useErrorAlert({isTimeout:true});
-
     const { showEventAlert, hideEventAlert, openEventAlert, eventText } = useEventAlert({isTimeout:true});
 
 
     useEffect(() => {
+        // Remove cookies when page first loads to prevent user from switching between registration page and account menu page
         removeCookies(openErrorAlert);
     }, []);
     

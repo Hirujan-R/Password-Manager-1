@@ -7,6 +7,7 @@ function MainContent({passwords, setPasswords, query, openEventAlert, openErrorA
     return (
         <Container fluid className='px-sm-5'>
             <Col xs={12} md={{span:8, offset: 2}}>
+                {/*Table displaying all service passwords*/}
                 <PasswordTable passwords={passwords} setPasswords={setPasswords} query={query} 
                 openEventAlert={openEventAlert} openErrorAlert={openErrorAlert} openErrorModal={openErrorModal}/>
             </Col>

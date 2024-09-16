@@ -17,9 +17,11 @@ function DeletePasswordModal({ show, onHide, password, handleDeletePassword}) {
   
     const footerContent = (
       <div className='footer-content'>
+        {/*Button that closes DeletePasswordModal*/}
         <Button className="secondary-button me-2" onClick={onHide}>
           Close
         </Button>
+        {/*Delete Button that calls handleDeletePassword function*/}
         <Button className="danger-button" onClick={handleDeletePassword}>
           Delete
         </Button>

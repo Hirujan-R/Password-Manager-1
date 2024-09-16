@@ -4,6 +4,8 @@ import './Alert.css';
 
 export default function Alert({ showAlert, alertVariant, hideAlert, isDismissible, className="", 
     alertHeading, alertBody }) {
+    
+    // Alert that appears at bottom right of screen
 
     const alertClassName = `alert alert-${alertVariant} ${className}`;
     return (

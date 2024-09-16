@@ -9,6 +9,7 @@ const LoginPage = () => {
     const { showErrorAlert, hideErrorAlert, openErrorAlert, errorText } = useErrorAlert({isTimeout:true});
     
     useEffect(() => {
+        // Remove cookies to make sure user can't go back and forth between login screen and account menu
         removeCookies(openErrorAlert);
     }, []);
     

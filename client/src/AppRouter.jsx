@@ -10,6 +10,7 @@ import SettingsPage from './components/SettingsPage/SettingsPage';
 
 function AppRouter() {
 
+    // Creates paths for different pages and routes between them
     return (
         <Router>
             <Routes>

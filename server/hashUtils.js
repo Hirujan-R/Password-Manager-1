@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs'); 
 
-// Hashing password
+// Hashing user password
 async function hashPassword(password) {
-    const saltRounds = 10;
+    const saltRounds = 10; // Number of times we peform hashing process
     const hashedPassord = await bcrypt.hash(password, saltRounds);
     return hashedPassord;
 }

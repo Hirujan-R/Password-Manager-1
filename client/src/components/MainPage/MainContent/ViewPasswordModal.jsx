@@ -9,9 +9,11 @@ import './ViewPasswordModal.css';
 
 function ViewPasswordModal({show, onHide, password, editPasswordFunction, deletePasswordFunction}) {
 
+    // Event alert that is displayed when text is copied
     const { showEventAlert, hideEventAlert, openEventAlert, eventText } = useEventAlert({});
 
     function CopyPassword(password) {
+        // Function that copiee password currently being viewed
         navigator.clipboard.writeText(password.password);
         openEventAlert("Password is copied to clipboard!");
  
@@ -28,8 +30,11 @@ function ViewPasswordModal({show, onHide, password, editPasswordFunction, delete
             </Row>
             <Row>
             <Col>
+                {/*Copy password button*/}
                 <Button className='primary-button' onClick={() => CopyPassword(password)}><FontAwesomeIcon icon={faCopy} /></Button>
+                {/*Edit password button that opens EditPasswordModal*/}
                 <Button className='primary-button' onClick={editPasswordFunction}><FontAwesomeIcon icon={faPenToSquare} /></Button>
+                {/*Delete password button that opens DeletePasswordModal*/}
                 <Button className='danger-button' onClick={deletePasswordFunction}><FontAwesomeIcon icon={faTrash} /></Button>
             </Col>
             </Row>
@@ -38,6 +43,7 @@ function ViewPasswordModal({show, onHide, password, editPasswordFunction, delete
     
     const footerContent = (
         <Container fluid>
+            {/*Copy password alert*/}
             <Alert showAlert={showEventAlert} alertVariant='copy-text' hideAlert={hideEventAlert} 
             isDismissible={false} alertHeading={"Password Copied!"} alertBody={<p>{eventText}</p>}/>
         </Container>  

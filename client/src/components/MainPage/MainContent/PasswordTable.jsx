@@ -7,6 +7,7 @@ import './PasswordTable.css'
 function PasswordTable({passwords, setPasswords, query, openEventAlert, openErrorAlert, openErrorModal}) {
 
     const tableItems = useMemo(() => {
+        // Filters displayed passwords based on value entered in searchbar filter
         if (!query) {
             return passwords;
         }
@@ -14,6 +15,7 @@ function PasswordTable({passwords, setPasswords, query, openEventAlert, openErro
     , [passwords, query]);
 
     const rows = useMemo(() => {
+        // Create a password row for each service password that a user has
         return tableItems.map((password) => (
             <PasswordRow key={password.password_id} passwords={passwords} setPasswords={setPasswords} password={password}
                 openEventAlert={openEventAlert} openErrorAlert={openErrorAlert} openErrorModal={openErrorModal}/>

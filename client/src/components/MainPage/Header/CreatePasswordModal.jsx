@@ -13,10 +13,12 @@ function CreatePasswordModal({ show, onHide, handleAddPassword }) {
 
 
   const onSubmit = (data) => {
+    // Attempts to add password when create button is clicked
     handleAddPassword({newServiceName: data.service, newPassword: data.password});
   }
 
   useEffect(() => {
+    // Reset input field values when modal closes
     if (!show) {
       reset({
         service: '',
@@ -29,12 +31,10 @@ function CreatePasswordModal({ show, onHide, handleAddPassword }) {
     "Create Password"
   ) 
 
-  
-
-
   const bodyContent = (
     <Container className='body-content h-100'>
       <Form>
+        {/*Service name input field*/}
         <Form.Group>
           <Row className='mb-2 mb-md-2'>
             <Col className='px-2' xs={{span:8}} sm={{offset:1, span:8}}>
@@ -54,6 +54,7 @@ function CreatePasswordModal({ show, onHide, handleAddPassword }) {
             </Col>
           </Row>
         </Form.Group>
+        {/*Service password input field*/}
         <Form.Group>
           <Row>
             <Col className='px-2' xs={{span:8}} sm={{offset:1, span:8}}>
@@ -72,6 +73,7 @@ function CreatePasswordModal({ show, onHide, handleAddPassword }) {
               {errors.password && <Form.Control.Feedback className='mb-0' type='invalid'>{errors.password.message}</Form.Control.Feedback>}
             </Col>
             <Col xs={{span:4}} sm={3} className='d-flex justify-content-end pe-0'>
+              {/*Randomise password*/}
               <Button className='p-1 primary-button' style={{height:'38px'}} onClick={() => randomisePassword(setValue,'password')}>Randomise</Button>
             </Col>
           </Row>
@@ -88,10 +90,12 @@ function CreatePasswordModal({ show, onHide, handleAddPassword }) {
     <Container>
       <Row className='footer-content d-flex justify-content-end'>
         <Col className='d-flex justify-content-end pe-0 w-auto' xs={{offset:5, span:3}} sm={{offset:7, span:2}}>
+          {/*Close button*/}
           <Button className='secondary-button' onClick={handleClose}>
             Close
           </Button>
         </Col>
+        {/*Create button*/}
         <Col className='d-flex justify-content-end pe-0 w-auto ps-2' xs={{offset:0, span:3}} sm={{span:1}}>
           <Button className='primary-button' onClick={handleSubmit(onSubmit)}>
             Create

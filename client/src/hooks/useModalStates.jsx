@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 
-// Modal for viewing password
+// State management for ViewPasswordModal
 export const useViewModal = () => {
     const [showViewModal, setShowViewModal] = useState(false);
     const openViewModal = () => setShowViewModal(true);
@@ -10,7 +10,7 @@ export const useViewModal = () => {
 }
 
 
-// Modal for editting password
+// State management for EditPasswordModal
 export const useEditModal = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const openEditModal = () => setShowEditModal(true);
@@ -20,7 +20,7 @@ export const useEditModal = () => {
 }
 
 
-// Modal for deleting password
+// State management for DeletePasswordModal
 export const useDeleteModal = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const openDeleteModal = () => setShowDeleteModal(true);
@@ -29,6 +29,7 @@ export const useDeleteModal = () => {
     return {showDeleteModal, hideDeleteModal, openDeleteModal};
 }
 
+// State management for DeleteAccountModal
 export const useDeleteAccountModal = () => {
     const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
     const openDeleteAccountModal = () => setShowDeleteAccountModal(true);
@@ -38,13 +39,14 @@ export const useDeleteAccountModal = () => {
 }
 
 
-// Modal for redirecting users when there is an error fetching passwords from server
+// State management for ErrorModal
 export const useErrorModal = () => {
     const [showErrorTitle, setErrorTitle] = useState("");
     const [showErrorText, setErrorText] = useState("");
     const [showErrorModal, setErrorModal] = useState(false);
     const hideErrorModal = () => setErrorModal(false);
     const openErrorModal = ({errorTitle, errorDetails}) => {
+        // errorTitle = title of modal, errorDetails = message in modal
         setErrorModal(true);
         setErrorTitle(errorTitle);
         setErrorText(errorDetails);

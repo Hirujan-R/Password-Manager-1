@@ -7,6 +7,8 @@ import './ErrorModal.css';
 const ErrorModal = ({showErrorModal, 
     hideErrorModal, showErrorText, showErrorTitle}) => {
 
+    // A modal that appears usually when theres an error and redirects the user to the login page
+
     const navigate = useNavigate();
 
     const modalTitle = (
@@ -27,6 +29,7 @@ const ErrorModal = ({showErrorModal,
         <Container fluid>
         <div className='d-flex justify-content-end'>
           <Button className="primary-button" onClick={() => navigate('/')}>
+            {/*Navigates user to login page*/}
             Go to Login Page
           </Button>
         </div>

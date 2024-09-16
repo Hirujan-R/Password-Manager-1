@@ -10,9 +10,11 @@ function DeleteAccountModal({ show, onHide, openErrorModal, openErrorAlert}) {
     
     const { control ,handleSubmit, formState: { errors }, getValues, reset } = useForm();
 
+    // State management for Random string generated that user needs to type into input field before they can delete their account
     const [deleteLine, setDeleteLine] = useState('');
 
     useEffect(() => {
+      // Reset input field when DeleteAccountModal closes and and re-generate deleteLine when DeleteAccountModal opens
         if (!show) {
             reset({confirmDelete:''});
         } else {
@@ -24,7 +26,7 @@ function DeleteAccountModal({ show, onHide, openErrorModal, openErrorAlert}) {
     
 
     const onSubmit = async () => {
-        console.log('Hi');
+        // Resets input field, closes DeleteAccountModal, and calls delete user API function when Delete button clicked
         reset({confirmDelete:''}); // Reset the form
         onHide();
         await deleteUser({openErrorAlert, openErrorModal})
@@ -36,9 +38,10 @@ function DeleteAccountModal({ show, onHide, openErrorModal, openErrorAlert}) {
   
     const bodyContent = (
       <div className='body-content'>
-        <p className='' >Are you sure you want to delete your account? This action is irreversible. 
+        <p className='no-copy' >Are you sure you want to delete your account? This action is irreversible. 
             To confirm deletion Enter the following line into the input field below: <br /> {deleteLine}</p>
         <Form>
+          {/*Input field for user to type out delete line before deleting account to prevent accidental deletion*/}
             <Controller 
                 name='confirmDelete'
                 control={control}
@@ -46,6 +49,7 @@ function DeleteAccountModal({ show, onHide, openErrorModal, openErrorAlert}) {
                 rules={{
                     validate: {
                         matchesDeleteLine: (value) => value === deleteLine || 'The input does not match the required delete confirmation line.'
+                        // Value entered by user needs to match delete line
                     }
                 }}
                 render={({field}) => (<Form.Control className='input-field' placeholder='Enter delete confirmation line'
@@ -59,9 +63,11 @@ function DeleteAccountModal({ show, onHide, openErrorModal, openErrorAlert}) {
   
     const footerContent = (
       <div className='footer-content'>
+        {/*Close button that closes DeleteAccountModal*/}
         <Button className="secondary-button me-2" onClick={onHide}>
           Close
         </Button>
+        {/*Delete button that calls onSubmit*/}
         <Button className="danger-button" onClick={handleSubmit(onSubmit)}>
           Delete
         </Button>

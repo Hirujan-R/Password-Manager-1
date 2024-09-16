@@ -18,15 +18,14 @@ const MainPage = () => {
   const [passwords, setPasswords] = useState([]);
   const [query, setQuery] = useState("");
     
+  // States managing eventAlert, errorAlert, errorModal
   const { showEventAlert, hideEventAlert, openEventAlert, eventText } = useEventAlert({});
-
   const {showErrorAlert, hideErrorAlert, openErrorAlert, errorText} = useErrorAlert({isTimeout: true});
-
   const {showErrorModal, hideErrorModal, openErrorModal, showErrorTitle, showErrorText} = useErrorModal();
 
 
-
   useEffect(() => {
+    // On load, call get passwords API function
       const fetchPasswords = async () => { 
         await getPasswords({setPasswords, openErrorAlert, openErrorModal});
     }
@@ -39,12 +38,14 @@ const MainPage = () => {
     <div className="main-page d-flex flex-column min-vh-100">
 
       <div className='d-none d-md-flex justify-content-end p-md-3'>
+        {/*Settings button that navigates to settings page - only appears on medium and larger screens*/}
         <Link to={'/settings'}>
           <Button className='primary-button me-2'>
             <FontAwesomeIcon icon={faGear} />
           </Button>
         </Link>
         
+        {/*Logout button that navigates to login page calling removeCookiesFunction*/}
         <Link to={"/"}>
           <Button className='primary-button' onClick={removeCookies}>
             <FontAwesomeIcon icon={faRightFromBracket} />

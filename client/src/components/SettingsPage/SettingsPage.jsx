@@ -11,10 +11,12 @@ import DeleteAccountModal from "./DeleteAccountModal";
 
 export const SettingsPage = () => {
 
+    // State management for eventAlert, errorAlert, errorModal
     const { showEventAlert, hideEventAlert, openEventAlert, eventText } = useEventAlert({isTimeout:true});
     const { showErrorAlert, hideErrorAlert, openErrorAlert, errorText } = useErrorAlert({isTimeout:true});
     const { showErrorModal, hideErrorModal, openErrorModal, showErrorTitle, showErrorText } = useErrorModal();
 
+    // State management foe deleteAccountModal
     const { showDeleteAccountModal, hideDeleteAccountModal, openDeleteAccountModal } = useDeleteAccountModal();
 
 

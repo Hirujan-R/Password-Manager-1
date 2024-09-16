@@ -22,9 +22,13 @@ function PasswordRow({passwords, setPasswords, password, openEventAlert, openErr
     
     // Function for handling the changes made to the password.
     function HandleEditPassword({newServiceName, newPassword}) {
+        // CLose EditPasswordModal 
         hideEditModal();
+        // Close ViewPasswordModal
         hideViewModal();
+        // Ensures that the inputted service name and password aren't the same as the current service name and password
         if ((newServiceName != password.service_name) || (newPassword != password.password)) {
+            // Calls edit password API function
             editPassword({newServiceName: newServiceName, newPassword: newPassword, 
                 passwordID: password.password_id, setPasswords: setPasswords, openEventAlert: openEventAlert,
                 openErrorAlert: openErrorAlert, openErrorModal: openErrorModal });
@@ -33,16 +37,21 @@ function PasswordRow({passwords, setPasswords, password, openEventAlert, openErr
 
     // Function for handling deletion password.
     function HandleDeletePassword() {
+        // Close DeletePasswordModal
         hideDeleteModal();
+        // Close ViewPasswordModal
         hideViewModal();
+        // Calls delete password API function
         deletePassword({passwordID: password.password_id, setPasswords, openEventAlert, openErrorAlert, openErrorModal});
     }
 
     
     return (
         <tr>
+            {/*One row displays service name while another displays 'Show Password' button */}
             <td>{password.service_name}</td>   
             <td>
+                {/*Show Password button that when clicked opens ViewPasswordModal*/}
                 <Button className='primary-button' onClick={openViewModal}>
                     Show Password
                 </Button>
