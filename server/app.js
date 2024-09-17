@@ -161,14 +161,14 @@ app.post('/api/login', async (req, res) => {
       res.cookie('csrfToken', csrfToken, {
         httpOnly: true,
         secure: true,
-        sameSite: 'None', 
+        sameSite: 'Strict', 
         maxAge: 3600000
       })
 
       res.cookie('token', token, {
         httpOnly: true,
         secure: true,
-        sameSite: 'None',
+        sameSite: 'Strict',
         maxAge: 3600000
       })
 
