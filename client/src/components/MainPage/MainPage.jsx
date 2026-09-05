@@ -17,12 +17,19 @@ const MainPage = () => {
   // State managing passwords
   const [passwords, setPasswords] = useState([]);
   const [query, setQuery] = useState("");
-    
-  // States managing eventAlert, errorAlert, errorModal
+
+  // State managing eventAlert, errorAlert, errorModal
   const { showEventAlert, hideEventAlert, openEventAlert, eventText } = useEventAlert({});
   const {showErrorAlert, hideErrorAlert, openErrorAlert, errorText} = useErrorAlert({isTimeout: true});
   const {showErrorModal, hideErrorModal, openErrorModal, showErrorTitle, showErrorText} = useErrorModal();
 
+  const navigate = useNavigate();
+
+  // Logs the user out everywhere: clears cookies on the server, then navigates.
+  const handleLogout = async () => {
+    await removeCookies(openErrorAlert);
+    navigate('/');
+  };
 
   useEffect(() => {
     // On load, call get passwords API function
@@ -45,15 +52,13 @@ const MainPage = () => {
           </Button>
         </Link>
         
-        {/*Logout button that navigates to login page calling removeCookiesFunction*/}
-        <Link to={"/"}>
-          <Button className='primary-button' onClick={removeCookies}>
-            <FontAwesomeIcon icon={faRightFromBracket} />
-          </Button>
-        </Link>
+        {/*Logout button - clears session cookies then returns to the login page*/}
+        <Button className='primary-button' onClick={handleLogout}>
+          <FontAwesomeIcon icon={faRightFromBracket} />
+        </Button>
       </div>
       
-      <Header setQuery={setQuery} setPasswords={setPasswords} openEventAlert={openEventAlert} mainOpenErrorAlert={openErrorAlert} openErrorModal={openErrorModal}/>
+      <Header setQuery={setQuery} setPasswords={setPasswords} openEventAlert={openEventAlert} mainOpenErrorAlert={openErrorAlert} openErrorModal={openErrorModal} onLogout={handleLogout}/>
       <MainContent passwords={passwords} setPasswords={setPasswords} query={query} 
         openEventAlert={openEventAlert} openErrorAlert={openErrorAlert} openErrorModal={openErrorModal}/>
       <Footer showEventAlert={showEventAlert} hideEventAlert={hideEventAlert} eventText={eventText}

@@ -9,7 +9,7 @@ import { createPassword } from '../../../utils/apiUtils';
 import './Header.css';
 import { useErrorAlert } from '../../../hooks/useAlertStates';
 
-function Header ({ setQuery, setPasswords, openEventAlert, mainOpenErrorAlert, openErrorModal }) {
+function Header ({ setQuery, setPasswords, openEventAlert, mainOpenErrorAlert, openErrorModal, onLogout }) {
     // State management for CreatePasswordModal
     const [showCreatePasswordModal, setShowCreatePasswordModal] = useState(false);
     const onHide = () => (setShowCreatePasswordModal(false));
@@ -41,12 +41,10 @@ function Header ({ setQuery, setPasswords, openEventAlert, mainOpenErrorAlert, o
                             <FontAwesomeIcon icon={faGear} />
                         </Button>
                     </Link>
-                    {/*Logout button that navigates to login page*/}
-                    <Link to={"/"}>
-                        <Button className='primary-button logout-button d-md-none'>
-                            <FontAwesomeIcon icon={faRightFromBracket} />
-                        </Button>
-                    </Link>
+                    {/*Logout button - clears the session then returns to the login page*/}
+                    <Button className='primary-button logout-button d-md-none' onClick={onLogout}>
+                        <FontAwesomeIcon icon={faRightFromBracket} />
+                    </Button>
                 </Col>
             </Row>
             {/*CreatePasswordModal*/}

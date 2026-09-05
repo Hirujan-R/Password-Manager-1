@@ -7,6 +7,47 @@ const apiClient = axios.create({
     withCredentials: true
 })
 
+// Read the (non-httpOnly) csrf cookie. The server compares it against this
+// header on every protected request (double-submit CSRF protection) — an
+// attacker on another origin cannot read the cookie, so they cannot forge it.
+function readCsrfCookie() {
+    const match = document.cookie.match(/(?:^|; )csrfToken=([^;]*)/);
+    return match ? decodeURIComponent(match[1]) : null;
+}
+
+apiClient.interceptors.request.use((config) => {
+    const csrfToken = readCsrfCookie();
+    if (csrfToken) {
+        config.headers['X-CSRF-Token'] = csrfToken;
+    }
+    return config;
+});
+
+// If the csrf cookie ever goes stale while the session cookie is still valid,
+// refresh it via the protected csrf endpoint and retry the request once.
+apiClient.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const config = error.config;
+        if (config && !config._csrfRetried &&
+            error.response && error.response.status === 403 &&
+            error.response.data && error.response.data.error === 'CSRF validation failed') {
+            config._csrfRetried = true;
+            try {
+                await apiClient.get('/csrf-token');
+                const freshToken = readCsrfCookie();
+                if (freshToken) {
+                    config.headers['X-CSRF-Token'] = freshToken;
+                    return apiClient(config);
+                }
+            } catch (refreshError) {
+                // fall through to the original error below
+            }
+        }
+        return Promise.reject(error);
+    }
+);
+
 // function for registering a new user
 export async function addUser({email, password, openErrorAlert, openEventAlert}) {
   try { 
@@ -203,8 +244,8 @@ export async function deletePassword({passwordID, openEventAlert, openErrorAlert
     if (error.response) {
       // Server responded with error code
       if (error.response.status === 500) {
-        console.error('🛑 Database Error: ' + error.response.data.details);
-        openErrorModal({errorTitle:'Error Deleting Password', errorDetails:'🛑 Database Error: ' + error.response.data.details});
+        console.error('🛑 Database Error: ' + error.response.data.error);
+        openErrorModal({errorTitle:'Error Deleting Password', errorDetails:'🛑 Database Error: Failed to delete password. Please try again.'});
       } else if (error.response.status === 400) {
         console.error('🛑 User Error: ' + error.response.data.error);
         if (error.response.data.error === "Unauthorised") {
@@ -345,8 +386,8 @@ export async function deleteUser({openErrorAlert, openErrorModal}) {
     if (error.response) {
       // Server responded with error code
       if (error.response.status === 500) {
-        console.error('🛑 Error: ' + error.response.data.details);
-        openErrorModal({errorTitle:'Error Deleting Account', errorDetails:'🛑 Error: ' + error.response.data.details});
+        console.error('🛑 Error: ' + error.response.data.error);
+        openErrorModal({errorTitle:'Error Deleting Account', errorDetails:'🛑 Error: Failed to delete account. Please try again.'});
       } else if (error.response.status === 400) {
         console.error('🛑 User Error: ' + error.response.data.error);
         if (error.response.data.error === "Unauthorised") {
